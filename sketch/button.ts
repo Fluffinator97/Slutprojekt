@@ -1,12 +1,19 @@
-class Button {
+// class Button extends gameMenu {
 
-    /* Variable */
-    // public dialog: string;
-    // buttonPressed: boolean;
+//     /* Variable */
+//     public dialog: string;
+//     // buttonPressed: boolean;
 
-    /* Method */
-    // private update(): void;
-    // private getButtonPressed(): boolean;
-    // private draw(): void;
+//     constructor(dialog: string) {
+//         super()
+//         this.dialog = dialog;
+//     }
 
-}
+//     /* Method */
+//     // private update(): void;
+//     // private getButtonPressed(): boolean;
+//     public draw(dialog: string): object {
+//         return createButton(dialog);
+//     }
+
+// }
