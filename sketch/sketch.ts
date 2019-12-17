@@ -1,4 +1,4 @@
-var gameMenu: GameMenu;
+let gameMenu: GameMenu;
 
 
 /**
@@ -11,7 +11,6 @@ function preload() {
     // inladdningen av ljud men fungerar bra enligt nedan..
     // sound = (window as any).loadSound('../assets/mySound.wav');
 
-
 }
 
 /**
@@ -21,10 +20,11 @@ function preload() {
  * in the draw function below
  */
 function setup() {
-    createCanvas(windowWidth / 2.5, windowHeight);
+    createCanvas(windowWidth, windowHeight);
     frameRate(60);
     fullscreen();
-    gameMenu = new GameMenu();
+    gameMenu = new GameMenu(10,20);
+    console.log(gameMenu.highscore);
 }
 
 /**
@@ -33,14 +33,14 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
-    // background(100);
+    background(50);
     // fill('red');
     // stroke('white');
     // circle(width * .5, height * .5, width * 0.07);
     // rect(width / 2, height - 20, width * .3, 15, 10);
     // arc(width / 2, height - 27, width * .2, height * .06, radians(180), radians(360));
     // rectMode(CENTER);
-  //  gameMenu.draw();
+    gameMenu.draw(10, 100);
 }
 
 
@@ -51,3 +51,4 @@ function draw() {
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
+

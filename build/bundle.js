@@ -1,8 +1,8 @@
 "use strict";
-var Button = (function () {
-    function Button() {
+var Ball = (function () {
+    function Ball() {
     }
-    return Button;
+    return Ball;
 }());
 var Dynamite = (function () {
     function Dynamite() {
@@ -25,8 +25,16 @@ var GameManager = (function () {
     return GameManager;
 }());
 var GameMenu = (function () {
-    function GameMenu() {
+    function GameMenu(x, highscore) {
+        this.x = x;
+        this.highscore = highscore;
     }
+    GameMenu.prototype.draw = function (x, highscore) {
+        this.highscore = 20;
+        this.x = 100;
+        rectMode(CENTER);
+        rect(windowWidth / 2, windowHeight / 2, 100, 100);
+    };
     return GameMenu;
 }());
 var Paddle = (function () {
@@ -43,12 +51,15 @@ var gameMenu;
 function preload() {
 }
 function setup() {
-    createCanvas(windowWidth / 2.5, windowHeight);
+    createCanvas(windowWidth, windowHeight);
     frameRate(60);
     fullscreen();
-    gameMenu = new GameMenu();
+    gameMenu = new GameMenu(10, 20);
+    console.log(gameMenu.highscore);
 }
 function draw() {
+    background(50);
+    gameMenu.draw(10, 100);
 }
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
