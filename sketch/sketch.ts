@@ -1,16 +1,5 @@
-/* CONST */
+var gameMenu: GameMenu;
 
-// const gameMenu: GameMenu;
-// const gameManager: GameManager;
-// const button: Button;
-// const sound: Sound;
-// const player: Player;
-// const world: World;
-// const gameControls: GameControls;
-// const alfredsPaddle: AlfredsPaddle;
-// const entity: Entity;
-// const dynamite: Dynamite;
-// const explosion: Explosion;
 
 /**
  * Built in preload function in P5
@@ -21,10 +10,6 @@ function preload() {
     // Tyvärr har jag inte fått till den globala typningen för
     // inladdningen av ljud men fungerar bra enligt nedan..
     // sound = (window as any).loadSound('../assets/mySound.wav');
-
-    
-
-
 
 
 }
@@ -38,11 +23,8 @@ function preload() {
 function setup() {
     createCanvas(windowWidth / 2.5, windowHeight);
     frameRate(60);
-    noCursor();
     fullscreen();
-    // gameMenu = new GameMenu();
-
-    
+    gameMenu = new GameMenu();
 }
 
 /**
@@ -51,15 +33,14 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
-    background(100);
-    fill('red');
-    stroke('white');
-    circle(width * .5, height * .5, width * 0.07);
-    rect(width / 2, height - 20, width * .3, 15, 10);
-    arc(width / 2, height - 27, width * .2, height * .06, radians(180), radians(360));
-    rectMode(CENTER);
-    // gameMenu.draw();
-
+    // background(100);
+    // fill('red');
+    // stroke('white');
+    // circle(width * .5, height * .5, width * 0.07);
+    // rect(width / 2, height - 20, width * .3, 15, 10);
+    // arc(width / 2, height - 27, width * .2, height * .06, radians(180), radians(360));
+    // rectMode(CENTER);
+  //  gameMenu.draw();
 }
 
 
