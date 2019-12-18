@@ -6,41 +6,38 @@ class GameMenu {
   // private soundOnOff: boolean;
   // private endGameDialog: string;
   // private gameManager: GameManager;
-  // private isGameRunning: boolean;
   // public input: boolean; 
+  // public highscore: number;
+  // public gameState : boolean;
+  public isGameRunning: boolean;
+  public startGameButton: Button;
 
-  public x: number;
-  public highscore: number;
-
-  constructor(x: number, highscore: number) {
-    this.x = x;
-    this.highscore = highscore;
+  constructor() {
+    this.startGameButton = new Button("Start Game", 100, 100, 200, 100);
+    this.isGameRunning = false;
+    // this.gameState = false;
 
   }
 
+  public update(): void {
+    this.isGameRunning = this.startGameButton.getButtonPressed();
+  }
 
 
   /* Method */
   // private soundOnOff(): boolean;
   // getHighScoreTLS(): number;
   // private setHighScore(): number;
-  // private startGame(): object {
-
+  
+  // public gameState(): void {
+  //   // this.gameState = this.isGameRunning;
   // }
 
+  public draw(): void {
 
-
-  public draw(x: number, highscore: number): void {
-    this.highscore = 20;
-    this.x = 100;
-    rectMode(CENTER);
-    rect(windowWidth / 2, windowHeight / 2, 100, 100);
-    
-
-  
-    // Button.draw("Start Game");
-
-
+    if (!this.isGameRunning){
+      this.startGameButton.draw();
+    }
     
   }
 

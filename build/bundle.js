@@ -4,6 +4,36 @@ var Ball = (function () {
     }
     return Ball;
 }());
+var Button = (function () {
+    function Button(dialog, y, x, height, width) {
+        this.dialog = dialog;
+        this.y = y;
+        this.x = x;
+        this.height = height;
+        this.width = width;
+        this.buttonPressed = false;
+    }
+    Button.prototype.getButtonPressed = function () {
+        if (!mouseIsPressed && this.buttonPressed) {
+            return true;
+        }
+        this.buttonPressed = mouseIsPressed;
+        return false;
+    };
+    Button.prototype.update = function (getButtonPressed) {
+        gameMenu.isGameRunning = getButtonPressed;
+    };
+    Button.prototype.draw = function () {
+        push();
+        rectMode('corner');
+        fill('orange');
+        rect(this.x, this.y, this.height, this.width);
+        fill('white');
+        text(this.dialog, this.x, this.y, this.x + this.width, this.y + this.height);
+        pop();
+    };
+    return Button;
+}());
 var Dynamite = (function () {
     function Dynamite() {
     }
@@ -25,15 +55,17 @@ var GameManager = (function () {
     return GameManager;
 }());
 var GameMenu = (function () {
-    function GameMenu(x, highscore) {
-        this.x = x;
-        this.highscore = highscore;
+    function GameMenu() {
+        this.startGameButton = new Button("Start Game", 100, 100, 200, 100);
+        this.isGameRunning = false;
     }
-    GameMenu.prototype.draw = function (x, highscore) {
-        this.highscore = 20;
-        this.x = 100;
-        rectMode(CENTER);
-        rect(windowWidth / 2, windowHeight / 2, 100, 100);
+    GameMenu.prototype.update = function () {
+        this.isGameRunning = this.startGameButton.getButtonPressed();
+    };
+    GameMenu.prototype.draw = function () {
+        if (!this.isGameRunning) {
+            this.startGameButton.draw();
+        }
     };
     return GameMenu;
 }());
@@ -48,18 +80,19 @@ var Player = (function () {
     return Player;
 }());
 var gameMenu;
+var gameRunning;
 function preload() {
 }
 function setup() {
     createCanvas(windowWidth, windowHeight);
     frameRate(60);
     fullscreen();
-    gameMenu = new GameMenu(10, 20);
-    console.log(gameMenu.highscore);
+    gameMenu = new GameMenu();
 }
 function draw() {
-    background(50);
-    gameMenu.draw(10, 100);
+    background(55);
+    gameMenu.update();
+    gameMenu.draw();
 }
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
