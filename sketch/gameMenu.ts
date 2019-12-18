@@ -15,7 +15,7 @@ class GameMenu {
   public gameManager: GameManager;
 
   constructor() {
-    this.startGameButton = new Button("Start Game", 100, 100, 200, 100);
+    this.startGameButton = new Button("Start Game", 100, 100, 200, 100, "brown");
     this.isGameRunning = false;
     // this.gameState = false;
     this.gameManager = new GameManager();
