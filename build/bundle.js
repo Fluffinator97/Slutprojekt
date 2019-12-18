@@ -5,12 +5,13 @@ var Ball = (function () {
     return Ball;
 }());
 var Button = (function () {
-    function Button(dialog, y, x, height, width) {
+    function Button(dialog, y, x, height, width, color) {
         this.dialog = dialog;
         this.y = y;
         this.x = x;
         this.height = height;
         this.width = width;
+        this.color = color;
         this.buttonPressed = false;
     }
     Button.prototype.getButtonPressed = function () {
@@ -26,7 +27,7 @@ var Button = (function () {
     Button.prototype.draw = function () {
         push();
         rectMode('corner');
-        fill('orange');
+        fill(this.color);
         rect(this.x, this.y, this.height, this.width);
         fill('white');
         text(this.dialog, this.x, this.y, this.x + this.width, this.y + this.height);
@@ -54,13 +55,29 @@ var GameManager = (function () {
         this.time = 0;
         this.difficulty = 0;
         this.score = 0;
+        this.life = 0;
         this.startGame = false;
+        this.player = new Player();
     }
+    GameManager.prototype.gameStart = function (startGame) {
+        this.startGame = startGame;
+        push();
+        fill('white');
+        text("startGame " + this.startGame, 200, 360, 300, 300);
+        pop();
+    };
+    GameManager.prototype.setTime = function () {
+        if (this.startGame == true) {
+            console.log(deltaTime);
+        }
+    };
     GameManager.prototype.getTime = function () {
+        this.setTime();
         push();
         fill('white');
         text("time " + this.time, 200, 300, 300, 300);
         pop();
+        return this.time;
     };
     GameManager.prototype.updateDifficulty = function () {
         push();
@@ -69,28 +86,39 @@ var GameManager = (function () {
         pop();
     };
     GameManager.prototype.updateScore = function () {
+        this.score = this.player.setScore();
         push();
         fill('white');
         text("score " + this.score, 200, 340, 300, 300);
         pop();
+        return this.score;
     };
-    GameManager.prototype.gameStart = function (startGame) {
-        this.startGame = startGame;
+    GameManager.prototype.updateLife = function () {
+        this.life = this.player.setLife();
         push();
         fill('white');
-        text("startGame " + this.startGame, 200, 360, 300, 300);
+        text("life " + this.life, 200, 400, 300, 300);
+        pop();
+        return this.life;
+    };
+    GameManager.prototype.getPlayerName = function () {
+        push();
+        fill('white');
+        text("player " + this.player.setName(), 200, 380, 300, 300);
         pop();
     };
     GameManager.prototype.draw = function () {
         this.updateScore();
         this.updateDifficulty();
         this.getTime();
+        this.getPlayerName();
+        this.updateLife();
     };
     return GameManager;
 }());
 var GameMenu = (function () {
     function GameMenu() {
-        this.startGameButton = new Button("Start Game", 100, 100, 200, 100);
+        this.startGameButton = new Button("Start Game", 100, 100, 200, 100, "brown");
         this.isGameRunning = false;
         this.gameManager = new GameManager();
     }
@@ -113,7 +141,19 @@ var Paddle = (function () {
 }());
 var Player = (function () {
     function Player() {
+        this.name = "Örjan";
+        this.score = 100;
+        this.life = 3;
     }
+    Player.prototype.setName = function () {
+        return this.name;
+    };
+    Player.prototype.setScore = function () {
+        return this.score;
+    };
+    Player.prototype.setLife = function () {
+        return this.life;
+    };
     return Player;
 }());
 var gameMenu;
