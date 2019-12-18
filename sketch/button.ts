@@ -32,7 +32,7 @@ class Button {
         gameMenu.isGameRunning = getButtonPressed;
     }
     
-    public draw() {
+    public draw(): void {
         push();
         // const {dialog, x, y, width, height} = this;
         rectMode('corner')

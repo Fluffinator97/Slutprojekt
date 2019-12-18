@@ -1,6 +1,7 @@
 class GameMenu {
 
   /* Variable */
+
   // private highscore: number;
   // private setupGameDialog: string;
   // private soundOnOff: boolean;
@@ -11,16 +12,19 @@ class GameMenu {
   // public gameState : boolean;
   public isGameRunning: boolean;
   public startGameButton: Button;
+  public gameManager: GameManager;
 
   constructor() {
     this.startGameButton = new Button("Start Game", 100, 100, 200, 100);
     this.isGameRunning = false;
     // this.gameState = false;
+    this.gameManager = new GameManager();
 
   }
 
   public update(): void {
     this.isGameRunning = this.startGameButton.getButtonPressed();
+    this.gameManager.gameStart(this.isGameRunning);
   }
 
 
@@ -37,6 +41,7 @@ class GameMenu {
 
     if (!this.isGameRunning){
       this.startGameButton.draw();
+      this.gameManager.draw();
     }
     
   }
