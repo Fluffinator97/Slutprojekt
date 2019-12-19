@@ -15,7 +15,7 @@ class Ball {
     
     constructor() {
         this.brad = 25;
-        this.bxspeed = 15;
+        this.bxspeed = 25;
         this.byspeed = 2.2;
         this.bxdirection = 1;
         this.bydirection = 1;

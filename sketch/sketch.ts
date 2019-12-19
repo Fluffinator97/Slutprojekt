@@ -47,4 +47,3 @@ function draw() {
 function windowResized() {
     resizeCanvas(windowWidth / 1.8, windowHeight);
 }
-
