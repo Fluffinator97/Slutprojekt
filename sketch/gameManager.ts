@@ -8,13 +8,14 @@ class GameManager {
     //private gameOver: boolean;
     private player: Player;
     private life: number;
+    public collision: Collision;
 
     constructor() {
         this.time = 0;
         this.difficulty = 0;
         this.score = 0;
         this.life = 0;
-
+        this.collision = new Collision;
         this.startGame = false;
         this.player = new Player();
 
@@ -90,6 +91,7 @@ class GameManager {
         this.getTime();
         this.getPlayerName();
         this.updateLife();
+        this.collision.seeBall();
     }
 
 }

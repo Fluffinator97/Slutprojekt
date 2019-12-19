@@ -2,24 +2,18 @@
 var Ball = (function () {
     function Ball() {
         this.brad = 25;
-        this.bxspeed = 25;
+        this.bxspeed = 5;
         this.byspeed = 2.2;
         this.bxdirection = 1;
         this.bydirection = 1;
         this.bxpos = width / 2;
         this.bypos = height / 4;
-        this.theBall = {
-            brad: this.brad,
-            bypos: this.bypos,
-            bxpos: this.bxpos,
-            byspeed: this.byspeed,
-            bxspeed: this.bxspeed,
-            bydirection: this.bydirection,
-            bxdirection: this.bxdirection
-        };
     }
-    Ball.prototype.getBall = function () {
-        return this.theBall;
+    Ball.prototype.getBallX = function () {
+        return this.bxpos;
+    };
+    Ball.prototype.setDirection = function () {
+        console.log("hit");
     };
     Ball.prototype.draw = function () {
         ellipseMode(RADIUS);
@@ -70,14 +64,48 @@ var Button = (function () {
 var Collision = (function () {
     function Collision() {
         this.ball = new Ball();
-        this.theBall = this.ball.getBall();
         this.paddle = new Paddle();
     }
+    Collision.prototype.ballCollision = function () {
+        if (mouseX == this.ball.bxpos) {
+            this.ball.setDirection();
+        }
+    };
+    Collision.prototype.seeBall = function () {
+        console.log("paddleY", this.ball.bypos);
+        console.log("ballX", this.ball.bxpos);
+    };
     return Collision;
 }());
 var Dynamite = (function () {
     function Dynamite() {
+        this.dwidth = 20;
+        this.dheight = 45;
+        this.dypos = 1;
+        this.dxpos = 0;
     }
+    Dynamite.prototype.counterYPos = function () {
+        for (this.dypos < height + 19; this.dypos++;) {
+            if (this.dypos > height + 19) {
+                this.dypos = 0;
+                this.dxpos = 0;
+            }
+            else {
+                return this.dypos;
+            }
+        }
+    };
+    Dynamite.prototype.randomXPos = function () {
+        if (this.dxpos == 0) {
+            this.dxpos = random(10, width - 10);
+        }
+        return this.dxpos;
+    };
+    Dynamite.prototype.draw = function () {
+        rectMode(CENTER);
+        fill('red');
+        rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
+    };
     return Dynamite;
 }());
 var Entity = (function () {
@@ -104,6 +132,7 @@ var GameManager = (function () {
         this.difficulty = 0;
         this.score = 0;
         this.life = 0;
+        this.collision = new Collision;
         this.startGame = false;
         this.player = new Player();
     }
@@ -161,6 +190,7 @@ var GameManager = (function () {
         this.getTime();
         this.getPlayerName();
         this.updateLife();
+        this.collision.seeBall();
     };
     return GameManager;
 }());
@@ -192,21 +222,21 @@ var Paddle = (function () {
     function Paddle() {
         this.gameControll = new GameControl();
         this.ball = new Ball();
-        this.theBall = this.ball.getBall();
         this.ypos = this.gameControll.updateYpos();
         this.xpos = this.gameControll.updateXpos();
         this.rwidth = width * .3;
         this.rheight = 15;
-        this.erad = 60;
+        this.erad = width * .075;
         this.leftWall = 60;
         this.rightWall = width - 60;
     }
     Paddle.prototype.draw = function () {
         ellipseMode(RADIUS);
         rectMode(CENTER);
+        fill('lightblue');
+        ellipse(this.xc, mouseY, this.erad, this.erad);
         fill('purple');
         rect(this.xc, mouseY, this.rwidth, this.rheight, 10);
-        ellipse(this.xc, mouseY, this.erad, this.erad);
         this.xc = constrain(mouseX, this.leftWall, this.rightWall);
     };
     return Paddle;
@@ -248,24 +278,18 @@ function windowResized() {
     resizeCanvas(windowWidth / 1.8, windowHeight);
 }
 var Sound = (function () {
-    function Sound(sound) {
-        this.sound = 'http://boing.wav';
+    function Sound() {
     }
-    Sound.prototype.preload = function () {
-        this.boing = loadSound('../assets/sound/mp3');
-        this.explosion = loadSound('../assets/sound/mp3');
-    };
-    Sound.prototype.soundFX = function () {
-        this.sound.play();
-    };
     return Sound;
 }());
 var World = (function () {
     function World() {
         this.ball = new Ball();
+        this.dynamite = new Dynamite();
     }
     World.prototype.draw = function () {
         this.ball.draw();
+        this.dynamite.draw();
     };
     return World;
 }());
