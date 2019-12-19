@@ -93,5 +93,4 @@ class GameManager {
         this.updateLife();
         this.collision.seeBall();
     }
-
 }
