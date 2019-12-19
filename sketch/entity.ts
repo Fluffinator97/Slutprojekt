@@ -6,6 +6,8 @@ class Entity {
     // private size: number; 
     // private soundFX: url;
     // private color: string;
+    public ball!: object;
+    public dynamite!: object;
 
     /* Method */ 
     // private updateSpeed(): number;
@@ -13,4 +15,15 @@ class Entity {
     // private getDifficulty(): number;
     // public draw(): void;
 
+    constructor() {
+        // this.ball = new Ball();
+        this.dynamite = new Dynamite();
+
+    }
+
+    public draw() {
+        
+    }
 }
+
+    // let dynamite = [];
