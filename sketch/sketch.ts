@@ -36,7 +36,8 @@ function draw() {
     background(55);
     gameMenu.update();
     gameMenu.draw();
-    // gameMenu.gameOnOff();
+    noCursor();
+
 }
 
 

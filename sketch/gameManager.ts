@@ -90,7 +90,6 @@ class GameManager {
         this.getTime();
         this.getPlayerName();
         this.updateLife();
-
     }
 
 }

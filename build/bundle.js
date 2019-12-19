@@ -1,7 +1,39 @@
 "use strict";
 var Ball = (function () {
     function Ball() {
+        this.brad = 25;
+        this.bxspeed = 25;
+        this.byspeed = 2.2;
+        this.bxdirection = 1;
+        this.bydirection = 1;
+        this.bxpos = width / 2;
+        this.bypos = height / 4;
+        this.theBall = {
+            brad: this.brad,
+            bypos: this.bypos,
+            bxpos: this.bxpos,
+            byspeed: this.byspeed,
+            bxspeed: this.bxspeed,
+            bydirection: this.bydirection,
+            bxdirection: this.bxdirection
+        };
     }
+    Ball.prototype.getBall = function () {
+        return this.theBall;
+    };
+    Ball.prototype.draw = function () {
+        ellipseMode(RADIUS);
+        fill('yellow');
+        this.bxpos = this.bxpos + this.bxspeed * this.bxdirection;
+        this.bypos = this.bypos + this.byspeed * this.bydirection;
+        if (this.bxpos > width - this.brad || this.bxpos < this.brad) {
+            this.bxdirection *= -1;
+        }
+        if (this.bypos > height - this.brad || this.bypos < this.brad) {
+            this.bydirection *= -1;
+        }
+        ellipse(this.bxpos, this.bypos, this.brad, this.brad);
+    };
     return Ball;
 }());
 var Button = (function () {
@@ -35,6 +67,14 @@ var Button = (function () {
     };
     return Button;
 }());
+var Collision = (function () {
+    function Collision() {
+        this.ball = new Ball();
+        this.theBall = this.ball.getBall();
+        this.paddle = new Paddle();
+    }
+    return Collision;
+}());
 var Dynamite = (function () {
     function Dynamite() {
     }
@@ -47,7 +87,15 @@ var Entity = (function () {
 }());
 var GameControl = (function () {
     function GameControl() {
+        this.mouseInputX = mouseX,
+            this.mouseInputY = mouseY;
     }
+    GameControl.prototype.updateYpos = function () {
+        return this.mouseInputY;
+    };
+    GameControl.prototype.updateXpos = function () {
+        return this.mouseInputX;
+    };
     return GameControl;
 }());
 var GameManager = (function () {
@@ -119,8 +167,11 @@ var GameManager = (function () {
 var GameMenu = (function () {
     function GameMenu() {
         this.startGameButton = new Button("Start Game", 100, 100, 200, 100, "brown");
+        this.pauseGameButton = new Button("Pause Game", 200, 100, 200, 100, "blue");
         this.isGameRunning = false;
         this.gameManager = new GameManager();
+        this.world = new World();
+        this.paddle = new Paddle();
     }
     GameMenu.prototype.update = function () {
         this.isGameRunning = this.startGameButton.getButtonPressed();
@@ -129,14 +180,35 @@ var GameMenu = (function () {
     GameMenu.prototype.draw = function () {
         if (!this.isGameRunning) {
             this.startGameButton.draw();
+            this.pauseGameButton.draw();
             this.gameManager.draw();
+            this.world.draw();
+            this.paddle.draw();
         }
     };
     return GameMenu;
 }());
 var Paddle = (function () {
     function Paddle() {
+        this.gameControll = new GameControl();
+        this.ball = new Ball();
+        this.theBall = this.ball.getBall();
+        this.ypos = this.gameControll.updateYpos();
+        this.xpos = this.gameControll.updateXpos();
+        this.rwidth = width * .3;
+        this.rheight = 15;
+        this.erad = 60;
+        this.leftWall = 60;
+        this.rightWall = width - 60;
     }
+    Paddle.prototype.draw = function () {
+        ellipseMode(RADIUS);
+        rectMode(CENTER);
+        fill('purple');
+        rect(this.xc, mouseY, this.rwidth, this.rheight, 10);
+        ellipse(this.xc, mouseY, this.erad, this.erad);
+        this.xc = constrain(mouseX, this.leftWall, this.rightWall);
+    };
     return Paddle;
 }());
 var Player = (function () {
@@ -170,18 +242,31 @@ function draw() {
     background(55);
     gameMenu.update();
     gameMenu.draw();
+    noCursor();
 }
 function windowResized() {
     resizeCanvas(windowWidth / 1.8, windowHeight);
 }
 var Sound = (function () {
-    function Sound() {
+    function Sound(sound) {
+        this.sound = 'http://boing.wav';
     }
+    Sound.prototype.preload = function () {
+        this.boing = loadSound('../assets/sound/mp3');
+        this.explosion = loadSound('../assets/sound/mp3');
+    };
+    Sound.prototype.soundFX = function () {
+        this.sound.play();
+    };
     return Sound;
 }());
 var World = (function () {
     function World() {
+        this.ball = new Ball();
     }
+    World.prototype.draw = function () {
+        this.ball.draw();
+    };
     return World;
 }());
 //# sourceMappingURL=bundle.js.map
