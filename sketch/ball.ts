@@ -1,3 +1,10 @@
+interface BoundingCicle {
+    x: number,
+    y: number,
+    rad: number
+}
+
+
 class Ball {
 
     /* Variable */
@@ -29,6 +36,14 @@ class Ball {
         // }
     }
     
+    public getBoundingCicle(): CicleRect {
+        return {
+            x: this.dxpos,
+            y: this.dypos,
+            r: this.brad
+        }
+    }
+
     public flipDirection() {
         console.log("hit");
     }

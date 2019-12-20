@@ -1,9 +1,10 @@
 class Dynamite {
 
     /* Variable */
+
     private dwidth: number;
     private dheight: number;
-    private dypos: number;
+    public dypos: number;
     private dxpos: number;
     // private dopespeed: number;
 
@@ -18,17 +19,14 @@ class Dynamite {
 
     /* Method */
     private counterYPos(): any {
-        for (this.dypos < height + 19; this.dypos++;) {
-            if(this.dypos > height + 19) {
-                this.dypos = 0;
-                this.dxpos = 0;
-            } else {
-
-                return this.dypos;
-            }
+        for (this.dypos < height + 37; this.dypos++;) {
+            return this.dypos;
         } 
-
     }
+
+
+
+
 
     private randomXPos(): any {
         if (this.dxpos == 0) {
@@ -38,6 +36,7 @@ class Dynamite {
 
     }
 
+
     public getBoundingRectangle(): BoundingRect {
         return {
             x: this.dxpos,
@@ -46,6 +45,7 @@ class Dynamite {
             height: this.dheight
         }
     }
+
 
     public draw() {
         rectMode(CENTER);

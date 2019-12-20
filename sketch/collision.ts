@@ -5,6 +5,12 @@ interface BoundingRect {
     height: number
 }
 
+interface BoundingCicle {
+    x: number,
+    y: number,
+    rad: number
+}
+
 class Collision {
 
     /* Variable */
