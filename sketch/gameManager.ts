@@ -15,7 +15,7 @@ class GameManager {
         this.difficulty = 0;
         this.score = 0;
         this.life = 0;
-        this.collision = new Collision;
+        this.collision = new Collision();
         this.startGame = false;
         this.player = new Player();
 
@@ -86,11 +86,10 @@ class GameManager {
     //private getDeltaTime(): object
 
     public draw(): void {
-        this.updateScore();
-        this.updateDifficulty();
-        this.getTime();
-        this.getPlayerName();
-        this.updateLife();
-        this.collision.seeBall();
+        // this.updateScore();
+        // this.updateDifficulty();
+        // this.getTime();
+        // this.getPlayerName();
+        // this.updateLife();
     }
 }

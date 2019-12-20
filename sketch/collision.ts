@@ -1,3 +1,10 @@
+interface BoundingRect {
+    x: number,
+    y: number,
+    width: number,
+    height: number
+}
+
 class Collision {
 
     /* Variable */
@@ -15,13 +22,8 @@ class Collision {
     /* Method */
     public ballCollision(): any{
         if(mouseX == this.ball.bxpos) {
-            this.ball.setDirection(); 
         }
         // return collosionBall = true;
-    }
-    public seeBall(): void {
-        console.log("paddleY", this.ball.bypos);
-        console.log("ballX", this.ball.bxpos);
     }
 
 }

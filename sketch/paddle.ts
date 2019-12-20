@@ -43,4 +43,5 @@ class Paddle {
         rect(this.xc, mouseY, this.rwidth, this.rheight, 10);
         this.xc = constrain(mouseX, this.leftWall, this.rightWall);
     }
+    
 }

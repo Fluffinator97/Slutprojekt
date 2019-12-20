@@ -2,19 +2,16 @@ class Ball {
 
     /* Variable */
     private brad: number;
-    
     public bypos: number;
     public bxpos: number;
-    
     private byspeed: number;
     private bxspeed: number; 
-    
     private bxdirection: number;
     private bydirection: number;
     // public theBall: any;
     
     constructor() {
-        this.brad = 25;
+        this.brad = 36;
         this.bxspeed = 5;
         this.byspeed = 2.2;
         this.bxdirection = 1;
@@ -31,24 +28,25 @@ class Ball {
         //     bxdirection: this.bxdirection
         // }
     }
-
-    public getBallX(): number {
+    
+    public flipDirection() {
+        console.log("hit");
+    }
+    public updateBallX(): number {
         return this.bxpos;
     }
 
-    public setDirection() {
-        console.log("hit");
-
+    public updateBallY(): number {
+        return this.bypos;
     }
-
     
-    public draw() {
+    public draw(): void {
         ellipseMode(RADIUS);
-        fill('yellow');
-
+        fill('gold');
+        
         this.bxpos = this.bxpos + this.bxspeed * this.bxdirection;
         this.bypos = this.bypos + this.byspeed * this.bydirection;
-
+        
         if (this.bxpos > width - this.brad || this.bxpos < this.brad) {
             this.bxdirection *= -1;
         }
@@ -58,6 +56,5 @@ class Ball {
         
         ellipse(this.bxpos, this.bypos, this.brad, this.brad);
     }
-
-
+    
 }
