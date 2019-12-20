@@ -9,7 +9,7 @@ class Dynamite {
     private dxspeed: number;
     private dxdirection: number;
     private dydirection: number;
-    //public theDynamite: Object;
+    public theDynamite: Object;
 
     constructor(dheight: number, dwidth: number, dypos: number, dxpos: number, dyspeed: number, dxspeed: number, dxdirection: number, dydirection: number) {
         // private randomizePos(): number;
@@ -28,7 +28,7 @@ class Dynamite {
     }
 
     public getDynamite(): Object {
-        return this.getDynamite;
+        return this.theDynamite;
     }
 
     private dynamiteSpawn() {
@@ -39,11 +39,39 @@ class Dynamite {
         push();
         rectMode(CENTER);
         fill('red');
-        this.dxpos = this.dxpos + this.dxspeed * this.dxdirection;
-        this.dypos = this.dypos + this.dyspeed * this.dydirection;
-        //rect(81, 81, 63, 63);
-        rect(this.dxpos, this.dypos, this.dwidth, this.dheight)
+        y = y - 1;
+        // this.dxpos = this.dxpos + this.dxspeed * this.dxdirection;
+        // this.dypos = this.dypos + this.dyspeed * this.dydirection;
+        rect(x, y, 40, 20);
+        // rect(this.dxpos, this.dypos, this.dwidth, this.dheight)
         pop();
     }
+
+
+    // Where is the circle
+let x, y;
+
+public setup() {
+  // Starts in the middle
+  x = width / 2;
+  y = height;
+}
+
+public draw() {
+  background(200);
+  
+  // Draw a circle
+  stroke(50);
+  fill(100);
+  rect(x, y, 40, 20);
+
+  // Moving up at a constant speed
+  y = y - 1;
+  
+  // Reset to the bottom
+  if (y < 0) {
+    y = height;
+  }
+}
 
 }
