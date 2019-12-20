@@ -6,8 +6,8 @@ class Entity {
     // private size: number; 
     // private soundFX: url;
     // private color: string;
-    public ball!: object;
-    public dynamite!: object;
+    public ball: Ball;
+    public dynamite: Dynamite;
 
     /* Method */ 
     // private updateSpeed(): number;
@@ -16,7 +16,7 @@ class Entity {
     // public draw(): void;
 
     constructor() {
-        // this.ball = new Ball();
+        this.ball = new Ball();
         this.dynamite = new Dynamite();
 
     }

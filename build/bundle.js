@@ -79,8 +79,8 @@ var Collision = (function () {
 }());
 var Dynamite = (function () {
     function Dynamite() {
-        this.dwidth = 20;
-        this.dheight = 45;
+        this.dheight = 20;
+        this.dwidth = 50;
         this.dypos = 1;
         this.dxpos = 0;
     }
@@ -110,7 +110,11 @@ var Dynamite = (function () {
 }());
 var Entity = (function () {
     function Entity() {
+        this.ball = new Ball();
+        this.dynamite = new Dynamite();
     }
+    Entity.prototype.draw = function () {
+    };
     return Entity;
 }());
 var GameControl = (function () {

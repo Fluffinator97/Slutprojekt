@@ -23,9 +23,8 @@ class Player {
         return this.life;
     }
 
-
     /* Method */
     // private updateScore(): number;
     // private updateLife(): number;
-
 }
+
