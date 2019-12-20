@@ -1,11 +1,11 @@
 class Entity {
 
     /* Variable */
-    // private colission: boolean;
-    // private speed: number;
-    // private size: number; 
-    // private soundFX: url;
-    // private color: string;
+    private colission: boolean;
+    private speed: number;
+    private size: number; 
+    private soundFX: url;
+    private color: string;
     public ball: Ball;
     public dynamite: Dynamite;
 
@@ -25,5 +25,3 @@ class Entity {
         
     }
 }
-
-    // let dynamite = [];
