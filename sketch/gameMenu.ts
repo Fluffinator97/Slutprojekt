@@ -19,7 +19,7 @@ class GameMenu {
 
   constructor() {
     this.startGameButton = new Button("Start Game", 100, 100, 200, 100, "brown");
-    this.pauseGameButton = new Button("Pause Game", 200, 100, 200, 100, "blue");
+    this.pauseGameButton = new Button("Pause Game", 100, 200, 200, 100, "blue");
     this.isGameRunning = false;
     // this.gameState = false;
     this.gameManager = new GameManager();
@@ -28,7 +28,7 @@ class GameMenu {
   }
 
   public update(): void {
-    this.isGameRunning = this.startGameButton.getButtonPressed();
+    // this.isGameRunning = this.startGameButton.getButtonPressed();
     this.gameManager.gameStart(this.isGameRunning);
   }
 
@@ -47,9 +47,9 @@ class GameMenu {
     if (!this.isGameRunning){
       this.startGameButton.draw();
       this.pauseGameButton.draw();
-      this.gameManager.draw();
-      this.world.draw();
-      this.paddle.draw();
+      // this.gameManager.draw();
+      // this.world.draw();
+      // this.paddle.draw();
     }  
   }
 

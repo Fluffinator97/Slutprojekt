@@ -1,7 +1,6 @@
 let gameMenu: GameMenu;
 let gameRunning: boolean;
 
-
 /**
  * Built in preload function in P5
  * This is a good place to load assets such as
@@ -36,8 +35,10 @@ function draw() {
     background(55);
     gameMenu.update();
     gameMenu.draw();
-    noCursor();
 
+    if (gameMenu.startGameButton.clicked()) {
+        alert('hurra!')
+    }
 }
 
 

@@ -37,41 +37,46 @@ var Ball = (function () {
     return Ball;
 }());
 var Button = (function () {
-    function Button(dialog, y, x, height, width, color) {
+    function Button(dialog, x, y, width, height, color) {
         this.dialog = dialog;
         this.y = y;
         this.x = x;
         this.height = height;
         this.width = width;
         this.color = color;
-        this.buttonPressed = false;
+        this.isMouseDown = false;
     }
-    Button.prototype.getButtonPressed = function () {
-        if (!mouseIsPressed && this.buttonPressed) {
-            return true;
+    Button.prototype.clicked = function () {
+        var left = this.x;
+        var right = this.x + this.width;
+        var top = this.y;
+        var bottom = this.y + this.height;
+        var isMousePressed = false;
+        if (this.isMouseDown && !mouseIsPressed) {
+            if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+                this.color = "orange";
+                isMousePressed = true;
+            }
         }
-        this.buttonPressed = mouseIsPressed;
-        return false;
-    };
-    Button.prototype.update = function (getButtonPressed) {
-        gameMenu.isGameRunning = getButtonPressed;
+        this.isMouseDown = mouseIsPressed;
+        return isMousePressed;
     };
     Button.prototype.draw = function () {
         push();
         rectMode('corner');
         fill(this.color);
-        rect(this.x, this.y, this.height, this.width);
-        fill('white');
-        text(this.dialog, this.x, this.y, this.x + this.width, this.y + this.height);
+        rect(this.x, this.y, this.width, this.height, 10);
+        fill(255, 233, 20);
+        textSize(16);
+        strokeWeight(0.5);
+        textAlign(CENTER, CENTER);
+        text(this.dialog, this.x, this.y, this.x + this.width, this.height / 2);
         pop();
     };
     return Button;
 }());
 var Collision = (function () {
     function Collision() {
-        this.ball = new Ball();
-        this.theBall = this.ball.getBall();
-        this.paddle = new Paddle();
     }
     return Collision;
 }());
@@ -167,47 +172,30 @@ var GameManager = (function () {
 var GameMenu = (function () {
     function GameMenu() {
         this.startGameButton = new Button("Start Game", 100, 100, 200, 100, "brown");
-        this.pauseGameButton = new Button("Pause Game", 200, 100, 200, 100, "blue");
+        this.pauseGameButton = new Button("Pause Game", 100, 200, 200, 100, "blue");
         this.isGameRunning = false;
         this.gameManager = new GameManager();
         this.world = new World();
         this.paddle = new Paddle();
     }
     GameMenu.prototype.update = function () {
-        this.isGameRunning = this.startGameButton.getButtonPressed();
         this.gameManager.gameStart(this.isGameRunning);
     };
     GameMenu.prototype.draw = function () {
         if (!this.isGameRunning) {
             this.startGameButton.draw();
             this.pauseGameButton.draw();
-            this.gameManager.draw();
-            this.world.draw();
-            this.paddle.draw();
         }
     };
     return GameMenu;
 }());
 var Paddle = (function () {
     function Paddle() {
-        this.gameControll = new GameControl();
-        this.ball = new Ball();
-        this.theBall = this.ball.getBall();
-        this.ypos = this.gameControll.updateYpos();
-        this.xpos = this.gameControll.updateXpos();
-        this.rwidth = width * .3;
-        this.rheight = 15;
-        this.erad = 60;
-        this.leftWall = 60;
-        this.rightWall = width - 60;
     }
     Paddle.prototype.draw = function () {
         ellipseMode(RADIUS);
         rectMode(CENTER);
         fill('purple');
-        rect(this.xc, mouseY, this.rwidth, this.rheight, 10);
-        ellipse(this.xc, mouseY, this.erad, this.erad);
-        this.xc = constrain(mouseX, this.leftWall, this.rightWall);
     };
     return Paddle;
 }());
@@ -242,24 +230,13 @@ function draw() {
     background(55);
     gameMenu.update();
     gameMenu.draw();
-    noCursor();
+    if (gameMenu.startGameButton.clicked()) {
+        alert('hurra!');
+    }
 }
 function windowResized() {
     resizeCanvas(windowWidth / 1.8, windowHeight);
 }
-var Sound = (function () {
-    function Sound(sound) {
-        this.sound = 'http://boing.wav';
-    }
-    Sound.prototype.preload = function () {
-        this.boing = loadSound('../assets/sound/mp3');
-        this.explosion = loadSound('../assets/sound/mp3');
-    };
-    Sound.prototype.soundFX = function () {
-        this.sound.play();
-    };
-    return Sound;
-}());
 var World = (function () {
     function World() {
         this.ball = new Ball();
