@@ -9,8 +9,8 @@ class Dynamite {
 
 
     constructor() {
-        this.dwidth = 20;
-        this.dheight = 45;
+        this.dwidth = 40;
+        this.dheight = 74;
         this.dypos = 1;
         this.dxpos = 0;
         // this.dopespeed = 1;
@@ -38,19 +38,21 @@ class Dynamite {
 
     }
 
-
+    public getBoundingRectangle(): BoundingRect {
+        return {
+            x: this.dxpos,
+            y: this.dypos,
+            width: this.dwidth,
+            height: this.dheight
+        }
+    }
 
     public draw() {
         rectMode(CENTER);
         fill('red');
         rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
-
-        // if (this.dypos > height) {
-        //     rect(this.dxpos, this.dypos,this.dwidth, this.dheight, 5, 5, 5, 5);
-        // }
     }
-
-    // private randomizePos(): number;
+    
     // private explode(): nice;
     // private xDirection(): number;
     // private XPosition(): number;

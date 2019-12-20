@@ -29,7 +29,7 @@ class GameMenu {
 
   public update(): void {
     this.isGameRunning = this.startGameButton.getButtonPressed();
-    this.gameManager.gameStart(this.isGameRunning);
+    // this.gameManager.gameStart(this.isGameRunning);
   }
 
 
@@ -43,10 +43,13 @@ class GameMenu {
   // }
 
   public draw(): void {
-
+    
     if (!this.isGameRunning){
-      this.startGameButton.draw();
-      this.pauseGameButton.draw();
+      // detta borde ligga in en update metod istället
+      this.world.update();
+      
+      // this.startGameButton.draw();
+      // this.pauseGameButton.draw();
       this.gameManager.draw();
       this.world.draw();
       this.paddle.draw();

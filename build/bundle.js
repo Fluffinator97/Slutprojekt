@@ -1,7 +1,7 @@
 "use strict";
 var Ball = (function () {
     function Ball() {
-        this.brad = 25;
+        this.brad = 36;
         this.bxspeed = 5;
         this.byspeed = 2.2;
         this.bxdirection = 1;
@@ -9,15 +9,18 @@ var Ball = (function () {
         this.bxpos = width / 2;
         this.bypos = height / 4;
     }
-    Ball.prototype.getBallX = function () {
+    Ball.prototype.flipDirection = function () {
+        console.log("hit");
+    };
+    Ball.prototype.updateBallX = function () {
         return this.bxpos;
     };
-    Ball.prototype.setDirection = function () {
-        console.log("hit");
+    Ball.prototype.updateBallY = function () {
+        return this.bypos;
     };
     Ball.prototype.draw = function () {
         ellipseMode(RADIUS);
-        fill('yellow');
+        fill('gold');
         this.bxpos = this.bxpos + this.bxspeed * this.bxdirection;
         this.bypos = this.bypos + this.byspeed * this.bydirection;
         if (this.bxpos > width - this.brad || this.bxpos < this.brad) {
@@ -68,19 +71,14 @@ var Collision = (function () {
     }
     Collision.prototype.ballCollision = function () {
         if (mouseX == this.ball.bxpos) {
-            this.ball.setDirection();
         }
-    };
-    Collision.prototype.seeBall = function () {
-        console.log("paddleY", this.ball.bypos);
-        console.log("ballX", this.ball.bxpos);
     };
     return Collision;
 }());
 var Dynamite = (function () {
     function Dynamite() {
-        this.dwidth = 20;
-        this.dheight = 45;
+        this.dwidth = 40;
+        this.dheight = 74;
         this.dypos = 1;
         this.dxpos = 0;
     }
@@ -100,6 +98,14 @@ var Dynamite = (function () {
             this.dxpos = random(10, width - 10);
         }
         return this.dxpos;
+    };
+    Dynamite.prototype.getBoundingRectangle = function () {
+        return {
+            x: this.dxpos,
+            y: this.dypos,
+            width: this.dwidth,
+            height: this.dheight
+        };
     };
     Dynamite.prototype.draw = function () {
         rectMode(CENTER);
@@ -132,7 +138,7 @@ var GameManager = (function () {
         this.difficulty = 0;
         this.score = 0;
         this.life = 0;
-        this.collision = new Collision;
+        this.collision = new Collision();
         this.startGame = false;
         this.player = new Player();
     }
@@ -185,12 +191,6 @@ var GameManager = (function () {
         pop();
     };
     GameManager.prototype.draw = function () {
-        this.updateScore();
-        this.updateDifficulty();
-        this.getTime();
-        this.getPlayerName();
-        this.updateLife();
-        this.collision.seeBall();
     };
     return GameManager;
 }());
@@ -205,12 +205,10 @@ var GameMenu = (function () {
     }
     GameMenu.prototype.update = function () {
         this.isGameRunning = this.startGameButton.getButtonPressed();
-        this.gameManager.gameStart(this.isGameRunning);
     };
     GameMenu.prototype.draw = function () {
         if (!this.isGameRunning) {
-            this.startGameButton.draw();
-            this.pauseGameButton.draw();
+            this.world.update();
             this.gameManager.draw();
             this.world.draw();
             this.paddle.draw();
@@ -285,11 +283,35 @@ var Sound = (function () {
 var World = (function () {
     function World() {
         this.ball = new Ball();
-        this.dynamite = new Dynamite();
+        this.dynamites = [];
+        this.interval = 1000;
+        this.time = 0;
     }
+    World.prototype.getBall = function () {
+        return this.ball;
+    };
+    World.prototype.getDynamites = function () {
+        return this.dynamites;
+    };
+    World.prototype.update = function () {
+        this.spawnDynamite();
+        this.time += deltaTime;
+        this.interval -= 0.001;
+    };
+    World.prototype.spawnDynamite = function () {
+        if (this.time > this.interval) {
+            this.dynamites.push(new Dynamite());
+            this.time = 0;
+        }
+    };
     World.prototype.draw = function () {
         this.ball.draw();
-        this.dynamite.draw();
+        for (var _i = 0, _a = this.dynamites; _i < _a.length; _i++) {
+            var dynamite = _a[_i];
+            dynamite.draw();
+        }
+        console.log("BallX ", this.ball.updateBallX());
+        console.log("BallY ", this.ball.updateBallY());
     };
     return World;
 }());
