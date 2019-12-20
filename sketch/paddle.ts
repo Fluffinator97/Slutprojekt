@@ -1,8 +1,8 @@
 class Paddle {
 
     /* Variable */
-    private ypos: number;
-    private xpos: number;  
+    public ypos: number;
+    public xpos: number;  
     private rwidth: number;
     private rheight: number;
     private erad: number;
@@ -12,8 +12,8 @@ class Paddle {
 
 
     private gameControll: GameControl;
-    private ball: Ball;
-    // private theBall: Object;
+    public ball: Ball;
+    // public theBall: Object;
     
     /* Method */
 
@@ -25,7 +25,7 @@ class Paddle {
         this.xpos = this.gameControll.updateXpos();
         this.rwidth = width * .3;
         this.rheight = 15;
-        this.erad = 60;
+        this.erad = width * .075;
         this.leftWall = 60;
         this.rightWall = width - 60;
     }
