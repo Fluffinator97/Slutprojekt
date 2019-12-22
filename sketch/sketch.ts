@@ -21,7 +21,7 @@ function preload() {
  * in the draw function below
  */
 function setup() {
-    createCanvas(windowWidth / 1.8, windowHeight);
+    createCanvas(windowWidth / 3, windowHeight);
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
@@ -45,6 +45,6 @@ function draw() {
  *  Built in windowResize listener function in P5
  */
 function windowResized() {
-    resizeCanvas(windowWidth / 1.8, windowHeight);
+    resizeCanvas(windowWidth / 3, windowHeight);
 }
 

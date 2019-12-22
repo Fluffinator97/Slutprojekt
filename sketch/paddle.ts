@@ -1,3 +1,16 @@
+interface BoundingRect {
+    x: number,
+    y: number,
+    width: number,
+    height: number
+}
+
+interface BoundingCicle {
+    x: number,
+    y: number,
+    rad: number
+}
+
 class Paddle {
 
     /* Variable */
@@ -43,5 +56,5 @@ class Paddle {
         rect(this.xc, mouseY, this.rwidth, this.rheight, 10);
         this.xc = constrain(mouseX, this.leftWall, this.rightWall);
     }
-    
+
 }
