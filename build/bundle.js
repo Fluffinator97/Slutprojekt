@@ -8,16 +8,26 @@ var Ball = (function () {
         this.bydirection = 1;
         this.bxpos = width / 2;
         this.bypos = height / 4;
+        this.paddle = new Paddle();
+        this.distance = 0;
     }
     Ball.prototype.getBoundingCicle = function () {
         return {
-            x: this.dxpos,
-            y: this.dypos,
-            r: this.brad
+            x: this.bxpos,
+            y: this.bypos,
+            rad: this.brad,
+            ydirection: this.bydirection,
+            xdirection: this.bxdirection
         };
     };
-    Ball.prototype.flipDirection = function () {
-        console.log("hit");
+    Ball.prototype.creteDistance = function () {
+        this.distance = dist(mouseX, mouseY, this.updateBallY(), this.updateBallX());
+    };
+    Ball.prototype.flipDirectionY = function () {
+        this.bydirection *= -1;
+    };
+    Ball.prototype.flipDirectionX = function () {
+        this.bxdirection *= -1;
     };
     Ball.prototype.updateBallX = function () {
         return this.bxpos;
@@ -26,17 +36,28 @@ var Ball = (function () {
         return this.bypos;
     };
     Ball.prototype.draw = function () {
+        this.creteDistance();
         ellipseMode(RADIUS);
         fill('gold');
+        ellipse(this.bxpos, this.bypos, this.brad, this.brad);
         this.bxpos = this.bxpos + this.bxspeed * this.bxdirection;
         this.bypos = this.bypos + this.byspeed * this.bydirection;
-        if (this.bxpos > width - this.brad || this.bxpos < this.brad) {
+        if (this.bydirection == 1) {
+            if (this.distance < 48) {
+                this.bydirection *= -1;
+                console.log("hit in Y");
+            }
+            else {
+                console.log('false');
+            }
+        }
+        if (this.bxpos >= width - this.brad || this.bxpos < this.brad) {
             this.bxdirection *= -1;
         }
-        if (this.bypos > height - this.brad || this.bypos < this.brad) {
+        if (this.bypos >= height - this.brad || this.bypos < this.brad) {
             this.bydirection *= -1;
         }
-        ellipse(this.bxpos, this.bypos, this.brad, this.brad);
+        console.log("this.distance ", this.distance);
     };
     return Ball;
 }());
@@ -75,10 +96,16 @@ var Collision = (function () {
     function Collision() {
         this.ball = new Ball();
         this.paddle = new Paddle();
+        this.collisionBall = false;
+        this.distance = dist(this.paddle.getBoundingCicle().x, this.paddle.getBoundingCicle().y, this.ball.getBoundingCicle().x, this.ball.getBoundingCicle().y);
     }
     Collision.prototype.ballCollision = function () {
-        if (mouseX == this.ball.bxpos) {
+        if (this.distance < this.paddle.getBoundingCicle().rad + this.ball.getBoundingCicle().rad) {
+            this.ball.flipDirectionY();
+            console.log("hit");
         }
+    };
+    Collision.prototype.draw = function () {
     };
     return Collision;
 }());
@@ -220,7 +247,6 @@ var GameMenu = (function () {
 var Paddle = (function () {
     function Paddle() {
         this.gameControll = new GameControl();
-        this.ball = new Ball();
         this.ypos = this.gameControll.updateYpos();
         this.xpos = this.gameControll.updateXpos();
         this.rwidth = width * .3;
@@ -229,6 +255,13 @@ var Paddle = (function () {
         this.leftWall = 60;
         this.rightWall = width - 60;
     }
+    Paddle.prototype.getBoundingCicle = function () {
+        return {
+            x: this.xpos,
+            y: this.ypos,
+            rad: this.erad
+        };
+    };
     Paddle.prototype.draw = function () {
         ellipseMode(RADIUS);
         rectMode(CENTER);
@@ -284,6 +317,7 @@ var Sound = (function () {
 var World = (function () {
     function World() {
         this.ball = new Ball();
+        this.collision = new Collision();
         this.dynamites = [];
         this.interval = 3000;
         this.time = 0;
@@ -307,7 +341,7 @@ var World = (function () {
     };
     World.prototype.removeDynamite = function () {
         for (var index = 0; index < this.dynamites.length; index++) {
-            if (this.dynamites[index].dypos > height / 2) {
+            if (this.dynamites[index].dypos > height + 37) {
                 this.dynamites.splice(index, 1);
             }
         }
@@ -319,6 +353,7 @@ var World = (function () {
             dynamite.draw();
         }
         this.removeDynamite();
+        this.collision.draw();
     };
     return World;
 }());

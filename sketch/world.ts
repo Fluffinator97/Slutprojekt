@@ -2,14 +2,17 @@ class World {
 
     /* Variable */
     // private entities: Entity[];
-    private ball: Ball
-    private dynamites: Dynamite[]
-    private interval: number 
-    private time: number 
-    private paddle: Paddle
+    private ball: Ball;
+    private dynamites: Dynamite[];
+    private interval: number;
+    private time: number ;
+    private paddle: Paddle;
+    private collision: Collision;
+
 
     constructor() {
         this.ball = new Ball();
+        this.collision = new Collision();
         this.dynamites = [];
         this.interval = 3000;
         this.time = 0;
@@ -39,10 +42,8 @@ class World {
 
     private removeDynamite(): void {
         for (let index = 0; index < this.dynamites.length; index++) {
-            if (this.dynamites[index].dypos > height / 2) {
-                // console.log(index + "over height", this.dynamites[index]);
+            if (this.dynamites[index].dypos > height + 37) {
                 this.dynamites.splice(index, 1);
-                // splice(this.dynamites, index, index);
             }
         }
     }
@@ -64,6 +65,7 @@ class World {
             dynamite.draw();
         }
         this.removeDynamite();
+        this.collision.draw();
         // console.log("BallX ", this.ball.updateBallX());
         // console.log("BallY ", this.ball.updateBallY());
        }

@@ -1,11 +1,4 @@
-interface BoundingRect {
-    x: number,
-    y: number,
-    width: number,
-    height: number
-}
-
-interface BoundingCicle {
+interface BoundingCiclePaddle {
     x: number,
     y: number,
     rad: number
@@ -25,14 +18,13 @@ class Paddle {
 
 
     private gameControll: GameControl;
-    public ball: Ball;
     // public theBall: Object;
     
     /* Method */
 
     constructor() {
         this.gameControll = new GameControl();
-        this.ball = new Ball();
+        // this.ball = new Ball();
         // this.theBall = this.ball.getBall();
         this.ypos = this.gameControll.updateYpos();
         this.xpos = this.gameControll.updateXpos();
@@ -42,8 +34,16 @@ class Paddle {
         this.leftWall = 60;
         this.rightWall = width - 60;
     }
-    
-    
+
+    public getBoundingCicle(): BoundingCiclePaddle {
+        return {
+            x: this.xpos,
+            y: this.ypos,
+            rad: this.erad
+        }
+    }
+
+
     public draw(): void {
         ellipseMode(RADIUS);
         rectMode(CENTER);

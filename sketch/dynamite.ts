@@ -6,7 +6,6 @@ class Dynamite {
     private dheight: number;
     public dypos: number;
     private dxpos: number;
-    // private dopespeed: number;
 
 
     constructor() {
@@ -14,19 +13,14 @@ class Dynamite {
         this.dheight = 74;
         this.dypos = 1;
         this.dxpos = 0;
-        // this.dopespeed = 1;
     }
 
     /* Method */
     private counterYPos(): any {
         for (this.dypos < height + 37; this.dypos++;) {
             return this.dypos;
-        } 
+        }
     }
-
-
-
-
 
     private randomXPos(): any {
         if (this.dxpos == 0) {
@@ -52,7 +46,7 @@ class Dynamite {
         fill('red');
         rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
     }
-    
+
     // private explode(): nice;
     // private xDirection(): number;
     // private XPosition(): number;
