@@ -31,7 +31,7 @@ class GameMenu {
     this.isGameRunning = this.startGameButton.getButtonPressed();
     // this.gameManager.gameStart(this.isGameRunning);
   }
-
+  
 
   /* Method */
   // private soundOnOff(): boolean;

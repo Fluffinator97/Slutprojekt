@@ -57,7 +57,6 @@ var Ball = (function () {
         if (this.bypos >= height - this.brad || this.bypos < this.brad) {
             this.bydirection *= -1;
         }
-        console.log("this.distance ", this.distance);
     };
     return Ball;
 }());
@@ -100,7 +99,7 @@ var Collision = (function () {
         this.distance = dist(this.paddle.getBoundingCicle().x, this.paddle.getBoundingCicle().y, this.ball.getBoundingCicle().x, this.ball.getBoundingCicle().y);
     }
     Collision.prototype.ballCollision = function () {
-        if (this.distance < this.paddle.getBoundingCicle().rad + this.ball.getBoundingCicle().rad) {
+        if (this.distance < this.paddle.getBoundingCicle().rad - 40 + this.ball.getBoundingCicle().rad - 40) {
             this.ball.flipDirectionY();
             console.log("hit");
         }
@@ -301,7 +300,7 @@ function setup() {
     gameMenu = new GameMenu();
 }
 function draw() {
-    background(55);
+    background(255);
     gameMenu.update();
     gameMenu.draw();
     noCursor();
@@ -321,6 +320,7 @@ var World = (function () {
         this.dynamites = [];
         this.interval = 3000;
         this.time = 0;
+        this.loaded = false;
     }
     World.prototype.getBall = function () {
         return this.ball;
@@ -346,7 +346,30 @@ var World = (function () {
             }
         }
     };
+    World.prototype.gradient = function () {
+        noFill();
+        for (var i = 0; i < height; i++) {
+            var inter = map(i, 0, height, 0, 1);
+            var c = lerpColor(color(25), color(65), inter);
+            stroke(c);
+            line(0, i, width, i);
+        }
+    };
+    World.prototype.dots = function () {
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(width / 2.5, height / 4);
+        point(width / 2, height / 2);
+        point(width / 1.5, height / 2.9);
+        point(width / 5.5, height / 2.5);
+        point(width / 1.5, height / 1.1);
+        point(width / 5.5, height / 1.2);
+        point(width / 1.5, height / 1.9);
+        noStroke();
+    };
     World.prototype.draw = function () {
+        this.gradient();
+        this.dots();
         this.ball.draw();
         for (var _i = 0, _a = this.dynamites; _i < _a.length; _i++) {
             var dynamite = _a[_i];

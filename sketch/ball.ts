@@ -87,7 +87,7 @@ class Ball {
         }
 
 
-        console.log("this.distance ", this.distance);
+        // console.log("this.distance ", this.distance);
     }
 
 }

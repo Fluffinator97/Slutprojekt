@@ -19,7 +19,7 @@ class Collision {
     /* Method */
     public ballCollision(): any {
 
-        if (this.distance < this.paddle.getBoundingCicle().rad + this.ball.getBoundingCicle().rad) {
+        if (this.distance < this.paddle.getBoundingCicle().rad - 40 + this.ball.getBoundingCicle().rad - 40) {
             this.ball.flipDirectionY();
             console.log("hit");
             // this.collisionBall = true;
