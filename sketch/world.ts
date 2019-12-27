@@ -5,9 +5,10 @@ class World {
     private ball: Ball;
     private dynamites: Dynamite[];
     private interval: number;
-    private time: number ;
+    private time: number;
     private paddle: Paddle;
     private collision: Collision;
+    public loaded: boolean;
 
 
     constructor() {
@@ -16,6 +17,7 @@ class World {
         this.dynamites = [];
         this.interval = 3000;
         this.time = 0;
+        this.loaded = false;
     }
     public getBall() {
         return this.ball;
@@ -48,6 +50,36 @@ class World {
         }
     }
 
+    private gradient(): void {
+        noFill();
+        for (let i = 0; i < height; i++) {
+            let inter = map(i, 0, height, 0, 1);
+            let c = lerpColor(color(25), color(65), inter);
+            stroke(c);
+            line(0, i, width, i);
+
+        }
+    }
+
+    private dots(): void {
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        // for (let i = 0; i < 10; i++) {
+        //     point(random(width / 100, width), random(height / 100, height));
+        // }
+        point(width / 2.5,height / 4);
+        point(width / 2, height / 2);
+        point(width / 1.5 ,height / 2.9);
+        point(width / 5.5 ,height / 2.5);
+        point(width / 1.5 ,height / 1.1);
+        point(width / 5.5 ,height / 1.2);
+        point(width / 1.5 ,height / 1.9);
+        noStroke();
+
+    }
+
+
+
     //     if (this.dynamites[] > height){
     //         this.time = 0;
     //     }
@@ -59,7 +91,9 @@ class World {
     // private spawnNew(): object;
     // private collision(): object;
 
-   public draw(): void {
+    public draw(): void {
+        this.gradient();
+        this.dots();
         this.ball.draw();
         for (const dynamite of this.dynamites) {
             dynamite.draw();
@@ -68,7 +102,7 @@ class World {
         this.collision.draw();
         // console.log("BallX ", this.ball.updateBallX());
         // console.log("BallY ", this.ball.updateBallY());
-       }
+    }
 
     // hits(paddle) {
 

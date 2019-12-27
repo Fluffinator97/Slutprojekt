@@ -33,7 +33,7 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
-    background(55);
+    background(255);
     gameMenu.update();
     gameMenu.draw();
     noCursor();
