@@ -5,7 +5,6 @@ interface BoundingCiclePaddle {
 }
 
 class Paddle {
-
     /* Variable */
     public ypos: number;
     public xpos: number;  
@@ -19,7 +18,6 @@ class Paddle {
 
     private gameControll: GameControl;
     // public theBall: Object;
-    
     /* Method */
 
     constructor() {
