@@ -246,22 +246,51 @@ var GameManager = (function () {
 }());
 var GameMenu = (function () {
     function GameMenu() {
-        this.startGameButton = new Button("Start Game", 100, 100, 200, 100, "brown");
-        this.pauseGameButton = new Button("Pause Game", 200, 100, 200, 100, "blue");
+        this.startGameButton = new Button("Start Game", windowWidth / 1.8 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A");
         this.isGameRunning = false;
+        this.theRandomStars = new randomStar();
         this.gameManager = new GameManager();
         this.world = new World();
         this.paddle = new Paddle();
         this.highScoreLS = 0;
     }
     GameMenu.prototype.update = function () {
-        this.isGameRunning = this.startGameButton.getButtonPressed();
+        this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
+        gameMenu.startGameButton.clicked(this.isGameRunning);
     };
     GameMenu.prototype.setHighScore = function () {
         this.highScoreLS = this.gameManager.getHighScoreLocalStorage();
     };
     GameMenu.prototype.draw = function () {
         if (!this.isGameRunning) {
+            push();
+            fill("#130B1B");
+            rect(0, 0, windowWidth / 1.8, windowHeight);
+            pop();
+            push();
+            fill("#E2D8E0");
+            rect(0, 0, 30, windowHeight);
+            pop();
+            push();
+            fill("#E2D8E0");
+            rect(windowWidth / 1.8 - 30, 0, 30, windowHeight);
+            pop();
+            push();
+            fill("#605559");
+            rect(30, 0, windowWidth / 1.8 - 60, 30);
+            pop();
+            push();
+            fill("#605559");
+            rect(30, windowHeight - 30, windowWidth / 1.8 - 60, 30);
+            pop();
+            this.theRandomStars.draw();
+            push();
+            fill("white");
+            textSize(45);
+            textFont("punkboy");
+            textAlign(CENTER, TOP);
+            text("Nobel Popper", windowWidth / 1.8 / 2, 50);
+            pop();
         }
         else {
             this.world.update();
