@@ -30,7 +30,6 @@ class Button {
         let isMousePressed = false
         if (this.isMouseDown && !mouseIsPressed) {
             if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
-                this.color = "orange";
                 isMousePressed = true;
                 isGameRunning = true;
                 return isGameRunning;

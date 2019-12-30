@@ -19,7 +19,7 @@ class GameMenu {
   private highScoreLS: number;
   
   constructor() {
-    this.startGameButton = new Button("Start Game", windowWidth/1.8 /2 -100, windowHeight/2, 200, 100, "#EEAA3A");
+    this.startGameButton = new Button("Start Game", windowWidth/3 /2 -100, windowHeight/2, 200, 100, "#EEAA3A");
     this.isGameRunning = false;
     this.theRandomStars = new randomStar();
     // this.gameState = false;
@@ -30,30 +30,35 @@ class GameMenu {
   }
   
   public update(): void {
-    this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
     // this.gameManager.gameStart(this.isGameRunning);
+    if (!this.isGameRunning){
+      this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
+    }
+    else{
+      this.isGameRunning = true;
+    }
     gameMenu.startGameButton.clicked(this.isGameRunning);
   }
   
   
   /* Method */
-
-
+  
+  
   // private soundOnOff(): boolean;
   private setHighScore(): void {
     this.highScoreLS = this.gameManager.getHighScoreLocalStorage();
   }
   
   // public gameState(): void {
-  //   // this.gameState = this.isGameRunning;
-  // }
-
-  public draw(): void {
+    //   // this.gameState = this.isGameRunning;
+    // }
     
+    public draw(): void {
+      
     if (!this.isGameRunning){
       push();
       fill("#130B1B");
-      rect(0, 0, windowWidth/1.8, windowHeight);
+      rect(0, 0, windowWidth/3, windowHeight);
       pop();
       
       push();
@@ -63,17 +68,17 @@ class GameMenu {
       
       push();
       fill("#E2D8E0");
-      rect(windowWidth/1.8 - 30, 0, 30, windowHeight);
+      rect(windowWidth/3 - 30, 0, 30, windowHeight);
       pop();
       
       push();
       fill("#605559");
-      rect(30, 0, windowWidth/1.8-60, 30);
+      rect(30, 0, windowWidth/3-60, 30);
       pop();
       
       push();
       fill("#605559");
-      rect(30, windowHeight-30, windowWidth/1.8-60, 30);
+      rect(30, windowHeight-30, windowWidth/3-60, 30);
       pop();
       this.theRandomStars.draw();
       
@@ -82,9 +87,10 @@ class GameMenu {
       textSize(45);
       textFont("punkboy");
       textAlign(CENTER, TOP);
-      text("Nobel Popper",windowWidth/1.8 / 2,50)
+      text("Nobel Popper",windowWidth/3 / 2,50)
       pop();
 
+      this.startGameButton.draw();
     }
     else{
       // detta borde ligga in en update metod istället
