@@ -16,6 +16,7 @@ class GameMenu {
   // public gameManager: GameManager;
   public world: World;
   public paddle: Paddle;
+  private highScoreLS: number;
 
   constructor() {
     this.startGameButton = new Button("Start Game", windowWidth/1.8 /2 -100, windowHeight/2, 200, 100, "#EEAA3A");
@@ -25,6 +26,7 @@ class GameMenu {
     // this.gameManager = new GameManager();
     this.world = new World();
     this.paddle = new Paddle();
+    this.highScoreLS = 0;
   }
 
 
@@ -33,13 +35,17 @@ class GameMenu {
     // this.gameManager.gameStart(this.isGameRunning);
     gameMenu.startGameButton.clicked(this.isGameRunning);
   }
-
+  
+  
 
 
   /* Method */
+
+
   // private soundOnOff(): boolean;
-  // getHighScoreTLS(): number;
-  // private setHighScore(): number;
+  private setHighScore(): void {
+    this.highScoreLS = this.gameManager.getHighScoreLocalStorage();
+  }
   
   // public gameState(): void {
   //   // this.gameState = this.isGameRunning;
@@ -48,7 +54,6 @@ class GameMenu {
   public draw(): void {
     
     if (!this.isGameRunning){
-      
       push();
       fill("#130B1B");
       rect(0, 0, windowWidth/1.8, windowHeight);

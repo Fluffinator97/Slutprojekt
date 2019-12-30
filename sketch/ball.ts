@@ -1,61 +1,93 @@
+interface BoundingCicle {
+    x: number,
+    y: number,
+    rad: number
+    ydirection: number,
+    xdirection: number
+}
+
+
 class Ball {
 
     /* Variable */
     private brad: number;
-    
-    private bypos: number;
-    private bxpos: number;
-    
+    public bypos: number;
+    public bxpos: number;
     private byspeed: number;
-    private bxspeed: number; 
-    
-    private bxdirection: number;
-    private bydirection: number;
-    public theBall: Object;
-    
+    private bxspeed: number;
+    public bxdirection: number;
+    public bydirection: number;
+    private distance: number;
+    private paddle: Paddle;
+
     constructor() {
-        this.brad = 25;
-        this.bxspeed = 25;
+        this.brad = 36;
+        this.bxspeed = 5;
         this.byspeed = 2.2;
         this.bxdirection = 1;
         this.bydirection = 1;
         this.bxpos = width / 2;
         this.bypos = height / 4;
-        this.theBall = {
-            brad: this.brad,
+        this.paddle = new Paddle();
+        this.distance = 0;
+    }
 
-            bypos: this.bypos,
-            bxpos: this.bxpos,
-            
-            byspeed: this.byspeed,
-            bxspeed: this.bxspeed,
-            
-            bydirection: this.bydirection,
-            bxdirection: this.bxdirection
+    public getBoundingCicle(): BoundingCicle {
+        return {
+            x: this.bxpos,
+            y: this.bypos,
+            rad: this.brad,
+            ydirection: this.bydirection,
+            xdirection: this.bxdirection
         }
     }
 
-    public getBall(): Object {
-        return this.theBall;
+    public creteDistance() {
+        this.distance = dist(mouseX, mouseY, this.updateBallY(), this.updateBallX());
+
     }
 
-    
-    public draw() {
+    public flipDirectionY() {
+        this.bydirection *= -1;
+    }
+
+    public flipDirectionX() {
+        this.bxdirection *= -1;
+    }
+
+    public updateBallX(): number {
+        return this.bxpos;
+    }
+
+    public updateBallY(): number {
+        return this.bypos;
+    }
+
+    public draw(): void {
+        this.creteDistance();
         ellipseMode(RADIUS);
-        fill('yellow');
+        fill('gold');
+        ellipse(this.bxpos, this.bypos, this.brad, this.brad);
 
         this.bxpos = this.bxpos + this.bxspeed * this.bxdirection;
         this.bypos = this.bypos + this.byspeed * this.bydirection;
 
-        if (this.bxpos > width - this.brad || this.bxpos < this.brad) {
+
+        if (this.bydirection == 1) {
+        if (this.distance < 48) { 
+            this.bydirection *= -1;
+            console.log("hit in Y");
+        } else {
+            console.log('false')
+        }}
+        if (this.bxpos >= width - this.brad || this.bxpos < this.brad) {
             this.bxdirection *= -1;
-        }
-        if (this.bypos > height - this.brad || this.bypos < this.brad) {
+        } if (this.bypos >= height - this.brad || this.bypos < this.brad) {
             this.bydirection *= -1;
         }
-        
-        ellipse(this.bxpos, this.bypos, this.brad, this.brad);
-    }
 
+
+        // console.log("this.distance ", this.distance);
+    }
 
 }
