@@ -36,9 +36,7 @@ function draw() {
     gameMenu.update();
     gameMenu.draw();
 
-    if (gameMenu.startGameButton.clicked()) {
-        alert('hurra!')
-    }
+
 }
 
 

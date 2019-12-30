@@ -20,17 +20,20 @@ class Button {
         this.isMouseDown = false;
     }
 
-    public clicked(): boolean {
+    public clicked(isGameRunning:boolean): boolean {
         const left = this.x;
         const right = this.x + this.width;
         const top = this.y;
         const bottom = this.y + this.height;
+        isGameRunning;
 
         let isMousePressed = false
         if (this.isMouseDown && !mouseIsPressed) {
             if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
                 this.color = "orange";
                 isMousePressed = true;
+                isGameRunning = true;
+                return isGameRunning;
             }
         }
         
@@ -39,7 +42,6 @@ class Button {
     }
 
     /* Method */
-
     
     public draw(): void {
         // const {dialog, x, y, width, height} = this;
@@ -47,11 +49,12 @@ class Button {
         rectMode('corner')
         fill(this.color)
         rect(this.x, this.y, this.width, this.height, 10);
-        fill(255,233,20)
-        textSize(16);
-        strokeWeight(0.5);
+        fill("#673aee")
+        textSize(20);
+        strokeWeight(1);
         textAlign(CENTER, CENTER);
-        text(this.dialog, this.x, this.y, this.x + this.width, this.height/2)
+        textFont("punkboy");
+        text(this.dialog, this.x, this.y,this.width, this.height)
         pop();
     }
 

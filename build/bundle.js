@@ -46,16 +46,19 @@ var Button = (function () {
         this.color = color;
         this.isMouseDown = false;
     }
-    Button.prototype.clicked = function () {
+    Button.prototype.clicked = function (isGameRunning) {
         var left = this.x;
         var right = this.x + this.width;
         var top = this.y;
         var bottom = this.y + this.height;
+        isGameRunning;
         var isMousePressed = false;
         if (this.isMouseDown && !mouseIsPressed) {
             if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
                 this.color = "orange";
                 isMousePressed = true;
+                isGameRunning = true;
+                return isGameRunning;
             }
         }
         this.isMouseDown = mouseIsPressed;
@@ -66,11 +69,12 @@ var Button = (function () {
         rectMode('corner');
         fill(this.color);
         rect(this.x, this.y, this.width, this.height, 10);
-        fill(255, 233, 20);
-        textSize(16);
-        strokeWeight(0.5);
+        fill("#673aee");
+        textSize(20);
+        strokeWeight(1);
         textAlign(CENTER, CENTER);
-        text(this.dialog, this.x, this.y, this.x + this.width, this.height / 2);
+        textFont("punkboy");
+        text(this.dialog, this.x, this.y, this.width, this.height);
         pop();
     };
     return Button;
@@ -103,88 +107,49 @@ var GameControl = (function () {
     };
     return GameControl;
 }());
-var GameManager = (function () {
-    function GameManager() {
-        this.time = 0;
-        this.difficulty = 0;
-        this.score = 0;
-        this.life = 0;
-        this.startGame = false;
-        this.player = new Player();
-    }
-    GameManager.prototype.gameStart = function (startGame) {
-        this.startGame = startGame;
-        push();
-        fill('white');
-        text("startGame " + this.startGame, 200, 360, 300, 300);
-        pop();
-    };
-    GameManager.prototype.setTime = function () {
-        if (this.startGame == true) {
-            console.log(deltaTime);
-        }
-    };
-    GameManager.prototype.getTime = function () {
-        this.setTime();
-        push();
-        fill('white');
-        text("time " + this.time, 200, 300, 300, 300);
-        pop();
-        return this.time;
-    };
-    GameManager.prototype.updateDifficulty = function () {
-        push();
-        fill('white');
-        text("difficulty " + this.difficulty, 200, 320, 300, 300);
-        pop();
-    };
-    GameManager.prototype.updateScore = function () {
-        this.score = this.player.setScore();
-        push();
-        fill('white');
-        text("score " + this.score, 200, 340, 300, 300);
-        pop();
-        return this.score;
-    };
-    GameManager.prototype.updateLife = function () {
-        this.life = this.player.setLife();
-        push();
-        fill('white');
-        text("life " + this.life, 200, 400, 300, 300);
-        pop();
-        return this.life;
-    };
-    GameManager.prototype.getPlayerName = function () {
-        push();
-        fill('white');
-        text("player " + this.player.setName(), 200, 380, 300, 300);
-        pop();
-    };
-    GameManager.prototype.draw = function () {
-        this.updateScore();
-        this.updateDifficulty();
-        this.getTime();
-        this.getPlayerName();
-        this.updateLife();
-    };
-    return GameManager;
-}());
 var GameMenu = (function () {
     function GameMenu() {
-        this.startGameButton = new Button("Start Game", 100, 100, 200, 100, "brown");
-        this.pauseGameButton = new Button("Pause Game", 100, 200, 200, 100, "blue");
+        this.startGameButton = new Button("Start Game", windowWidth / 1.8 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A");
         this.isGameRunning = false;
-        this.gameManager = new GameManager();
+        this.theRandomStars = new randomStar();
         this.world = new World();
         this.paddle = new Paddle();
     }
     GameMenu.prototype.update = function () {
-        this.gameManager.gameStart(this.isGameRunning);
+        this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
+        gameMenu.startGameButton.clicked(this.isGameRunning);
     };
     GameMenu.prototype.draw = function () {
         if (!this.isGameRunning) {
+            push();
+            fill("#130B1B");
+            rect(0, 0, windowWidth / 1.8, windowHeight);
+            pop();
+            push();
+            fill("#E2D8E0");
+            rect(0, 0, 30, windowHeight);
+            pop();
+            push();
+            fill("#E2D8E0");
+            rect(windowWidth / 1.8 - 30, 0, 30, windowHeight);
+            pop();
+            push();
+            fill("#605559");
+            rect(30, 0, windowWidth / 1.8 - 60, 30);
+            pop();
+            push();
+            fill("#605559");
+            rect(30, windowHeight - 30, windowWidth / 1.8 - 60, 30);
+            pop();
+            this.theRandomStars.draw();
+            push();
+            fill("white");
+            textSize(45);
+            textFont("punkboy");
+            textAlign(CENTER, TOP);
+            text("Nobel Popper", windowWidth / 1.8 / 2, 50);
+            pop();
             this.startGameButton.draw();
-            this.pauseGameButton.draw();
         }
     };
     return GameMenu;
@@ -216,6 +181,130 @@ var Player = (function () {
     };
     return Player;
 }());
+var randomStar = (function () {
+    function randomStar() {
+        this.x0 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x1 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x2 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x3 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x4 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x5 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x6 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x7 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x8 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x9 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x10 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x11 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x12 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.y0 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y1 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y2 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y3 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y4 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y5 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y6 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y7 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y8 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y9 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y10 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y11 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y12 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+    }
+    randomStar.prototype.draw = function () {
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x0, this.y0);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x1, this.y1);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x2, this.y2);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x3, this.y3);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x4, this.y4);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x5, this.y5);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x6, this.y6);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x7, this.y7);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x8, this.y8);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x9, this.y9);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x10, this.y10);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x11, this.y11);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x12, this.y12);
+        noStroke();
+        pop();
+    };
+    return randomStar;
+}());
 var gameMenu;
 var gameRunning;
 function preload() {
@@ -230,9 +319,6 @@ function draw() {
     background(55);
     gameMenu.update();
     gameMenu.draw();
-    if (gameMenu.startGameButton.clicked()) {
-        alert('hurra!');
-    }
 }
 function windowResized() {
     resizeCanvas(windowWidth / 1.8, windowHeight);
