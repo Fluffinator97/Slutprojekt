@@ -87,7 +87,6 @@ class GameManager {
 
     public draw(): void {
         this.player.draw();
-        this.collision.ballHitBox();
         // this.updateDifficulty();
         // this.getTime();
         // this.getPlayerName();

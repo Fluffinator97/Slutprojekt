@@ -17,7 +17,6 @@ class Collision {
 
     /* Method */
     public ballCollision(): any {
-
         if (this.distance < this.paddle.getBoundingCicle().rad + this.ball.getBoundingCicle().rad) {
             this.ball.flipDirectionY();
             console.log("hit");
@@ -25,24 +24,17 @@ class Collision {
         }
     }
 
-    public ballHitBox() {
-
-        stroke(252, 236, 3);
-        strokeWeight(this.paddle.getBoundingCicle().rad * 2);
-        point(mouseX, mouseY);
-        noStroke();
-
-    }
-
     public dynamiteHit(dynamites: any[]) {
-        let test = [];
+        // let test = [];
         for (let i = 0; i < dynamites.length; i++) {
-            test.push(dynamites[i]);
-            
+            console.log(dynamites[i].dxpos);
+            if(dynamites[i].dxpos > this.ball.getBoundingCicle().x && dynamites[i].dypos > this.ball.getBoundingCicle().y) {
+                dynamites[i].hit = true;
+                console.log("Remove");
+            }
+            // test.push(dynamites[i]);
         }
-        
-        return console.log(test);
-
+        // return console.log(test);
     }
 
 

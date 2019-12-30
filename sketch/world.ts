@@ -42,9 +42,13 @@ class World {
         }
     }
 
+    private checkDynamites() {
+        this.collision.dynamiteHit(this.dynamites);
+    }
+    
     private removeDynamite(): void {
         for (let index = 0; index < this.dynamites.length; index++) {
-            if (this.dynamites[index].dypos > height + 37) {
+            if (this.dynamites[index].dypos > height + 37 || this.dynamites[index].hit == true) {
                 this.dynamites.splice(index, 1);
             }
         }
@@ -77,15 +81,7 @@ class World {
         noStroke();
 
     }
-
-
-    private checkDynamites() {
-        this.collision.dynamiteHit(this.dynamites);
-    }
-
-
-
-
+    
     //     if (this.dynamites[] > height){
     //         this.time = 0;
     //     }
