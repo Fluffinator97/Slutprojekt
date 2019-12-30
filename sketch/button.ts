@@ -8,40 +8,53 @@ class Button {
     private width: number;
     public dialog: string;
     public color: string;
-    private buttonPressed: boolean;
+    private isMouseDown: boolean;
 
-    constructor(dialog: string, y: number, x: number, height: number, width: number, color: string) {
+    constructor(dialog: string, x: number, y: number, width: number, height: number, color: string) {
         this.dialog = dialog;
         this.y = y;
         this.x = x;
         this.height = height;
         this.width = width;
         this.color = color;
-        this.buttonPressed = false;
+        this.isMouseDown = false;
+    }
+
+    public clicked(isGameRunning:boolean): boolean {
+        const left = this.x;
+        const right = this.x + this.width;
+        const top = this.y;
+        const bottom = this.y + this.height;
+        isGameRunning;
+
+        let isMousePressed = false
+        if (this.isMouseDown && !mouseIsPressed) {
+            if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+                this.color = "orange";
+                isMousePressed = true;
+                isGameRunning = true;
+                return isGameRunning;
+            }
+        }
+        
+        this.isMouseDown = mouseIsPressed
+        return isMousePressed;
     }
 
     /* Method */
-
-    public getButtonPressed(): boolean {
-            if (!mouseIsPressed && this.buttonPressed) {
-                return true;
-            }
-            this.buttonPressed = mouseIsPressed;
-            return false;
-    }
-    
-    public update(getButtonPressed:any): void {
-        gameMenu.isGameRunning = getButtonPressed;
-    }
     
     public draw(): void {
         // const {dialog, x, y, width, height} = this;
         push();
         rectMode('corner')
         fill(this.color)
-        rect(this.x, this.y, this.height, this.width);
-        fill('white')
-        text(this.dialog, this.x, this.y, this.x + this.width, this.y + this.height)
+        rect(this.x, this.y, this.width, this.height, 10);
+        fill("#673aee")
+        textSize(20);
+        strokeWeight(1);
+        textAlign(CENTER, CENTER);
+        textFont("punkboy");
+        text(this.dialog, this.x, this.y,this.width, this.height)
         pop();
     }
 

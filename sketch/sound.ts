@@ -1,5 +1,4 @@
-class Sound {
-
+// class Sound {
     // /* Variable */
     // private sound: URL;
     // private boing: URL;
