@@ -43,7 +43,7 @@ var Ball = (function () {
         this.bxpos = this.bxpos + this.bxspeed * this.bxdirection;
         this.bypos = this.bypos + this.byspeed * this.bydirection;
         if (this.bydirection == 1) {
-            if (this.distance < 48) {
+            if (this.distance < 1) {
                 this.bydirection *= -1;
                 console.log("hit in Y");
             }
@@ -116,18 +116,14 @@ var Collision = (function () {
             console.log("hit");
         }
     };
-    Collision.prototype.ballHitBox = function () {
-        stroke(252, 236, 3);
-        strokeWeight(this.paddle.getBoundingCicle().rad * 2);
-        point(mouseX, mouseY);
-        noStroke();
-    };
     Collision.prototype.dynamiteHit = function (dynamites) {
-        var test = [];
         for (var i = 0; i < dynamites.length; i++) {
-            test.push(dynamites[i]);
+            console.log(dynamites[i].dxpos);
+            if (dynamites[i].dxpos > this.ball.getBoundingCicle().x && dynamites[i].dypos > this.ball.getBoundingCicle().y) {
+                dynamites[i].hit = true;
+                console.log("Remove");
+            }
         }
-        return console.log(test);
     };
     Collision.prototype.draw = function () {
     };
@@ -139,6 +135,7 @@ var Dynamite = (function () {
         this.dheight = 74;
         this.dypos = 1;
         this.dxpos = 0;
+        this.hit = false;
     }
     Dynamite.prototype.counterYPos = function () {
         for (this.dypos < height + 37; this.dypos++;) {
@@ -156,7 +153,8 @@ var Dynamite = (function () {
             x: this.dxpos,
             y: this.dypos,
             width: this.dwidth,
-            height: this.dheight
+            height: this.dheight,
+            hit: this.hit
         };
     };
     Dynamite.prototype.draw = function () {
@@ -243,7 +241,6 @@ var GameManager = (function () {
     };
     GameManager.prototype.draw = function () {
         this.player.draw();
-        this.collision.ballHitBox();
     };
     return GameManager;
 }());
@@ -548,9 +545,12 @@ var World = (function () {
             this.time = 0;
         }
     };
+    World.prototype.checkDynamites = function () {
+        this.collision.dynamiteHit(this.dynamites);
+    };
     World.prototype.removeDynamite = function () {
         for (var index = 0; index < this.dynamites.length; index++) {
-            if (this.dynamites[index].dypos > height + 37) {
+            if (this.dynamites[index].dypos > height + 37 || this.dynamites[index].hit == true) {
                 this.dynamites.splice(index, 1);
             }
         }
@@ -575,9 +575,6 @@ var World = (function () {
         point(width / 5.5, height / 1.2);
         point(width / 1.5, height / 1.9);
         noStroke();
-    };
-    World.prototype.checkDynamites = function () {
-        this.collision.dynamiteHit(this.dynamites);
     };
     World.prototype.draw = function () {
         this.gradient();

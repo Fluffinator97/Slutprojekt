@@ -2,7 +2,8 @@ interface BoundingRect {
     x: number,
     y: number,
     width: number,
-    height: number
+    height: number,
+    hit: boolean
 }
 
 class Dynamite {
@@ -12,7 +13,8 @@ class Dynamite {
     private dwidth: number;
     private dheight: number;
     public dypos: number;
-    private dxpos: number;
+    public dxpos: number;
+    public hit: boolean;
 
 
     constructor() {
@@ -20,6 +22,7 @@ class Dynamite {
         this.dheight = 74;
         this.dypos = 1;
         this.dxpos = 0;
+        this.hit = false;
     }
 
     /* Method */
@@ -43,7 +46,8 @@ class Dynamite {
             x: this.dxpos,
             y: this.dypos,
             width: this.dwidth,
-            height: this.dheight
+            height: this.dheight,
+            hit: this.hit
         }
     }
 
