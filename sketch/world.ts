@@ -79,6 +79,12 @@ class World {
     }
 
 
+    private checkDynamites() {
+        this.collision.dynamiteHit(this.dynamites);
+    }
+
+
+
 
     //     if (this.dynamites[] > height){
     //         this.time = 0;
@@ -100,6 +106,7 @@ class World {
         }
         this.removeDynamite();
         this.collision.draw();
+        this.checkDynamites();
         // console.log("BallX ", this.ball.updateBallX());
         // console.log("BallY ", this.ball.updateBallY());
     }

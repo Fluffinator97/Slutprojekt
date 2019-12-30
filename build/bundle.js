@@ -99,10 +99,23 @@ var Collision = (function () {
         this.distance = dist(this.paddle.getBoundingCicle().x, this.paddle.getBoundingCicle().y, this.ball.getBoundingCicle().x, this.ball.getBoundingCicle().y);
     }
     Collision.prototype.ballCollision = function () {
-        if (this.distance < this.paddle.getBoundingCicle().rad - 40 + this.ball.getBoundingCicle().rad - 40) {
+        if (this.distance < this.paddle.getBoundingCicle().rad + this.ball.getBoundingCicle().rad) {
             this.ball.flipDirectionY();
             console.log("hit");
         }
+    };
+    Collision.prototype.ballHitBox = function () {
+        stroke(252, 236, 3);
+        strokeWeight(this.paddle.getBoundingCicle().rad * 2);
+        point(mouseX, mouseY);
+        noStroke();
+    };
+    Collision.prototype.dynamiteHit = function (dynamites) {
+        var test = [];
+        for (var i = 0; i < dynamites.length; i++) {
+            test.push(dynamites[i]);
+        }
+        return console.log(test);
     };
     Collision.prototype.draw = function () {
     };
@@ -168,6 +181,7 @@ var GameManager = (function () {
         this.collision = new Collision();
         this.startGame = false;
         this.player = new Player();
+        this.score = 0;
     }
     GameManager.prototype.gameStart = function (startGame) {
         this.startGame = startGame;
@@ -195,14 +209,6 @@ var GameManager = (function () {
         text("difficulty " + this.difficulty, 200, 320, 300, 300);
         pop();
     };
-    GameManager.prototype.updateScore = function () {
-        this.score = this.player.setScore();
-        push();
-        fill('white');
-        text("score " + this.score, 200, 340, 300, 300);
-        pop();
-        return this.score;
-    };
     GameManager.prototype.updateLife = function () {
         this.life = this.player.setLife();
         push();
@@ -217,7 +223,15 @@ var GameManager = (function () {
         text("player " + this.player.setName(), 200, 380, 300, 300);
         pop();
     };
+    GameManager.prototype.highScoreLocalStorage = function () {
+        this.score = this.player.getHighScoreLS();
+    };
+    GameManager.prototype.getHighScoreLocalStorage = function () {
+        return this.score;
+    };
     GameManager.prototype.draw = function () {
+        this.player.draw();
+        this.collision.ballHitBox();
     };
     return GameManager;
 }());
@@ -229,15 +243,19 @@ var GameMenu = (function () {
         this.gameManager = new GameManager();
         this.world = new World();
         this.paddle = new Paddle();
+        this.highScoreLS = 0;
     }
     GameMenu.prototype.update = function () {
         this.isGameRunning = this.startGameButton.getButtonPressed();
     };
+    GameMenu.prototype.setHighScore = function () {
+        this.highScoreLS = this.gameManager.getHighScoreLocalStorage();
+    };
     GameMenu.prototype.draw = function () {
         if (!this.isGameRunning) {
             this.world.update();
-            this.gameManager.draw();
             this.world.draw();
+            this.gameManager.draw();
             this.paddle.draw();
         }
     };
@@ -275,17 +293,51 @@ var Paddle = (function () {
 var Player = (function () {
     function Player() {
         this.name = "Örjan";
-        this.score = 100;
+        this.score = 10;
         this.life = 3;
+        this.highScoreFLS = 0;
     }
     Player.prototype.setName = function () {
         return this.name;
     };
-    Player.prototype.setScore = function () {
-        return this.score;
+    Player.prototype.removeLife = function () {
+        this.life - 1;
     };
     Player.prototype.setLife = function () {
         return this.life;
+    };
+    Player.prototype.updateScore = function () {
+        if (deltaTime) {
+            this.score++;
+        }
+        return Math.round(this.score);
+    };
+    Player.prototype.showScore = function () {
+        this.score = this.updateScore();
+        push();
+        fill('white');
+        text("score " + this.score, 170, 160, 300, 300);
+        pop();
+        return this.score;
+    };
+    Player.prototype.saveScore = function () {
+        if (this.score > this.getHighScoreLS()) {
+            localStorage.setItem(this.name, JSON.stringify(this.score));
+        }
+    };
+    Player.prototype.setHighScoreLS = function () {
+        this.highScore;
+        this.highScore = localStorage.getItem(this.name);
+        this.highScoreFLS = JSON.parse(this.highScore);
+    };
+    Player.prototype.getHighScoreLS = function () {
+        return this.highScoreFLS;
+    };
+    Player.prototype.draw = function () {
+        this.setHighScoreLS();
+        this.updateScore();
+        this.showScore();
+        this.saveScore();
     };
     return Player;
 }());
@@ -367,6 +419,9 @@ var World = (function () {
         point(width / 1.5, height / 1.9);
         noStroke();
     };
+    World.prototype.checkDynamites = function () {
+        this.collision.dynamiteHit(this.dynamites);
+    };
     World.prototype.draw = function () {
         this.gradient();
         this.dots();
@@ -377,6 +432,7 @@ var World = (function () {
         }
         this.removeDynamite();
         this.collision.draw();
+        this.checkDynamites();
     };
     return World;
 }());

@@ -18,6 +18,7 @@ class GameManager {
         this.collision = new Collision();
         this.startGame = false;
         this.player = new Player();
+        this.score = 0;
 
     }
 
@@ -53,14 +54,6 @@ class GameManager {
         pop();
     }
 
-    private updateScore(): number {
-        this.score = this.player.setScore();
-        push();
-        fill('white')
-        text("score " + this.score, 200, 340, 300, 300);
-        pop();
-        return this.score;
-    }
 
     private updateLife(): number {
         this.life = this.player.setLife();
@@ -78,6 +71,13 @@ class GameManager {
         pop();
     }
 
+    public highScoreLocalStorage(): void {
+       this.score = this.player.getHighScoreLS();
+    }
+
+    public getHighScoreLocalStorage(): number {
+        return this.score;
+    }
 
     //private gameOver(): void
     //private endGameDialog(): object
@@ -86,7 +86,8 @@ class GameManager {
     //private getDeltaTime(): object
 
     public draw(): void {
-        // this.updateScore();
+        this.player.draw();
+        this.collision.ballHitBox();
         // this.updateDifficulty();
         // this.getTime();
         // this.getPlayerName();
