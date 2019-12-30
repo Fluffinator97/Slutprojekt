@@ -61,32 +61,44 @@ var Ball = (function () {
     return Ball;
 }());
 var Button = (function () {
-    function Button(dialog, y, x, height, width, color) {
+    function Button(dialog, x, y, width, height, color) {
         this.dialog = dialog;
         this.y = y;
         this.x = x;
         this.height = height;
         this.width = width;
         this.color = color;
-        this.buttonPressed = false;
+        this.isMouseDown = false;
     }
-    Button.prototype.getButtonPressed = function () {
-        if (!mouseIsPressed && this.buttonPressed) {
-            return true;
+    Button.prototype.clicked = function (isGameRunning) {
+        var left = this.x;
+        var right = this.x + this.width;
+        var top = this.y;
+        var bottom = this.y + this.height;
+        isGameRunning;
+        var isMousePressed = false;
+        if (this.isMouseDown && !mouseIsPressed) {
+            if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+                this.color = "orange";
+                isMousePressed = true;
+                isGameRunning = true;
+                return isGameRunning;
+            }
         }
-        this.buttonPressed = mouseIsPressed;
-        return false;
-    };
-    Button.prototype.update = function (getButtonPressed) {
-        gameMenu.isGameRunning = getButtonPressed;
+        this.isMouseDown = mouseIsPressed;
+        return isMousePressed;
     };
     Button.prototype.draw = function () {
         push();
         rectMode('corner');
         fill(this.color);
-        rect(this.x, this.y, this.height, this.width);
-        fill('white');
-        text(this.dialog, this.x, this.y, this.x + this.width, this.y + this.height);
+        rect(this.x, this.y, this.width, this.height, 10);
+        fill("#673aee");
+        textSize(20);
+        strokeWeight(1);
+        textAlign(CENTER, CENTER);
+        textFont("punkboy");
+        text(this.dialog, this.x, this.y, this.width, this.height);
         pop();
     };
     return Button;
@@ -250,6 +262,8 @@ var GameMenu = (function () {
     };
     GameMenu.prototype.draw = function () {
         if (!this.isGameRunning) {
+        }
+        else {
             this.world.update();
             this.world.draw();
             this.gameManager.draw();
