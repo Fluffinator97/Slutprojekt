@@ -61,32 +61,43 @@ var Ball = (function () {
     return Ball;
 }());
 var Button = (function () {
-    function Button(dialog, y, x, height, width, color) {
+    function Button(dialog, x, y, width, height, color) {
         this.dialog = dialog;
         this.y = y;
         this.x = x;
         this.height = height;
         this.width = width;
         this.color = color;
-        this.buttonPressed = false;
+        this.isMouseDown = false;
     }
-    Button.prototype.getButtonPressed = function () {
-        if (!mouseIsPressed && this.buttonPressed) {
-            return true;
+    Button.prototype.clicked = function (isGameRunning) {
+        var left = this.x;
+        var right = this.x + this.width;
+        var top = this.y;
+        var bottom = this.y + this.height;
+        isGameRunning;
+        var isMousePressed = false;
+        if (this.isMouseDown && !mouseIsPressed) {
+            if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+                isMousePressed = true;
+                isGameRunning = true;
+                return isGameRunning;
+            }
         }
-        this.buttonPressed = mouseIsPressed;
-        return false;
-    };
-    Button.prototype.update = function (getButtonPressed) {
-        gameMenu.isGameRunning = getButtonPressed;
+        this.isMouseDown = mouseIsPressed;
+        return isMousePressed;
     };
     Button.prototype.draw = function () {
         push();
         rectMode('corner');
         fill(this.color);
-        rect(this.x, this.y, this.height, this.width);
-        fill('white');
-        text(this.dialog, this.x, this.y, this.x + this.width, this.y + this.height);
+        rect(this.x, this.y, this.width, this.height, 10);
+        fill("#673aee");
+        textSize(20);
+        strokeWeight(1);
+        textAlign(CENTER, CENTER);
+        textFont("punkboy");
+        text(this.dialog, this.x, this.y, this.width, this.height);
         pop();
     };
     return Button;
@@ -234,22 +245,59 @@ var GameManager = (function () {
 }());
 var GameMenu = (function () {
     function GameMenu() {
-        this.startGameButton = new Button("Start Game", 100, 100, 200, 100, "brown");
-        this.pauseGameButton = new Button("Pause Game", 200, 100, 200, 100, "blue");
+        this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A");
         this.isGameRunning = false;
+        this.theRandomStars = new randomStar();
         this.gameManager = new GameManager();
         this.world = new World();
         this.paddle = new Paddle();
         this.highScoreLS = 0;
     }
     GameMenu.prototype.update = function () {
-        this.isGameRunning = this.startGameButton.getButtonPressed();
+        if (!this.isGameRunning) {
+            this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
+        }
+        else {
+            this.isGameRunning = true;
+        }
+        gameMenu.startGameButton.clicked(this.isGameRunning);
     };
     GameMenu.prototype.setHighScore = function () {
         this.highScoreLS = this.gameManager.getHighScoreLocalStorage();
     };
     GameMenu.prototype.draw = function () {
         if (!this.isGameRunning) {
+            push();
+            fill("#130B1B");
+            rect(0, 0, windowWidth / 3, windowHeight);
+            pop();
+            push();
+            fill("#E2D8E0");
+            rect(0, 0, 30, windowHeight);
+            pop();
+            push();
+            fill("#E2D8E0");
+            rect(windowWidth / 3 - 30, 0, 30, windowHeight);
+            pop();
+            push();
+            fill("#605559");
+            rect(30, 0, windowWidth / 3 - 60, 30);
+            pop();
+            push();
+            fill("#605559");
+            rect(30, windowHeight - 30, windowWidth / 3 - 60, 30);
+            pop();
+            this.theRandomStars.draw();
+            push();
+            fill("white");
+            textSize(45);
+            textFont("punkboy");
+            textAlign(CENTER, TOP);
+            text("Nobel Popper", windowWidth / 3 / 2, 50);
+            pop();
+            this.startGameButton.draw();
+        }
+        else {
             this.world.update();
             this.world.draw();
             this.gameManager.draw();
@@ -338,6 +386,130 @@ var Player = (function () {
     };
     return Player;
 }());
+var randomStar = (function () {
+    function randomStar() {
+        this.x0 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x1 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x2 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x3 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x4 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x5 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x6 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x7 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x8 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x9 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x10 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x11 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x12 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.y0 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y1 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y2 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y3 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y4 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y5 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y6 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y7 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y8 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y9 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y10 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y11 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+        this.y12 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
+    }
+    randomStar.prototype.draw = function () {
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x0, this.y0);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x1, this.y1);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x2, this.y2);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x3, this.y3);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x4, this.y4);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x5, this.y5);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x6, this.y6);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x7, this.y7);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x8, this.y8);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x9, this.y9);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x10, this.y10);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x11, this.y11);
+        noStroke();
+        pop();
+        push();
+        fill("white");
+        stroke(246, 250, 207);
+        strokeWeight(random(3, 6));
+        point(this.x12, this.y12);
+        noStroke();
+        pop();
+    };
+    return randomStar;
+}());
 var gameMenu;
 var gameRunning;
 function preload() {
@@ -352,7 +524,6 @@ function draw() {
     background(255);
     gameMenu.update();
     gameMenu.draw();
-    noCursor();
 }
 function windowResized() {
     resizeCanvas(windowWidth / 3, windowHeight);
