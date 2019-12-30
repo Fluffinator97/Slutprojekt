@@ -17,7 +17,7 @@ class GameMenu {
   public world: World;
   public paddle: Paddle;
   private highScoreLS: number;
-
+  
   constructor() {
     this.startGameButton = new Button("Start Game", 100, 100, 200, 100, "brown");
     this.pauseGameButton = new Button("Pause Game", 200, 100, 200, 100, "blue");
@@ -28,14 +28,13 @@ class GameMenu {
     this.paddle = new Paddle();
     this.highScoreLS = 0;
   }
-
+  
   public update(): void {
     this.isGameRunning = this.startGameButton.getButtonPressed();
     // this.gameManager.gameStart(this.isGameRunning);
   }
   
   
-
   /* Method */
 
 
@@ -51,15 +50,16 @@ class GameMenu {
   public draw(): void {
     
     if (!this.isGameRunning){
+
+    }
+    else{
       // detta borde ligga in en update metod istället
       this.world.update();
       
-      // this.startGameButton.draw();
-      // this.pauseGameButton.draw();
       this.world.draw();
       this.gameManager.draw();
       this.paddle.draw();
-    }  
+    }
   }
 
 }
