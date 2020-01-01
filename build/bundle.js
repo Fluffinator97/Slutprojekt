@@ -185,12 +185,11 @@ var GameManager = (function () {
     function GameManager() {
         this.time = 0;
         this.difficulty = 0;
-        this.score = 0;
+        this.highScore = 0;
         this.life = 0;
         this.collision = new Collision();
         this.startGame = false;
         this.player = new Player();
-        this.score = 0;
     }
     GameManager.prototype.gameStart = function (startGame) {
         this.startGame = startGame;
@@ -229,14 +228,17 @@ var GameManager = (function () {
     GameManager.prototype.getPlayerName = function () {
         push();
         fill('white');
-        text("player " + this.player.setName(), 200, 380, 300, 300);
+        text("player " + this.player.name, 200, 380, 300, 300);
         pop();
     };
     GameManager.prototype.highScoreLocalStorage = function () {
-        this.score = this.player.getHighScoreLS();
-    };
-    GameManager.prototype.getHighScoreLocalStorage = function () {
-        return this.score;
+        if (this.player.getHighScoreLS() > 1) {
+            this.highScore = this.player.getHighScoreLS();
+        }
+        else {
+            this.highScore = 0;
+        }
+        return this.highScore;
     };
     GameManager.prototype.draw = function () {
         this.player.draw();
@@ -245,15 +247,16 @@ var GameManager = (function () {
 }());
 var GameMenu = (function () {
     function GameMenu() {
-        this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A");
-        this.isGameRunning = false;
-        this.theRandomStars = new randomStar();
         this.gameManager = new GameManager();
+        this.theRandomStars = new randomStar();
+        this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A");
+        this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A");
+        this.isGameRunning = false;
         this.world = new World();
         this.paddle = new Paddle();
-        this.highScoreLS = 0;
     }
     GameMenu.prototype.update = function () {
+        this.gameManager.highScoreLocalStorage();
         if (!this.isGameRunning) {
             this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
         }
@@ -261,9 +264,6 @@ var GameMenu = (function () {
             this.isGameRunning = true;
         }
         gameMenu.startGameButton.clicked(this.isGameRunning);
-    };
-    GameMenu.prototype.setHighScore = function () {
-        this.highScoreLS = this.gameManager.getHighScoreLocalStorage();
     };
     GameMenu.prototype.draw = function () {
         if (!this.isGameRunning) {
@@ -296,6 +296,7 @@ var GameMenu = (function () {
             text("Nobel Popper", windowWidth / 3 / 2, 50);
             pop();
             this.startGameButton.draw();
+            this.highScoreButton.draw();
         }
         else {
             this.world.update();
@@ -338,13 +339,10 @@ var Paddle = (function () {
 var Player = (function () {
     function Player() {
         this.name = "Örjan";
-        this.score = 10;
+        this.score = 0;
         this.life = 3;
         this.highScoreFLS = 0;
     }
-    Player.prototype.setName = function () {
-        return this.name;
-    };
     Player.prototype.removeLife = function () {
         this.life - 1;
     };
@@ -376,6 +374,7 @@ var Player = (function () {
         this.highScoreFLS = JSON.parse(this.highScore);
     };
     Player.prototype.getHighScoreLS = function () {
+        this.setHighScoreLS();
         return this.highScoreFLS;
     };
     Player.prototype.draw = function () {

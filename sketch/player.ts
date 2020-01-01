@@ -4,19 +4,16 @@ class Player {
     public name: string;
     private score: number;
     private life: number;
-    private highScoreFLS: number;
+    public highScoreFLS: number;
     private highScore: any;
 
     constructor() {
         this.name = "Örjan";
-        this.score = 10;
+        this.score = 0;
         this.life = 3;
         this.highScoreFLS = 0;
     }
 
-    public setName(): string {
-        return this.name;
-    }
 
     public removeLife(): void {
         this.life - 1;
@@ -57,6 +54,7 @@ class Player {
     }
 
     public getHighScoreLS(): number {
+        this.setHighScoreLS();
         return this.highScoreFLS;
     }
  

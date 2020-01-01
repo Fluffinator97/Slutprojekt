@@ -3,7 +3,7 @@ class GameManager {
     /* Variable */
     private time: number;
     private difficulty: number;
-    private score: number;
+    public highScore: number;
     private startGame: boolean;
     //private gameOver: boolean;
     private player: Player;
@@ -13,12 +13,11 @@ class GameManager {
     constructor() {
         this.time = 0;
         this.difficulty = 0;
-        this.score = 0;
+        this.highScore = 0;
         this.life = 0;
         this.collision = new Collision();
         this.startGame = false;
         this.player = new Player();
-        this.score = 0;
 
     }
 
@@ -33,7 +32,7 @@ class GameManager {
     }
 
     private setTime(): void {
-        if(this.startGame == true) {
+        if (this.startGame == true) {
             console.log(deltaTime);
         }
     }
@@ -67,22 +66,21 @@ class GameManager {
     public getPlayerName(): void {
         push();
         fill('white')
-        text("player " + this.player.setName(), 200, 380, 300, 300);
+        text("player " + this.player.name, 200, 380, 300, 300);
         pop();
     }
 
-    public highScoreLocalStorage(): void {
-       this.score = this.player.getHighScoreLS();
-    }
-
-    public getHighScoreLocalStorage(): number {
-        return this.score;
+    public highScoreLocalStorage(): number {
+        if(this.player.getHighScoreLS() > 1) {
+            this.highScore = this.player.getHighScoreLS();
+        } else {
+            this.highScore = 0;
+        }
+        return this.highScore;
     }
 
     //private gameOver(): void
     //private endGameDialog(): object
-    //private getScore(): number
-    //private saveScoreTLS(): number
     //private getDeltaTime(): object
 
     public draw(): void {
