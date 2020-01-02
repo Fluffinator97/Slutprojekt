@@ -48,7 +48,6 @@ var Ball = (function () {
                 console.log("hit in Y");
             }
             else {
-                console.log('false');
             }
         }
         if (this.bxpos >= width - this.brad || this.bxpos < this.brad) {
@@ -104,27 +103,22 @@ var Button = (function () {
 }());
 var Collision = (function () {
     function Collision() {
-        this.ball = new Ball();
-        this.paddle = new Paddle();
-        this.collisionBall = false;
-        this.distance = dist(this.paddle.getBoundingCicle().x, this.paddle.getBoundingCicle().y, this.ball.getBoundingCicle().x, this.ball.getBoundingCicle().y);
     }
-    Collision.prototype.ballCollision = function () {
-        if (this.distance < this.paddle.getBoundingCicle().rad + this.ball.getBoundingCicle().rad) {
-            this.ball.flipDirectionY();
+    Collision.prototype.ballCollision = function (ball, paddle) {
+        var distance = dist(paddle.getBoundingCicle().x, paddle.getBoundingCicle().y, ball.getBoundingCicle().x, ball.getBoundingCicle().y);
+        var combinedRadius = paddle.getBoundingCicle().rad + ball.getBoundingCicle().rad;
+        if (distance < combinedRadius) {
+            ball.flipDirectionY();
             console.log("hit");
         }
     };
-    Collision.prototype.dynamiteHit = function (dynamites) {
+    Collision.prototype.dynamiteHit = function (dynamites, ball) {
         for (var i = 0; i < dynamites.length; i++) {
-            console.log(dynamites[i].dxpos);
-            if (dynamites[i].dxpos > this.ball.getBoundingCicle().x && dynamites[i].dypos > this.ball.getBoundingCicle().y) {
+            if (dynamites[i].dxpos > ball.getBoundingCicle().x && dynamites[i].dypos > ball.getBoundingCicle().y) {
                 dynamites[i].hit = true;
                 console.log("Remove");
             }
         }
-    };
-    Collision.prototype.draw = function () {
     };
     return Collision;
 }());
@@ -187,7 +181,6 @@ var GameManager = (function () {
         this.difficulty = 0;
         this.highScore = 0;
         this.life = 0;
-        this.collision = new Collision();
         this.startGame = false;
         this.player = new Player();
     }
@@ -511,21 +504,29 @@ var randomStar = (function () {
 }());
 var gameMenu;
 var gameRunning;
+var song;
 function preload() {
+    soundFormats('mp3');
 }
 function setup() {
-    createCanvas(windowWidth / 3, windowHeight);
+    createCanvas(windowWidth / 1.8, windowHeight);
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
+    song = window.loadSound("/assets/backgroundSound.mp3", loaded);
+    song.setVolume(0.1);
+}
+function loaded() {
+    song.play();
 }
 function draw() {
-    background(255);
+    background(55);
     gameMenu.update();
     gameMenu.draw();
+    noCursor();
 }
 function windowResized() {
-    resizeCanvas(windowWidth / 3, windowHeight);
+    resizeCanvas(windowWidth / 1.8, windowHeight);
 }
 var Sound = (function () {
     function Sound() {
@@ -535,6 +536,7 @@ var Sound = (function () {
 var World = (function () {
     function World() {
         this.ball = new Ball();
+        this.paddle = new Paddle();
         this.collision = new Collision();
         this.dynamites = [];
         this.interval = 3000;
@@ -559,7 +561,7 @@ var World = (function () {
         }
     };
     World.prototype.checkDynamites = function () {
-        this.collision.dynamiteHit(this.dynamites);
+        this.collision.dynamiteHit(this.dynamites, this.ball);
     };
     World.prototype.removeDynamite = function () {
         for (var index = 0; index < this.dynamites.length; index++) {
@@ -598,7 +600,6 @@ var World = (function () {
             dynamite.draw();
         }
         this.removeDynamite();
-        this.collision.draw();
         this.checkDynamites();
     };
     return World;
