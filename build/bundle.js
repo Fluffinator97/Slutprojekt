@@ -45,7 +45,6 @@ var Ball = (function () {
         if (this.bydirection == 1) {
             if (this.distance < 1) {
                 this.bydirection *= -1;
-                console.log("hit in Y");
             }
             else {
             }
@@ -129,6 +128,7 @@ var Dynamite = (function () {
         this.dypos = 1;
         this.dxpos = 0;
         this.hit = false;
+        this.particles = [];
     }
     Dynamite.prototype.counterYPos = function () {
         for (this.dypos < height + 37; this.dypos++;) {
@@ -154,6 +154,12 @@ var Dynamite = (function () {
         rectMode(CENTER);
         fill('red');
         rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
+        this.particles.push(new Particle(this.randomXPos(), this.counterYPos() - 40));
+        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
+            var particle = _a[_i];
+            particle.show();
+        }
+        noStroke();
     };
     return Dynamite;
 }());
@@ -328,6 +334,26 @@ var Paddle = (function () {
         this.xc = constrain(mouseX, this.leftWall, this.rightWall);
     };
     return Paddle;
+}());
+var Particle = (function () {
+    function Particle(x, y) {
+        this.particleX = x;
+        this.particleY = y;
+        this.particleVX = 0;
+        this.particleVY = 0;
+        this.alpha = 255;
+    }
+    Particle.prototype.update = function () {
+        this.particleVX = random(-3, 3);
+        this.particleVY = random(-5, -1);
+        this.alpha -= 25;
+    };
+    Particle.prototype.show = function () {
+        this.update();
+        fill(255, 233, 152, this.alpha);
+        ellipse(this.particleX += this.particleVX, this.particleY += this.particleVY, 5);
+    };
+    return Particle;
 }());
 var Player = (function () {
     function Player() {
