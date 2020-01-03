@@ -1,6 +1,6 @@
 let gameMenu: GameMenu;
 let gameRunning: boolean;
-
+let song: p5.SoundFile;
 
 /**
  * Built in preload function in P5
@@ -8,10 +8,11 @@ let gameRunning: boolean;
  * sound files, images etc...
  */
 function preload() {
+    soundFormats('mp3');
+    // song = (window as any).loadSound('../assets/backgroundSound.mp3');
     // Tyvärr har jag inte fått till den globala typningen för
     // inladdningen av ljud men fungerar bra enligt nedan..
     // sound = (window as any).loadSound('../assets/mySound.wav');
-
 }
 
 /**
@@ -21,10 +22,17 @@ function preload() {
  * in the draw function below
  */
 function setup() {
-    createCanvas(windowWidth / 3, windowHeight);
+    createCanvas(windowWidth / 1.8, windowHeight);
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
+    song = (window as any).loadSound("/assets/backgroundSound.mp3", loaded);
+    // song.play();
+    song.setVolume(0.1);
+}
+
+function loaded() {
+    song.play();
 }
 
 /**
@@ -33,17 +41,15 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
-    background(255);
+    background(55);
     gameMenu.update();
     gameMenu.draw();
-
+    noCursor();
 }
-
 
 /**
  *  Built in windowResize listener function in P5
  */
 function windowResized() {
-    resizeCanvas(windowWidth / 3, windowHeight);
+    resizeCanvas(windowWidth / 1.8, windowHeight);
 }
-

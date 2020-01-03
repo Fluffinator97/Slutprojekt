@@ -13,6 +13,7 @@ class World {
 
     constructor() {
         this.ball = new Ball();
+        this.paddle = new Paddle();
         this.collision = new Collision();
         this.dynamites = [];
         this.interval = 3000;
@@ -43,7 +44,7 @@ class World {
     }
 
     private checkDynamites() {
-        this.collision.dynamiteHit(this.dynamites);
+        this.collision.dynamiteHit(this.dynamites, this.ball);
     }
     
     private removeDynamite(): void {
@@ -101,7 +102,6 @@ class World {
             dynamite.draw();
         }
         this.removeDynamite();
-        this.collision.draw();
         this.checkDynamites();
         // console.log("BallX ", this.ball.updateBallX());
         // console.log("BallY ", this.ball.updateBallY());
