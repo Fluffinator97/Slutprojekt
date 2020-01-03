@@ -15,6 +15,7 @@ class Dynamite {
     public dypos: number;
     public dxpos: number;
     public hit: boolean;
+    public particles: Particle[];
 
 
     constructor() {
@@ -23,6 +24,8 @@ class Dynamite {
         this.dypos = 1;
         this.dxpos = 0;
         this.hit = false;
+        this.particles = [];
+
     }
 
     /* Method */
@@ -56,6 +59,12 @@ class Dynamite {
         rectMode(CENTER);
         fill('red');
         rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
+
+        this.particles.push(new Particle(this.randomXPos(), this.counterYPos() - 40));
+        for (const particle of this.particles) {
+            particle.show();
+        }
+        noStroke();
     }
 
     // private explode(): nice;

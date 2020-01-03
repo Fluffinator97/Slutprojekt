@@ -76,9 +76,9 @@ class Ball {
         if (this.bydirection == 1) {
             if (this.distance < 1) {
                 this.bydirection *= -1;
-                console.log("hit in Y");
+                // console.log("hit in Y");
             } else {
-                console.log('false')
+                // console.log('false')
             }
         }
         if (this.bxpos >= width - this.brad || this.bxpos < this.brad) {

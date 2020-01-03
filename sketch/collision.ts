@@ -27,7 +27,7 @@ class Collision {
     public dynamiteHit(dynamites: any[]) {
         // let test = [];
         for (let i = 0; i < dynamites.length; i++) {
-            console.log(dynamites[i].dxpos);
+            // console.log(dynamites[i].dxpos);
             if(dynamites[i].dxpos > this.ball.getBoundingCicle().x && dynamites[i].dypos > this.ball.getBoundingCicle().y) {
                 dynamites[i].hit = true;
                 console.log("Remove");

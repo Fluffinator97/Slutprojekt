@@ -6,7 +6,7 @@ class World {
     private dynamites: Dynamite[];
     private interval: number;
     private time: number;
-    private paddle: Paddle;
+    // private paddle: Paddle;
     private collision: Collision;
     public loaded: boolean;
 
