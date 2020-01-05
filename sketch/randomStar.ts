@@ -29,19 +29,19 @@ class randomStar {
     private y12: number;
 
     constructor() {
-        this.x0 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x1 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x2 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x3 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x4 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x5 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x6 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x7 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x8 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x9 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x10 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x11 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
-        this.x12 = Math.floor(Math.random() * (windowWidth/1.8-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x0 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x1 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x2 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x3 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x4 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x5 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x6 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x7 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x8 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x9 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x10 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x11 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
+        this.x12 = Math.floor(Math.random() * (windowWidth/3-30 - 105 + 1) + 105);  // returns a random X angle
 
         this.y0 = Math.floor(Math.random() * (windowHeight-30 - 35 + 1) + 35);  // returns a random Y angle
         this.y1 = Math.floor(Math.random() * (windowHeight-30 - 35 + 1) + 35);  // returns a random Y angle
