@@ -16,6 +16,7 @@ class Dynamite {
     public dxpos: number;
     public hit: boolean;
     public particles: Particle[];
+    private player: Player;
 
 
     constructor() {
@@ -25,6 +26,7 @@ class Dynamite {
         this.dxpos = 0;
         this.hit = false;
         this.particles = [];
+        this.player = new Player();
 
     }
 
@@ -54,15 +56,27 @@ class Dynamite {
         }
     }
 
+    public explode() {
+        this.particles.push(new Particle(this.randomXPos(), this.counterYPos()));
+        for (const particle of this.particles) {
+            particle.explotion();
+        }
+    }
+
 
     public draw() {
         rectMode(CENTER);
         fill('red');
         rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
+        fill('white');
 
         this.particles.push(new Particle(this.randomXPos(), this.counterYPos() - 40));
         for (const particle of this.particles) {
-            particle.show();
+            particle.fire();
+        }
+
+        if(this.hit === true) {
+            this.explode();
         }
         noStroke();
     }

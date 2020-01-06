@@ -115,6 +115,7 @@ var Collision = (function () {
         for (var i = 0; i < dynamites.length; i++) {
             if (dynamites[i].dxpos > ball.getBoundingCicle().x && dynamites[i].dypos > ball.getBoundingCicle().y) {
                 dynamites[i].hit = true;
+                dynamites[i].explode();
                 console.log("Remove");
             }
         }
@@ -129,6 +130,7 @@ var Dynamite = (function () {
         this.dxpos = 0;
         this.hit = false;
         this.particles = [];
+        this.player = new Player();
     }
     Dynamite.prototype.counterYPos = function () {
         for (this.dypos < height + 37; this.dypos++;) {
@@ -150,14 +152,25 @@ var Dynamite = (function () {
             hit: this.hit
         };
     };
+    Dynamite.prototype.explode = function () {
+        this.particles.push(new Particle(this.randomXPos(), this.counterYPos()));
+        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
+            var particle = _a[_i];
+            particle.explotion();
+        }
+    };
     Dynamite.prototype.draw = function () {
         rectMode(CENTER);
         fill('red');
         rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
+        fill('white');
         this.particles.push(new Particle(this.randomXPos(), this.counterYPos() - 40));
         for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
             var particle = _a[_i];
-            particle.show();
+            particle.fire();
+        }
+        if (this.hit === true) {
+            this.explode();
         }
         noStroke();
     };
@@ -341,17 +354,31 @@ var Particle = (function () {
         this.particleY = y;
         this.particleVX = 0;
         this.particleVY = 0;
+        this.particleVXE = 0;
+        this.particleVYE = 0;
         this.alpha = 255;
+        this.alphaE = 255;
     }
     Particle.prototype.update = function () {
         this.particleVX = random(-3, 3);
         this.particleVY = random(-5, -1);
+        this.particleVXE = random(-60, 60);
+        this.particleVYE = random(0, 10);
         this.alpha -= 25;
+        this.alphaE -= 5;
     };
-    Particle.prototype.show = function () {
+    Particle.prototype.fire = function () {
         this.update();
         fill(255, 233, 152, this.alpha);
         ellipse(this.particleX += this.particleVX, this.particleY += this.particleVY, 5);
+    };
+    Particle.prototype.explotion = function () {
+        this.update();
+        strokeWeight(1);
+        stroke(255, 233, 52, this.alphaE);
+        fill(255, 233, 152, this.alphaE);
+        ellipse(this.particleX += this.particleVXE, this.particleY += this.particleVYE, 8);
+        noStroke();
     };
     return Particle;
 }());
