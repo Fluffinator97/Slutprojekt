@@ -113,10 +113,11 @@ var Collision = (function () {
     };
     Collision.prototype.dynamiteHit = function (dynamites, ball) {
         for (var i = 0; i < dynamites.length; i++) {
-            if (dynamites[i].dxpos > ball.getBoundingCicle().x && dynamites[i].dypos > ball.getBoundingCicle().y) {
+            if (dynamites[i].dxpos + 22 > ball.getBoundingCicle().x - 18 && dynamites[i].dxpos - 22 < ball.getBoundingCicle().x + 18
+                && dynamites[i].dypos + 45 > ball.getBoundingCicle().y - 18 && dynamites[i].dypos - 45 < ball.getBoundingCicle().y + 18) {
                 dynamites[i].hit = true;
                 dynamites[i].explode();
-                console.log("Remove");
+                console.log("Hit");
             }
         }
     };
