@@ -50,15 +50,17 @@ var Ball = (function () {
         }
         if (this.bxpos >= width - this.brad || this.bxpos < this.brad) {
             this.bxdirection *= -1;
+            bounceI.play();
         }
         if (this.bypos >= height - this.brad || this.bypos < this.brad) {
             this.bydirection *= -1;
+            bounceI.play();
         }
     };
     return Ball;
 }());
 var Button = (function () {
-    function Button(dialog, x, y, width, height, color) {
+    function Button(dialog, x, y, width, height, color, fontColor) {
         this.dialog = dialog;
         this.y = y;
         this.x = x;
@@ -66,6 +68,7 @@ var Button = (function () {
         this.width = width;
         this.color = color;
         this.isMouseDown = false;
+        this.fontColor = fontColor;
     }
     Button.prototype.clicked = function (isGameRunning) {
         var left = this.x;
@@ -89,7 +92,7 @@ var Button = (function () {
         rectMode('corner');
         fill(this.color);
         rect(this.x, this.y, this.width, this.height, 10);
-        fill("#673aee");
+        fill(this.fontColor);
         textSize(20);
         strokeWeight(1);
         textAlign(CENTER, CENTER);
@@ -111,6 +114,7 @@ var Collision = (function () {
             if (distance <= combinedRadius) {
                 ball.flipDirectionY();
                 console.log("hit paddle...");
+                bounceI.play();
             }
         }
     };
@@ -167,8 +171,14 @@ var Dynamite = (function () {
         fill('red');
         rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
         fill('white');
+        this.particles.push(new Particle(this.randomXPos(), this.counterYPos() - 40));
+        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
+            var particle = _a[_i];
+            particle.fire();
+        }
         if (this.hit === true) {
             this.explode();
+            explosion.play();
         }
         noStroke();
     };
@@ -234,10 +244,12 @@ var GameMenu = (function () {
     function GameMenu() {
         this.gameManager = new GameManager();
         this.theRandomStars = new randomStar();
-        this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A");
-        this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A");
+        this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A", "#673aee");
+        this.muteButton = new Button("Mute", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A", "#673aee");
+        this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 1.35, 200, 100, "#673aee", "#EEAA3A");
         this.isGameRunning = false;
         this.world = new World();
+        this.mute = false;
     }
     GameMenu.prototype.update = function () {
         this.gameManager.highScoreLocalStorage();
@@ -280,6 +292,7 @@ var GameMenu = (function () {
             text("Nobel Popper", windowWidth / 3 / 2, 50);
             pop();
             this.startGameButton.draw();
+            this.muteButton.draw();
             this.highScoreButton.draw();
         }
         else {
@@ -341,6 +354,7 @@ var Particle = (function () {
     };
     Particle.prototype.fire = function () {
         this.update();
+        noStroke();
         fill(255, 233, 152, this.alpha);
         ellipse(this.particleX += this.particleVX, this.particleY += this.particleVY, 5);
     };
@@ -530,19 +544,28 @@ var randomStar = (function () {
 var gameMenu;
 var gameRunning;
 var song;
+var bounceI;
+var bounceIII;
+var explosion;
+var music;
 function preload() {
     soundFormats('mp3');
+    bounceI = window.loadSound('assets/sound/bounceI');
+    bounceIII = window.loadSound('assets/sound/bounceIII.mp3');
+    explosion = window.loadSound('assets/sound/explosion.mp3');
 }
 function setup() {
     createCanvas(windowWidth / 3, windowHeight);
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
-    song = window.loadSound("/assets/backgroundSound.mp3", loaded);
-    song.setVolume(0.1);
+    song = window.loadSound("/assets/sound/musicIII.mp3", loaded);
+    song.setVolume(0.2);
+    explosion.setVolume(0.3);
+    bounceI.setVolume(0.7);
 }
 function loaded() {
-    song.play();
+    song.loop();
 }
 function draw() {
     background(55);
@@ -555,11 +578,6 @@ function draw() {
 function windowResized() {
     resizeCanvas(windowWidth / 3, windowHeight);
 }
-var Sound = (function () {
-    function Sound() {
-    }
-    return Sound;
-}());
 var World = (function () {
     function World() {
         this.ball = new Ball();

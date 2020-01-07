@@ -9,8 +9,9 @@ class Button {
     public dialog: string;
     public color: string;
     private isMouseDown: boolean;
+    private fontColor: string;
 
-    constructor(dialog: string, x: number, y: number, width: number, height: number, color: string) {
+    constructor(dialog: string, x: number, y: number, width: number, height: number, color: string, fontColor: string) {
         this.dialog = dialog;
         this.y = y;
         this.x = x;
@@ -18,6 +19,7 @@ class Button {
         this.width = width;
         this.color = color;
         this.isMouseDown = false;
+        this.fontColor = fontColor;
     }
 
     public clicked(isGameRunning:boolean): boolean {
@@ -40,6 +42,9 @@ class Button {
         return isMousePressed;
     }
 
+
+
+
     /* Method */
     
     public draw(): void {
@@ -48,7 +53,7 @@ class Button {
         rectMode('corner')
         fill(this.color)
         rect(this.x, this.y, this.width, this.height, 10);
-        fill("#673aee")
+        fill(this.fontColor)
         textSize(20);
         strokeWeight(1);
         textAlign(CENTER, CENTER);

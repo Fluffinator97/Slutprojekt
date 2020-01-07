@@ -33,6 +33,7 @@ class Particle {
 
     public fire() {
         this.update();
+        noStroke();
         fill(255, 233, 152  , this.alpha)
         ellipse(this.particleX += this.particleVX, this.particleY += this.particleVY, 5);
     }
