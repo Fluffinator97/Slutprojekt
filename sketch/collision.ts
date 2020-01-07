@@ -16,6 +16,8 @@ class Collision {
           if (distance <= combinedRadius) {
               ball.flipDirectionY();
               console.log("hit paddle...");
+              bounceI.play();
+
               // this.collisionBall = true;
           }}
     }

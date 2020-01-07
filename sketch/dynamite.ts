@@ -70,19 +70,16 @@ class Dynamite {
         rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
         fill('white');
 
-        // this.particles.push(new Particle(this.randomXPos(), this.counterYPos() - 40));
-        // for (const particle of this.particles) {
-        //     particle.fire();
-        // }
+        this.particles.push(new Particle(this.randomXPos(), this.counterYPos() - 40));
+        for (const particle of this.particles) {
+            particle.fire();
+        }
 
         if(this.hit === true) {
             this.explode();
+            explosion.play();
         }
         noStroke();
     }
-
-    // private explode(): nice;
-    // private xDirection(): number;
-    // private XPosition(): number;
 
 }

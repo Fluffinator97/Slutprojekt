@@ -81,8 +81,11 @@ class Ball {
         }
         if (this.bxpos >= width - this.brad || this.bxpos < this.brad) {
             this.bxdirection *= -1;
+            bounceI.play();
         } if (this.bypos >= height - this.brad || this.bypos < this.brad) {
             this.bydirection *= -1;
+            bounceI.play();
+
         }
     }
 }

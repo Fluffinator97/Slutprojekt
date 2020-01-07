@@ -9,27 +9,31 @@ class GameMenu {
   // private gameManager: GameManager;
   // public input: boolean; 
   // public highscore: number;
-  // public gameState : boolean;
   public isGameRunning: boolean;
   public startGameButton: Button;
+  public muteButton: Button;
   public highScoreButton: Button;
   public theRandomStars: randomStar;
   public gameManager: GameManager;
   public world: World;
+  public mute: boolean;
 
   constructor() {
     this.gameManager = new GameManager();
     this.theRandomStars = new randomStar();
 
-    this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A");
-    this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A");
+    this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A", "#673aee");
+    this.muteButton = new Button("Mute", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A", "#673aee");
+    this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 1.35, 200, 100, "#673aee", "#EEAA3A");
     this.isGameRunning = false;
     // this.gameState = false;
     this.world = new World();
+    this.mute = false;
   }
 
   public update(): void {
     this.gameManager.highScoreLocalStorage();
+
     if (!this.isGameRunning) {
       this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
     }
@@ -37,6 +41,8 @@ class GameMenu {
       this.isGameRunning = true;
     }
     gameMenu.startGameButton.clicked(this.isGameRunning);
+
+    // Lägg till en mute funktion
 
   }
 
@@ -91,11 +97,12 @@ class GameMenu {
       pop();
 
       this.startGameButton.draw();
+      this.muteButton.draw();
       this.highScoreButton.draw();
     }
     else {
       // detta borde ligga in en update metod istället
-    
+
       this.world.update();
       this.world.draw(this.theRandomStars);
       this.gameManager.draw();

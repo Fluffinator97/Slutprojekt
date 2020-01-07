@@ -1,6 +1,14 @@
 let gameMenu: GameMenu;
 let gameRunning: boolean;
+let mute: boolean;
+
+/* Sounds*/
 let song: p5.SoundFile;
+let bounceI: p5.SoundFile;
+let bounceIII: p5.SoundFile;
+let explosion: p5.SoundFile;
+let music: p5.SoundFile;
+
 
 /**
  * Built in preload function in P5
@@ -9,11 +17,12 @@ let song: p5.SoundFile;
  */
 function preload() {
     soundFormats('mp3');
-    // song = (window as any).loadSound('../assets/backgroundSound.mp3');
-    // Tyvärr har jag inte fått till den globala typningen för
-    // inladdningen av ljud men fungerar bra enligt nedan..
-    // sound = (window as any).loadSound('../assets/mySound.wav');
+    bounceI = (window as any).loadSound('assets/sound/bounceI');
+    bounceIII = (window as any).loadSound('assets/sound/bounceIII.mp3');
+    // music = (window as any).loadSound('assets/sound/musicIII.mp3');
+    explosion = (window as any).loadSound('assets/sound/explosion.mp3')
 }
+
 
 /**
  * Built in setup function in P5
@@ -26,13 +35,19 @@ function setup() {
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
-    song = (window as any).loadSound("/assets/backgroundSound.mp3", loaded);
+    song = (window as any).loadSound("/assets/sound/musicIII.mp3", loaded);
     // song.play();
-    song.setVolume(0.1);
+    song.setVolume(0.2);
+    explosion.setVolume(0.3);
+    bounceI.setVolume(0.7);
 }
 
+
 function loaded() {
-    song.play();
+    song.loop();
+
+
+    // bounceI.loop()
 }
 
 /**
