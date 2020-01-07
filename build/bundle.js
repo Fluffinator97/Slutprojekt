@@ -313,7 +313,7 @@ var GameMenu = (function () {
         }
         else {
             this.world.update();
-            this.world.draw();
+            this.world.draw(this.theRandomStars);
             this.gameManager.draw();
             this.paddle.draw();
         }
@@ -434,19 +434,19 @@ var Player = (function () {
 }());
 var randomStar = (function () {
     function randomStar() {
-        this.x0 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x1 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x2 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x3 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x4 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x5 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x6 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x7 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x8 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x9 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x10 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x11 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
-        this.x12 = Math.floor(Math.random() * (windowWidth / 1.8 - 30 - 105 + 1) + 105);
+        this.x0 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x1 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x2 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x3 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x4 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x5 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x6 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x7 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x8 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x9 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x10 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x11 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
+        this.x12 = Math.floor(Math.random() * (windowWidth / 3 - 30 - 105 + 1) + 105);
         this.y0 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
         this.y1 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
         this.y2 = Math.floor(Math.random() * (windowHeight - 30 - 35 + 1) + 35);
@@ -563,7 +563,7 @@ function preload() {
     soundFormats('mp3');
 }
 function setup() {
-    createCanvas(windowWidth / 1.8, windowHeight);
+    createCanvas(windowWidth / 3, windowHeight);
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
@@ -577,7 +577,9 @@ function draw() {
     background(55);
     gameMenu.update();
     gameMenu.draw();
-    noCursor();
+    if (gameMenu.isGameRunning == true) {
+        noCursor();
+    }
 }
 function windowResized() {
     resizeCanvas(windowWidth / 1.8, windowHeight);
@@ -590,7 +592,6 @@ var Sound = (function () {
 var World = (function () {
     function World() {
         this.ball = new Ball();
-        this.paddle = new Paddle();
         this.collision = new Collision();
         this.dynamites = [];
         this.interval = 3000;
@@ -633,21 +634,9 @@ var World = (function () {
             line(0, i, width, i);
         }
     };
-    World.prototype.dots = function () {
-        stroke(246, 250, 207);
-        strokeWeight(random(3, 6));
-        point(width / 2.5, height / 4);
-        point(width / 2, height / 2);
-        point(width / 1.5, height / 2.9);
-        point(width / 5.5, height / 2.5);
-        point(width / 1.5, height / 1.1);
-        point(width / 5.5, height / 1.2);
-        point(width / 1.5, height / 1.9);
-        noStroke();
-    };
-    World.prototype.draw = function () {
+    World.prototype.draw = function (theRandomStars) {
         this.gradient();
-        this.dots();
+        theRandomStars.draw();
         this.ball.draw();
         for (var _i = 0, _a = this.dynamites; _i < _a.length; _i++) {
             var dynamite = _a[_i];

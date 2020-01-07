@@ -32,7 +32,6 @@ class GameMenu {
 
   public update(): void {
     this.gameManager.highScoreLocalStorage();
-    // this.gameManager.gameStart(this.isGameRunning);
     if (!this.isGameRunning) {
       this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
     }
@@ -100,7 +99,7 @@ class GameMenu {
       // detta borde ligga in en update metod istället
     
       this.world.update();
-      this.world.draw();
+      this.world.draw(this.theRandomStars);
       this.gameManager.draw();
       this.paddle.draw();
     }

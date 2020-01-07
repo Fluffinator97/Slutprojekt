@@ -13,7 +13,7 @@ class World {
 
     constructor() {
         this.ball = new Ball();
-        this.paddle = new Paddle();
+        // this.paddle = new Paddle();
         this.collision = new Collision();
         this.dynamites = [];
         this.interval = 3000;
@@ -66,23 +66,7 @@ class World {
         }
     }
 
-    private dots(): void {
-        stroke(246, 250, 207);
-        strokeWeight(random(3, 6));
-        // for (let i = 0; i < 10; i++) {
-        //     point(random(width / 100, width), random(height / 100, height));
-        // }
-        point(width / 2.5,height / 4);
-        point(width / 2, height / 2);
-        point(width / 1.5 ,height / 2.9);
-        point(width / 5.5 ,height / 2.5);
-        point(width / 1.5 ,height / 1.1);
-        point(width / 5.5 ,height / 1.2);
-        point(width / 1.5 ,height / 1.9);
-        noStroke();
 
-    }
-    
     //     if (this.dynamites[] > height){
     //         this.time = 0;
     //     }
@@ -94,9 +78,9 @@ class World {
     // private spawnNew(): object;
     // private collision(): object;
 
-    public draw(): void {
+    public draw(theRandomStars:any): void {
         this.gradient();
-        this.dots();
+        theRandomStars.draw();
         this.ball.draw();
         for (const dynamite of this.dynamites) {
             dynamite.draw();

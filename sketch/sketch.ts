@@ -22,7 +22,7 @@ function preload() {
  * in the draw function below
  */
 function setup() {
-    createCanvas(windowWidth / 1.8, windowHeight);
+    createCanvas(windowWidth / 3, windowHeight);
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
@@ -44,7 +44,10 @@ function draw() {
     background(55);
     gameMenu.update();
     gameMenu.draw();
-    noCursor();
+
+    if (gameMenu.isGameRunning == true) {
+        noCursor();
+    }
 }
 
 /**
