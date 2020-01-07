@@ -2,13 +2,22 @@ class Collision {
 
     /* Method */
     public ballCollision(ball: Ball, paddle: Paddle): void {
-        const distance = dist(paddle.getBoundingCicle().x, paddle.getBoundingCicle().y, ball.getBoundingCicle().x, ball.getBoundingCicle().y);
+        const { x, y, rad } = paddle.getBoundingCicle()
+
+        const distance = dist(x, y, ball.getBoundingCicle().x, ball.getBoundingCicle().y);
+        console.log(distance)
         const combinedRadius = paddle.getBoundingCicle().rad + ball.getBoundingCicle().rad;
-        if (distance < combinedRadius) {
-            ball.flipDirectionY();
-            console.log("hit");
-            // this.collisionBall = true;
-        }
+        // if ( paddle.getBoundingCicle().x + 30 >= ball.getBoundingCicle().x - 18  || paddle.getBoundingCicle().x - 30 >= ball.getBoundingCicle().x + 18 ||
+        //     paddle.getBoundingCicle().y + 30 >= ball.getBoundingCicle().y - 18  || paddle.getBoundingCicle().y - 30 >= ball.getBoundingCicle().y + 18) {
+        //     ball.flipDirectionY();
+        //     console.log("hit");
+        // }
+        if (ball.bydirection == 1){
+          if (distance <= combinedRadius) {
+              ball.flipDirectionY();
+              console.log("hit paddle...");
+              // this.collisionBall = true;
+          }}
     }
 
     public dynamiteHit(dynamites: Dynamite[], ball: Ball): void {

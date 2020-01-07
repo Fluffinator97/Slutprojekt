@@ -8,7 +8,6 @@ var Ball = (function () {
         this.bydirection = 1;
         this.bxpos = width / 2;
         this.bypos = height / 4;
-        this.paddle = new Paddle();
         this.distance = 0;
     }
     Ball.prototype.getBoundingCicle = function () {
@@ -104,11 +103,15 @@ var Collision = (function () {
     function Collision() {
     }
     Collision.prototype.ballCollision = function (ball, paddle) {
-        var distance = dist(paddle.getBoundingCicle().x, paddle.getBoundingCicle().y, ball.getBoundingCicle().x, ball.getBoundingCicle().y);
+        var _a = paddle.getBoundingCicle(), x = _a.x, y = _a.y, rad = _a.rad;
+        var distance = dist(x, y, ball.getBoundingCicle().x, ball.getBoundingCicle().y);
+        console.log(distance);
         var combinedRadius = paddle.getBoundingCicle().rad + ball.getBoundingCicle().rad;
-        if (distance < combinedRadius) {
-            ball.flipDirectionY();
-            console.log("hit");
+        if (ball.bydirection == 1) {
+            if (distance <= combinedRadius) {
+                ball.flipDirectionY();
+                console.log("hit paddle...");
+            }
         }
     };
     Collision.prototype.dynamiteHit = function (dynamites, ball) {
@@ -131,7 +134,6 @@ var Dynamite = (function () {
         this.dxpos = 0;
         this.hit = false;
         this.particles = [];
-        this.player = new Player();
     }
     Dynamite.prototype.counterYPos = function () {
         for (this.dypos < height + 37; this.dypos++;) {
@@ -165,11 +167,6 @@ var Dynamite = (function () {
         fill('red');
         rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
         fill('white');
-        this.particles.push(new Particle(this.randomXPos(), this.counterYPos() - 40));
-        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
-            var particle = _a[_i];
-            particle.fire();
-        }
         if (this.hit === true) {
             this.explode();
         }
@@ -197,10 +194,7 @@ var GameControl = (function () {
 }());
 var GameManager = (function () {
     function GameManager() {
-        this.time = 0;
-        this.difficulty = 0;
         this.highScore = 0;
-        this.life = 0;
         this.startGame = false;
         this.player = new Player();
     }
@@ -215,28 +209,6 @@ var GameManager = (function () {
         if (this.startGame == true) {
             console.log(deltaTime);
         }
-    };
-    GameManager.prototype.getTime = function () {
-        this.setTime();
-        push();
-        fill('white');
-        text("time " + this.time, 200, 300, 300, 300);
-        pop();
-        return this.time;
-    };
-    GameManager.prototype.updateDifficulty = function () {
-        push();
-        fill('white');
-        text("difficulty " + this.difficulty, 200, 320, 300, 300);
-        pop();
-    };
-    GameManager.prototype.updateLife = function () {
-        this.life = this.player.setLife();
-        push();
-        fill('white');
-        text("life " + this.life, 200, 400, 300, 300);
-        pop();
-        return this.life;
     };
     GameManager.prototype.getPlayerName = function () {
         push();
@@ -266,7 +238,6 @@ var GameMenu = (function () {
         this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A");
         this.isGameRunning = false;
         this.world = new World();
-        this.paddle = new Paddle();
     }
     GameMenu.prototype.update = function () {
         this.gameManager.highScoreLocalStorage();
@@ -315,16 +286,14 @@ var GameMenu = (function () {
             this.world.update();
             this.world.draw(this.theRandomStars);
             this.gameManager.draw();
-            this.paddle.draw();
         }
     };
     return GameMenu;
 }());
 var Paddle = (function () {
     function Paddle() {
-        this.gameControll = new GameControl();
-        this.ypos = this.gameControll.updateYpos();
-        this.xpos = this.gameControll.updateXpos();
+        this.ypos = mouseY;
+        this.xpos = mouseX;
         this.rwidth = width * .3;
         this.rheight = 15;
         this.erad = width * .075;
@@ -339,13 +308,15 @@ var Paddle = (function () {
         };
     };
     Paddle.prototype.draw = function () {
+        this.ypos = mouseY;
+        this.xpos = mouseX;
         ellipseMode(RADIUS);
         rectMode(CENTER);
         fill('lightblue');
-        ellipse(this.xc, mouseY, this.erad, this.erad);
+        ellipse(this.xc, this.ypos, this.erad, this.erad);
         fill('purple');
-        rect(this.xc, mouseY, this.rwidth, this.rheight, 10);
-        this.xc = constrain(mouseX, this.leftWall, this.rightWall);
+        rect(this.xc, this.ypos, this.rwidth, this.rheight, 10);
+        this.xc = constrain(this.xpos, this.leftWall, this.rightWall);
     };
     return Paddle;
 }());
@@ -582,7 +553,7 @@ function draw() {
     }
 }
 function windowResized() {
-    resizeCanvas(windowWidth / 1.8, windowHeight);
+    resizeCanvas(windowWidth / 3, windowHeight);
 }
 var Sound = (function () {
     function Sound() {
@@ -592,6 +563,7 @@ var Sound = (function () {
 var World = (function () {
     function World() {
         this.ball = new Ball();
+        this.paddle = new Paddle();
         this.collision = new Collision();
         this.dynamites = [];
         this.interval = 3000;
@@ -625,6 +597,9 @@ var World = (function () {
             }
         }
     };
+    World.prototype.checkBall = function () {
+        this.collision.ballCollision(this.ball, this.paddle);
+    };
     World.prototype.gradient = function () {
         noFill();
         for (var i = 0; i < height; i++) {
@@ -638,12 +613,14 @@ var World = (function () {
         this.gradient();
         theRandomStars.draw();
         this.ball.draw();
+        this.paddle.draw();
         for (var _i = 0, _a = this.dynamites; _i < _a.length; _i++) {
             var dynamite = _a[_i];
             dynamite.draw();
         }
         this.removeDynamite();
         this.checkDynamites();
+        this.checkBall();
     };
     return World;
 }());

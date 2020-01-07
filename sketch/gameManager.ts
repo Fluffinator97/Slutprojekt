@@ -1,20 +1,20 @@
 class GameManager {
 
     /* Variable */
-    private time: number;
-    private difficulty: number;
+    //private time: number;
+    //private difficulty: number;
     public highScore: number;
     private startGame: boolean;
     //private gameOver: boolean;
     private player: Player;
-    private life: number;
+    //private life: number;
     // public collision: Collision;
 
     constructor() {
-        this.time = 0;
-        this.difficulty = 0;
+        //this.time = 0;
+        //this.difficulty = 0;
         this.highScore = 0;
-        this.life = 0;
+        //this.life = 0;
         // this.collision = new Collision();
         this.startGame = false;
         this.player = new Player();
@@ -38,31 +38,31 @@ class GameManager {
         }
     }
 
-    private getTime(): number {
-        this.setTime();
-        push();
-        fill('white')
-        text("time " + this.time, 200, 300, 300, 300);
-        pop();
-        return this.time;
-    }
+    // private getTime(): number {
+    //     this.setTime();
+    //     push();
+    //     fill('white')
+    //     text("time " + this.time, 200, 300, 300, 300);
+    //     pop();
+    //     return this.time;
+    // }
 
-    private updateDifficulty(): void {
-        push();
-        fill('white')
-        text("difficulty " + this.difficulty, 200, 320, 300, 300);
-        pop();
-    }
+    // private updateDifficulty(): void {
+    //     push();
+    //     fill('white')
+    //     text("difficulty " + this.difficulty, 200, 320, 300, 300);
+    //     pop();
+    // }
 
 
-    private updateLife(): number {
-        this.life = this.player.setLife();
-        push();
-        fill('white')
-        text("life " + this.life, 200, 400, 300, 300);
-        pop();
-        return this.life;
-    }
+    // private updateLife(): number {
+    //     this.life = this.player.setLife();
+    //     push();
+    //     fill('white')
+    //     text("life " + this.life, 200, 400, 300, 300);
+    //     pop();
+    //     return this.life;
+    // }
 
     public getPlayerName(): void {
         push();

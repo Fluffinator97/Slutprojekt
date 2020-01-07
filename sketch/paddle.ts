@@ -17,17 +17,17 @@ class Paddle {
     private rightWall: number;
 
 
-    private gameControll: GameControl;
+    //private gameControll: GameControl;
     // public theBall: Object;
     
     /* Method */
 
     constructor() {
-        this.gameControll = new GameControl();
+        //this.gameControll = new GameControl();
         // this.ball = new Ball();
         // this.theBall = this.ball.getBall();
-        this.ypos = this.gameControll.updateYpos();
-        this.xpos = this.gameControll.updateXpos();
+        this.ypos = mouseY;
+        this.xpos = mouseX;
         this.rwidth = width * .3;
         this.rheight = 15;
         this.erad = width * .075;
@@ -45,16 +45,18 @@ class Paddle {
 
 
     public draw(): void {
+        this.ypos = mouseY;
+        this.xpos = mouseX;
         ellipseMode(RADIUS);
         rectMode(CENTER);
         fill('lightblue');
         // xm is just the mouseX, while
         // xc is the mouseX, but constrained
         // between the leftWall and rightWall!
-        ellipse(this.xc, mouseY, this.erad, this.erad);
+        ellipse(this.xc, this.ypos, this.erad, this.erad);
         fill('purple');
-        rect(this.xc, mouseY, this.rwidth, this.rheight, 10);
-        this.xc = constrain(mouseX, this.leftWall, this.rightWall);
+        rect(this.xc, this.ypos, this.rwidth, this.rheight, 10);
+        this.xc = constrain(this.xpos, this.leftWall, this.rightWall);
     }
 
 }
