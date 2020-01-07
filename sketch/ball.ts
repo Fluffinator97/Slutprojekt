@@ -18,7 +18,6 @@ class Ball {
     public bxdirection: number;
     public bydirection: number;
     private distance: number;
-    private paddle: Paddle;
 
     constructor() {
         this.brad = 36;
@@ -28,7 +27,6 @@ class Ball {
         this.bydirection = 1;
         this.bxpos = width / 2;
         this.bypos = height / 4;
-        this.paddle = new Paddle();
         this.distance = 0;
     }
 

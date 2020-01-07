@@ -6,14 +6,14 @@ class World {
     private dynamites: Dynamite[];
     private interval: number;
     private time: number;
-    // private paddle: Paddle;
+    private paddle: Paddle;
     private collision: Collision;
     public loaded: boolean;
 
 
     constructor() {
         this.ball = new Ball();
-        // this.paddle = new Paddle();
+         this.paddle = new Paddle();
         this.collision = new Collision();
         this.dynamites = [];
         this.interval = 3000;
@@ -55,6 +55,10 @@ class World {
         }
     }
 
+    private checkBall(){
+        this.collision.ballCollision(this.ball, this.paddle);
+    }
+
     private gradient(): void {
         noFill();
         for (let i = 0; i < height; i++) {
@@ -82,11 +86,13 @@ class World {
         this.gradient();
         theRandomStars.draw();
         this.ball.draw();
+        this.paddle.draw();
         for (const dynamite of this.dynamites) {
             dynamite.draw();
         }
         this.removeDynamite();
         this.checkDynamites();
+        this.checkBall();
         // console.log("BallX ", this.ball.updateBallX());
         // console.log("BallY ", this.ball.updateBallY());
     }

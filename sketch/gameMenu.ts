@@ -16,7 +16,6 @@ class GameMenu {
   public theRandomStars: randomStar;
   public gameManager: GameManager;
   public world: World;
-  public paddle: Paddle;
 
   constructor() {
     this.gameManager = new GameManager();
@@ -27,7 +26,6 @@ class GameMenu {
     this.isGameRunning = false;
     // this.gameState = false;
     this.world = new World();
-    this.paddle = new Paddle();
   }
 
   public update(): void {
@@ -101,7 +99,6 @@ class GameMenu {
       this.world.update();
       this.world.draw(this.theRandomStars);
       this.gameManager.draw();
-      this.paddle.draw();
     }
   }
 
