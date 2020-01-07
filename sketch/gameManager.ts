@@ -18,6 +18,7 @@ class GameManager {
         // this.collision = new Collision();
         this.startGame = false;
         this.player = new Player();
+        
 
     }
 
