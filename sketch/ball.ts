@@ -21,8 +21,8 @@ class Ball {
 
     constructor() {
         this.brad = 36;
-        this.bxspeed = 5;
-        this.byspeed = 2.2;
+        this.bxspeed = 7;
+        this.byspeed = 4.2;
         this.bxdirection = 1;
         this.bydirection = 1;
         this.bxpos = width / 2;
@@ -82,10 +82,17 @@ class Ball {
         if (this.bxpos >= width - this.brad || this.bxpos < this.brad) {
             this.bxdirection *= -1;
             bounceI.play();
-        } if (this.bypos >= height - this.brad || this.bypos < this.brad) {
+        } if (this.bypos < this.brad) {
             this.bydirection *= -1;
             bounceI.play();
-
+        }
+        if (this.bypos >= height - this.brad)
+        {
+            gameMenu.gameOver = true;
         }
     }
+
+
+
+
 }

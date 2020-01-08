@@ -30,16 +30,16 @@ class Dynamite {
 
     private counterYPos(): any {
         for (this.dypos < height + 37; this.dypos++;) {
+            this.dypos = this.dypos + 0.01;
             return this.dypos;
         }
     }
 
     private randomXPos(): any {
         if (this.dxpos == 0) {
-            this.dxpos = random(10, width - 10);
+            this.dxpos = random(15, width - 15);
         }
         return this.dxpos;
-
     }
 
     public getBoundingRectangle(): BoundingRect {

@@ -31,7 +31,7 @@ class World {
         this.spawnDynamite();
 
         this.time += deltaTime;
-        this.interval -= 0.001;
+        this.interval -= 0.1;
     }
 
     private spawnDynamite(): void {
@@ -72,21 +72,28 @@ class World {
         }
     }
 
+    public constrainLine() {
+        push();
+        strokeWeight(2);
+        stroke("grey");
+        line(windowWidth - windowWidth, windowHeight / 1.4, windowWidth, windowHeight / 1.4);
+        pop();
+    }
     /* Method */
 
     public draw(theRandomStars: any): void {
         this.gradient();
         theRandomStars.draw();
+        this.constrainLine()
         this.ball.draw();
-        this.paddle.draw();
         for (const dynamite of this.dynamites) {
             dynamite.draw();
         }
+        this.paddle.draw();
         this.removeDynamite();
         this.checkDynamites();
         this.checkBall();
         this.checkDead();
-
     }
 
 }

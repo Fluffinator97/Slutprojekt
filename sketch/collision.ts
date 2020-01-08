@@ -45,7 +45,7 @@ class Collision {
             if (dynamites[i].dxpos + 22 > paddle.xpos - 18 && dynamites[i].dxpos - 22 < paddle.xpos + 18
                 && dynamites[i].dypos + 45 > paddle.ypos - 18 && dynamites[i].dypos - 45 < paddle.ypos + 18
             ) {
-                console.log("Dead!");
+                gameMenu.gameOver = true;
             }
 
         }

@@ -5,12 +5,14 @@ class GameManager {
     public highScore: number;
     private startGame: boolean;
     private player: Player;
+    private score: number;
 
 
     constructor() {
         this.highScore = 0;
         this.startGame = false;
         this.player = new Player();
+        this.score = 0;
     }
 
     /* Method */
@@ -33,6 +35,11 @@ class GameManager {
         fill('white')
         text("player " + this.player.name, 200, 380, 300, 300);
         pop();
+    }
+
+    public getScore() {
+        this.score = this.player.saveScore();
+        return this.score;
     }
 
     public highScoreLocalStorage(): number {

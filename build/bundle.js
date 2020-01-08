@@ -2,8 +2,8 @@
 var Ball = (function () {
     function Ball() {
         this.brad = 36;
-        this.bxspeed = 5;
-        this.byspeed = 2.2;
+        this.bxspeed = 7;
+        this.byspeed = 4.2;
         this.bxdirection = 1;
         this.bydirection = 1;
         this.bxpos = width / 2;
@@ -52,9 +52,12 @@ var Ball = (function () {
             this.bxdirection *= -1;
             bounceI.play();
         }
-        if (this.bypos >= height - this.brad || this.bypos < this.brad) {
+        if (this.bypos < this.brad) {
             this.bydirection *= -1;
             bounceI.play();
+        }
+        if (this.bypos >= height - this.brad) {
+            gameMenu.gameOver = true;
         }
     };
     return Ball;
@@ -131,7 +134,7 @@ var Collision = (function () {
         for (var i = 0; i < dynamites.length; i++) {
             if (dynamites[i].dxpos + 22 > paddle.xpos - 18 && dynamites[i].dxpos - 22 < paddle.xpos + 18
                 && dynamites[i].dypos + 45 > paddle.ypos - 18 && dynamites[i].dypos - 45 < paddle.ypos + 18) {
-                console.log("Dead!");
+                gameMenu.gameOver = true;
             }
         }
     };
@@ -148,12 +151,13 @@ var Dynamite = (function () {
     }
     Dynamite.prototype.counterYPos = function () {
         for (this.dypos < height + 37; this.dypos++;) {
+            this.dypos = this.dypos + 0.01;
             return this.dypos;
         }
     };
     Dynamite.prototype.randomXPos = function () {
         if (this.dxpos == 0) {
-            this.dxpos = random(10, width - 10);
+            this.dxpos = random(15, width - 15);
         }
         return this.dxpos;
     };
@@ -214,6 +218,7 @@ var GameManager = (function () {
         this.highScore = 0;
         this.startGame = false;
         this.player = new Player();
+        this.score = 0;
     }
     GameManager.prototype.gameStart = function (startGame) {
         this.startGame = startGame;
@@ -231,6 +236,10 @@ var GameManager = (function () {
         fill('white');
         text("player " + this.player.name, 200, 380, 300, 300);
         pop();
+    };
+    GameManager.prototype.getScore = function () {
+        this.score = this.player.saveScore();
+        return this.score;
     };
     GameManager.prototype.highScoreLocalStorage = function () {
         if (this.player.getHighScoreLS() > 1) {
@@ -252,10 +261,13 @@ var GameMenu = (function () {
         this.theRandomStars = new randomStar();
         this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A", "#673aee");
         this.muteButton = new Button("Mute", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A", "#673aee");
+        this.soundMuteButton = new Button("Sound/Mute", windowWidth / 9 / 8, windowHeight - 40, 135, 30, "#EEAA3A", "#673aee");
         this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 1.35, 200, 100, "#673aee", "#EEAA3A");
         this.isGameRunning = false;
         this.world = new World();
         this.mute = false;
+        this.gameOver = false;
+        this.gameOverImage = loadImage('../assets/img/gameoverII.png');
     }
     GameMenu.prototype.update = function () {
         this.gameManager.highScoreLocalStorage();
@@ -301,10 +313,38 @@ var GameMenu = (function () {
             this.muteButton.draw();
             this.highScoreButton.draw();
         }
-        else {
+        else if (this.isGameRunning && !this.gameOver) {
+            this.soundMuteButton.draw();
             this.world.update();
             this.world.draw(this.theRandomStars);
             this.gameManager.draw();
+        }
+        else if (this.isGameRunning && this.gameOver) {
+            background(25);
+            var score = void 0;
+            var gameOverText = void 0;
+            score = this.gameManager.getScore();
+            if (score < 1000) {
+                gameOverText = "U SUCK!";
+            }
+            else if (score > 1000) {
+                gameOverText = "U are OK!";
+            }
+            else if (score > 10000) {
+                gameOverText = "U are AMAZING!";
+            }
+            else {
+                gameOverText = "Get a LIFE!";
+            }
+            push();
+            fill('white');
+            textSize(33);
+            text("Score " + score + "..." + gameOverText, width / 2 * 1.1, height / 2 * 1.2, width, height);
+            pop();
+            push();
+            imageMode(CENTER);
+            image(this.gameOverImage, width / 2, height / 1.3, width * 1, height * .5);
+            pop();
         }
     };
     return GameMenu;
@@ -318,6 +358,7 @@ var Paddle = (function () {
         this.erad = width * .075;
         this.leftWall = 60;
         this.rightWall = width - 60;
+        this.alfredsPaddle = loadImage('../pictures/Alfred_paddel.svg');
     }
     Paddle.prototype.getBoundingCicle = function () {
         return {
@@ -327,15 +368,16 @@ var Paddle = (function () {
         };
     };
     Paddle.prototype.draw = function () {
-        this.ypos = mouseY;
+        this.ypos = constrain(mouseY, windowHeight / 1.4, windowHeight);
         this.xpos = mouseX;
         ellipseMode(RADIUS);
         rectMode(CENTER);
-        fill('lightblue');
+        noFill();
         ellipse(this.xc, this.ypos, this.erad, this.erad);
-        fill('purple');
         rect(this.xc, this.ypos, this.rwidth, this.rheight, 10);
         this.xc = constrain(this.xpos, this.leftWall, this.rightWall);
+        imageMode(CENTER);
+        image(this.alfredsPaddle, this.xc, this.ypos + 25, width * .3, height * .20);
     };
     return Paddle;
 }());
@@ -405,6 +447,7 @@ var Player = (function () {
         if (this.score > this.getHighScoreLS()) {
             localStorage.setItem(this.name, JSON.stringify(this.score));
         }
+        return this.score;
     };
     Player.prototype.setHighScoreLS = function () {
         this.highScore;
@@ -550,6 +593,7 @@ var randomStar = (function () {
 var gameMenu;
 var gameRunning;
 var mute;
+mute = false;
 var song;
 var bounceI;
 var bounceIII;
@@ -566,13 +610,22 @@ function setup() {
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
-    song = window.loadSound("/assets/sound/musicIII.mp3", loaded);
+    song = window.loadSound("/assets/sound/musicIII.mp3", loaded, togglePlaySongMute);
     song.setVolume(0.2);
     explosion.setVolume(0.3);
     bounceI.setVolume(0.7);
 }
 function loaded() {
     song.loop();
+}
+function togglePlaySongMute() {
+    if (song.isPlaying()) {
+        song.pause();
+    }
+    else {
+        song.play();
+        song.setVolume(0.2);
+    }
 }
 function draw() {
     background(55);
@@ -604,7 +657,7 @@ var World = (function () {
     World.prototype.update = function () {
         this.spawnDynamite();
         this.time += deltaTime;
-        this.interval -= 0.001;
+        this.interval -= 0.1;
     };
     World.prototype.spawnDynamite = function () {
         if (this.time > this.interval) {
@@ -637,15 +690,23 @@ var World = (function () {
             line(0, i, width, i);
         }
     };
+    World.prototype.constrainLine = function () {
+        push();
+        strokeWeight(2);
+        stroke("grey");
+        line(windowWidth - windowWidth, windowHeight / 1.4, windowWidth, windowHeight / 1.4);
+        pop();
+    };
     World.prototype.draw = function (theRandomStars) {
         this.gradient();
         theRandomStars.draw();
+        this.constrainLine();
         this.ball.draw();
-        this.paddle.draw();
         for (var _i = 0, _a = this.dynamites; _i < _a.length; _i++) {
             var dynamite = _a[_i];
             dynamite.draw();
         }
+        this.paddle.draw();
         this.removeDynamite();
         this.checkDynamites();
         this.checkBall();
