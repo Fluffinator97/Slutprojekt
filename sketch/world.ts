@@ -46,6 +46,10 @@ class World {
     private checkDynamites() {
         this.collision.dynamiteHit(this.dynamites, this.ball);
     }
+
+    private checkDead() {
+        this.collision.paddleHit(this.dynamites, this.paddle);
+    }
     
     private removeDynamite(): void {
         for (let index = 0; index < this.dynamites.length; index++) {
@@ -93,6 +97,7 @@ class World {
         this.removeDynamite();
         this.checkDynamites();
         this.checkBall();
+        this.checkDead();
         // console.log("BallX ", this.ball.updateBallX());
         // console.log("BallY ", this.ball.updateBallY());
     }
