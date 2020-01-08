@@ -134,7 +134,7 @@ var Collision = (function () {
         var distance = dist(x, y, ball.getBoundingCicle().x, ball.getBoundingCicle().y);
         console.log(distance);
         var combinedRadius = paddle.getBoundingCicle().rad + ball.getBoundingCicle().rad;
-        if (ball.bydirection == 1) {
+        if (ball.ydirection == 1) {
             if (distance <= combinedRadius) {
                 ball.flipDirectionY();
                 console.log("hit paddle...");
@@ -144,8 +144,8 @@ var Collision = (function () {
     };
     Collision.prototype.dynamiteHit = function (dynamites, ball) {
         for (var i = 0; i < dynamites.length; i++) {
-            if (dynamites[i].dxpos + 22 > ball.getBoundingCicle().x - 18 && dynamites[i].dxpos - 22 < ball.getBoundingCicle().x + 18
-                && dynamites[i].dypos + 45 > ball.getBoundingCicle().y - 18 && dynamites[i].dypos - 45 < ball.getBoundingCicle().y + 18) {
+            if (dynamites[i].xpos + 22 > ball.getBoundingCicle().x - 18 && dynamites[i].xpos - 22 < ball.getBoundingCicle().x + 18
+                && dynamites[i].ypos + 45 > ball.getBoundingCicle().y - 18 && dynamites[i].ypos - 45 < ball.getBoundingCicle().y + 18) {
                 dynamites[i].hit = true;
                 dynamites[i].explode();
                 console.log("Hit");
@@ -263,6 +263,7 @@ var GameMenu = (function () {
         this.theRandomStars = new randomStar();
         this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A", "#673aee");
         this.muteButton = new Button("Mute", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A", "#673aee");
+        this.soundMuteButton = new Button("Sound/Mute", windowWidth / 9 / 8, windowHeight - 40, 135, 30, "#EEAA3A", "#673aee");
         this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 1.35, 200, 100, "#673aee", "#EEAA3A");
         this.isGameRunning = false;
         this.world = new World();
@@ -313,6 +314,7 @@ var GameMenu = (function () {
             this.highScoreButton.draw();
         }
         else {
+            this.soundMuteButton.draw();
             this.world.update();
             this.world.draw(this.theRandomStars);
             this.gameManager.draw();

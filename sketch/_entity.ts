@@ -4,7 +4,7 @@ class Entity {
     protected height: number;
     protected width: number;
     public ypos: number;
-    protected xpos: number;
+    public xpos: number;
     //protected color: number;
     protected collision: boolean;
     // protected collisionSound: p5.SoundFile;

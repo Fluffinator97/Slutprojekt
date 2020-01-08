@@ -12,6 +12,7 @@ class GameMenu {
   public isGameRunning: boolean;
   public startGameButton: Button;
   public muteButton: Button;
+  public soundMuteButton: Button;
   public highScoreButton: Button;
   public theRandomStars: randomStar;
   public gameManager: GameManager;
@@ -24,6 +25,7 @@ class GameMenu {
 
     this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A", "#673aee");
     this.muteButton = new Button("Mute", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A", "#673aee");
+    this.soundMuteButton = new Button("Sound/Mute", windowWidth / 9 / 8, windowHeight - 40, 135, 30, "#EEAA3A", "#673aee");
     this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 1.35, 200, 100, "#673aee", "#EEAA3A");
     this.isGameRunning = false;
     // this.gameState = false;
@@ -103,6 +105,7 @@ class GameMenu {
     else {
       // detta borde ligga in en update metod istället
 
+      this.soundMuteButton.draw();
       this.world.update();
       this.world.draw(this.theRandomStars);
       this.gameManager.draw();
