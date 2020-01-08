@@ -28,6 +28,7 @@ class Button {
         const top = this.y;
         const bottom = this.y + this.height;
         isGameRunning;
+        
 
         let isMousePressed = false
         if (this.isMouseDown && !mouseIsPressed) {
