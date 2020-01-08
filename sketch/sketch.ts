@@ -1,5 +1,13 @@
 let gameMenu: GameMenu;
 let gameRunning: boolean;
+let mute: boolean;
+
+/* Sounds*/
+let song: p5.SoundFile;
+let bounceI: p5.SoundFile;
+let bounceIII: p5.SoundFile;
+let explosion: p5.SoundFile;
+let music: p5.SoundFile;
 
 
 /**
@@ -8,11 +16,13 @@ let gameRunning: boolean;
  * sound files, images etc...
  */
 function preload() {
-    // Tyvärr har jag inte fått till den globala typningen för
-    // inladdningen av ljud men fungerar bra enligt nedan..
-    // sound = (window as any).loadSound('../assets/mySound.wav');
-
+    soundFormats('mp3');
+    bounceI = (window as any).loadSound('assets/sound/bounceI');
+    bounceIII = (window as any).loadSound('assets/sound/bounceIII.mp3');
+    // music = (window as any).loadSound('assets/sound/musicIII.mp3');
+    explosion = (window as any).loadSound('assets/sound/explosion.mp3')
 }
+
 
 /**
  * Built in setup function in P5
@@ -21,10 +31,23 @@ function preload() {
  * in the draw function below
  */
 function setup() {
-    createCanvas(windowWidth / 1.8, windowHeight);
+    createCanvas(windowWidth / 3, windowHeight);
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
+    song = (window as any).loadSound("/assets/sound/musicIII.mp3", loaded);
+    // song.play();
+    song.setVolume(0.2);
+    explosion.setVolume(0.3);
+    bounceI.setVolume(0.7);
+}
+
+
+function loaded() {
+    song.loop();
+
+
+    // bounceI.loop()
 }
 
 /**
@@ -36,14 +59,15 @@ function draw() {
     background(55);
     gameMenu.update();
     gameMenu.draw();
-    noCursor();
 
+    if (gameMenu.isGameRunning == true) {
+        noCursor();
+    }
 }
-
 
 /**
  *  Built in windowResize listener function in P5
  */
 function windowResized() {
-    resizeCanvas(windowWidth / 1.8, windowHeight);
+    resizeCanvas(windowWidth / 3, windowHeight);
 }

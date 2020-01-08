@@ -9,48 +9,104 @@ class GameMenu {
   // private gameManager: GameManager;
   // public input: boolean; 
   // public highscore: number;
-  // public gameState : boolean;
   public isGameRunning: boolean;
   public startGameButton: Button;
-  public pauseGameButton: Button;
+  public muteButton: Button;
+  public highScoreButton: Button;
+  public theRandomStars: randomStar;
   public gameManager: GameManager;
   public world: World;
-  public paddle: Paddle;
+  public mute: boolean;
 
   constructor() {
-    this.startGameButton = new Button("Start Game", 100, 100, 200, 100, "brown");
-    this.pauseGameButton = new Button("Pause Game", 200, 100, 200, 100, "blue");
+    this.gameManager = new GameManager();
+    this.theRandomStars = new randomStar();
+
+    this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A", "#673aee");
+    this.muteButton = new Button("Mute", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A", "#673aee");
+    this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 1.35, 200, 100, "#673aee", "#EEAA3A");
     this.isGameRunning = false;
     // this.gameState = false;
-    this.gameManager = new GameManager();
     this.world = new World();
-    this.paddle = new Paddle();
+    this.mute = false;
   }
 
   public update(): void {
-    this.isGameRunning = this.startGameButton.getButtonPressed();
-    this.gameManager.gameStart(this.isGameRunning);
+    this.gameManager.highScoreLocalStorage();
+
+    if (!this.isGameRunning) {
+      this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
+    }
+    else {
+      this.isGameRunning = true;
+    }
+    gameMenu.startGameButton.clicked(this.isGameRunning);
+
+    // Lägg till en mute funktion
+
   }
 
 
   /* Method */
+
+
   // private soundOnOff(): boolean;
-  // getHighScoreTLS(): number;
-  // private setHighScore(): number;
-  
+  // private setHighScore(): any {
+  //   this.highScoreLS = this.gameManager.getHighScoreLocalStorage();
+  // }
+
   // public gameState(): void {
   //   // this.gameState = this.isGameRunning;
   // }
 
   public draw(): void {
 
-    if (!this.isGameRunning){
+    if (!this.isGameRunning) {
+      push();
+      fill("#130B1B");
+      rect(0, 0, windowWidth / 3, windowHeight);
+      pop();
+
+      push();
+      fill("#E2D8E0");
+      rect(0, 0, 30, windowHeight);
+      pop();
+
+      push();
+      fill("#E2D8E0");
+      rect(windowWidth / 3 - 30, 0, 30, windowHeight);
+      pop();
+
+      push();
+      fill("#605559");
+      rect(30, 0, windowWidth / 3 - 60, 30);
+      pop();
+
+      push();
+      fill("#605559");
+      rect(30, windowHeight - 30, windowWidth / 3 - 60, 30);
+      pop();
+      this.theRandomStars.draw();
+
+      push();
+      fill("white");
+      textSize(45);
+      textFont("punkboy");
+      textAlign(CENTER, TOP);
+      text("Nobel Popper", windowWidth / 3 / 2, 50)
+      pop();
+
       this.startGameButton.draw();
-      this.pauseGameButton.draw();
+      this.muteButton.draw();
+      this.highScoreButton.draw();
+    }
+    else {
+      // detta borde ligga in en update metod istället
+
+      this.world.update();
+      this.world.draw(this.theRandomStars);
       this.gameManager.draw();
-      this.world.draw();
-      this.paddle.draw();
-    }  
+    }
   }
 
 }

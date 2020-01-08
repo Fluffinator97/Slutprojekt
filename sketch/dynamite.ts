@@ -1,102 +1,70 @@
-class Dynamite {
+interface BoundingRect {
+    x: number,
+    y: number,
+    width: number,
+    height: number
+}
+
+class Dynamite extends Entity {
 
     /* Variable */
-    private dheight: number;
-    private dwidth: number;
-    private dypos: number;
-    private dxpos: number;
-    // private dyspeed: number;
-    // private dxspeed: number;
-    // private dxdirection: number;
-    // private dydirection: number;
-    // private dopespeed: number;
+        public hit: boolean;
+        public particles: Particle[];
 
     constructor() {
-        // private randomizePos(): number;
-        // private xDirection(): number;
-        // private randomXPosition(): number;
-        // private explode(): nice;
-        this.dheight = 20;
-        this.dwidth = 50;
-        this.dypos = 1;
-        this.dxpos = 0;
-        // this.dxspeed = 10;
-        // this.dyspeed = 10;
-        // this.dxdirection = 1;
-        // this.dydirection = 1;
-        // this.dopespeed = 1;
+        super(false, 40, 74, 1, 0); //, color(255,0,0)
+        this.hit = false; 
+        this.particles = [];
     }
 
     /* Method */
     private counterYPos(): any {
-        for (this.dypos < height + 19; this.dypos++;) {
-            if (this.dypos > height + 19) {
-                this.dypos = 0;
-                this.dxpos = 0;
-            } else {
-                return this.dypos;
-            }
+        for (this.ypos < height + 37; this.ypos++;) {
+            return this.ypos;
         }
     }
 
     private randomXPos(): any {
-        if (this.dxpos == 0) {
-            this.dxpos = random(10, width - 10);
+        if (this.xpos == 0) {
+            this.xpos = random(10, width - 10);
         }
-        return this.dxpos;
+        return this.xpos;
+    }
+
+    public getBoundingRectangle(): BoundingRect {
+        return {
+            x: this.xpos,
+            y: this.ypos,
+            width: this.width,
+            height: this.height,
+            // hit: this.hit
+        }
+    }
+
+    public explode() {
+        this.particles.push(new Particle(this.randomXPos(), this.counterYPos()));
+        for (const particle of this.particles) {
+            particle.explotion();
+        }
     }
 
     public draw() {
         rectMode(CENTER);
         fill('red');
-        rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
+        rect(this.randomXPos(), this.counterYPos(), this.width, this.height, 5, 5, 5, 5);
+        fill('white');
 
-        // if (this.dypos > height) {
-        //     rect(this.dxpos, this.dypos,this.dwidth, this.dheight, 5, 5, 5, 5);
-        // }
+        this.particles.push(new Particle(this.randomXPos(), this.counterYPos() - 40));
+        for (const particle of this.particles) {
+            particle.fire();
+        }
+
+        if(this.hit === true) {
+            this.explode();
+            explosion.play();
+        }
+        noStroke();
     }
 
 }
 
-//     public draw() {
-//     push();
-//     rectMode(CENTER);
-//     fill('red');
-//     y = y - 1;
-//     // this.dxpos = this.dxpos + this.dxspeed * this.dxdirection;
-//     // this.dypos = this.dypos + this.dyspeed * this.dydirection;
-//     rect(x, y, 40, 20);
-//     // rect(this.dxpos, this.dypos, this.dwidth, this.dheight)
-//     pop();
-// }
-
-
-// private dynamiteSpawn() {
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-//     // Where is the dynamite
-// let x, y;
-
-// public setup() {
-//     // Starts in the middle
-//     x = width / 2;
-//     y = height;
-// }
-// // Moving down at a constant speed
-// y = y + 1;
-
-// // Reset to the top
-// if (y < 0) {
-//     y = height;
-// }

@@ -1,63 +1,87 @@
-class Ball {
+interface BoundingCicle {
+    x: number,
+    y: number,
+    rad: number
+    ydirection: number,
+    xdirection: number
+}
+
+class Ball extends Entity {
 
     /* Variable */
-    private brad: number;
-    
-    public bypos: number;
-    public bxpos: number;
-    
-    private byspeed: number;
-    private bxspeed: number; 
-    
-    private bxdirection: number;
-    private bydirection: number;
-    // public theBall: any;
-    
+    private rad: number;
+    private yspeed: number;
+    private xspeed: number;
+    public xdirection: number;
+    public ydirection: number;
+    private distance: number;
+
     constructor() {
-        this.brad = 25;
-        this.bxspeed = 5;
-        this.byspeed = 2.2;
-        this.bxdirection = 1;
-        this.bydirection = 1;
-        this.bxpos = width / 2;
-        this.bypos = height / 4;
-        // this.theBall = {
-        //     brad: this.brad,
-        //     bypos: this.bypos,
-        //     bxpos: this.bxpos,
-        //     byspeed: this.byspeed,
-        //     bxspeed: this.bxspeed,
-        //     bydirection: this.bydirection,
-        //     bxdirection: this.bxdirection
-        // }
+        super(false, width, height, width / 2, height / 4); //color(255,223,0)
+        this.rad = 36;
+        this.xspeed = 5;
+        this.yspeed = 2.2;
+        this.xdirection = 1;
+        this.ydirection = 1;
+        this.distance = 0;
     }
 
-    public getBallX(): number {
-        return this.bxpos;
+    public getBoundingCicle(): BoundingCicle {
+        return {
+            x: this.xpos,
+            y: this.ypos,
+            rad: this.rad,
+            ydirection: this.ydirection,
+            xdirection: this.xdirection
+        }
     }
 
-    public setDirection() {
-        console.log("hit");
+    public creteDistance() {
+        this.distance = dist(mouseX, mouseY, this.updateBallY(), this.updateBallX());
 
     }
 
-    
-    public draw() {
+    public flipDirectionY() {
+        this.ydirection *= -1;
+    }
+
+    public flipDirectionX() {
+        this.xdirection *= -1;
+    }
+
+    public updateBallX(): number {
+        return this.xpos;
+    }
+
+    public updateBallY(): number {
+        return this.ypos;
+    }
+
+    public draw(): void {
+        this.creteDistance();
         ellipseMode(RADIUS);
-        fill('yellow');
+        fill('gold');
+        ellipse(this.xpos, this.ypos, this.rad, this.rad);
 
-        this.bxpos = this.bxpos + this.bxspeed * this.bxdirection;
-        this.bypos = this.bypos + this.byspeed * this.bydirection;
+        this.xpos = this.xpos + this.xspeed * this.xdirection;
+        this.ypos = this.ypos + this.yspeed * this.ydirection;
 
-        if (this.bxpos > width - this.brad || this.bxpos < this.brad) {
-            this.bxdirection *= -1;
+
+        if (this.ydirection == 1) {
+        if (this.distance < 48) { 
+            this.ydirection *= -1;
+            console.log("hit in Y");
+        } else {
+            console.log('false')
+        }}
+        if (this.xpos >= width - this.rad || this.xpos < this.rad) {
+            this.xdirection *= -1;
+        } if (this.ypos >= height - this.rad || this.ypos < this.rad) {
+            this.ydirection *= -1;
         }
-        if (this.bypos > height - this.brad || this.bypos < this.brad) {
-            this.bydirection *= -1;
-        }
-        
-        ellipse(this.bxpos, this.bypos, this.brad, this.brad);
+
+
+        // console.log("this.distance ", this.distance);
     }
-
 
 }
