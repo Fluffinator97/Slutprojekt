@@ -39,10 +39,12 @@ class Player {
         return this.score;
     }
 
-    private saveScore() {
+    public saveScore() {
         if (this.score > this.getHighScoreLS()) {
             localStorage.setItem(this.name, JSON.stringify(this.score))
         }
+        return this.score;
+
     }
 
     public setHighScoreLS() {

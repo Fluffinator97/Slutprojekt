@@ -17,6 +17,9 @@ class Paddle {
     private leftWall: number;
     private rightWall: number;
 
+    private alfredsPaddle: p5.Image;
+
+
     /* Method */
 
     constructor() {
@@ -27,6 +30,9 @@ class Paddle {
         this.erad = width * .075;
         this.leftWall = 60;
         this.rightWall = width - 60;
+
+        this.alfredsPaddle = loadImage('../pictures/Alfred_paddel.svg');
+
     }
 
     public getBoundingCicle(): BoundingCiclePaddle {
@@ -38,18 +44,23 @@ class Paddle {
     }
 
     public draw(): void {
-        this.ypos = mouseY;
+
+        this.ypos = constrain(mouseY, windowHeight / 1.4, windowHeight); // constrain
         this.xpos = mouseX;
+      
         ellipseMode(RADIUS);
         rectMode(CENTER);
-        fill('lightblue');
+        noFill()
         // xm is just the mouseX, while
         // xc is the mouseX, but constrained
         // between the leftWall and rightWall!
         ellipse(this.xc, this.ypos, this.erad, this.erad);
-        fill('purple');
         rect(this.xc, this.ypos, this.rwidth, this.rheight, 10);
         this.xc = constrain(this.xpos, this.leftWall, this.rightWall);
+
+        imageMode(CENTER);
+        image(this.alfredsPaddle, this.xc, this.ypos + 25, width * .3, height * .20);
+
     }
 
 }

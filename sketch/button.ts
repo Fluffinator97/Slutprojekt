@@ -28,6 +28,7 @@ class Button {
         const top = this.y;
         const bottom = this.y + this.height;
         isGameRunning;
+        
 
         let isMousePressed = false
         if (this.isMouseDown && !mouseIsPressed) {
@@ -42,7 +43,9 @@ class Button {
         return isMousePressed;
     }
 
-    /* Method */
+
+
+     /* Method */
 
     public draw(): void {
         push();
