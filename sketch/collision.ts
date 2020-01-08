@@ -42,4 +42,16 @@ class Collision {
     // public getCollisionBall(): boolean {
     //     return this.collisionBall;
     // }
+    
+    public paddleHit(dynamites: Dynamite[], paddle: Paddle): void {
+        for (let i = 0; i < dynamites.length; i++) {
+            if (dynamites[i].dxpos + 22 > paddle.xpos - 18 && dynamites[i].dxpos - 22 < paddle.xpos + 18
+                && dynamites[i].dypos + 45 > paddle.ypos - 18 && dynamites[i].dypos - 45 < paddle.ypos + 18
+            ) {
+                console.log("Dead!");
+            }
+
+        }
+
+    }
 }
