@@ -2,13 +2,6 @@ class GameMenu {
 
   /* Variable */
 
-  // private highscore: number;
-  // private setupGameDialog: string;
-  // private soundOnOff: boolean;
-  // private endGameDialog: string;
-  // private gameManager: GameManager;
-  // public input: boolean; 
-  // public highscore: number;
   public isGameRunning: boolean;
   public startGameButton: Button;
   public muteButton: Button;
@@ -21,12 +14,10 @@ class GameMenu {
   constructor() {
     this.gameManager = new GameManager();
     this.theRandomStars = new randomStar();
-
     this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A", "#673aee");
     this.muteButton = new Button("Mute", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A", "#673aee");
     this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 1.35, 200, 100, "#673aee", "#EEAA3A");
     this.isGameRunning = false;
-    // this.gameState = false;
     this.world = new World();
     this.mute = false;
   }
@@ -43,21 +34,11 @@ class GameMenu {
     gameMenu.startGameButton.clicked(this.isGameRunning);
 
     // Lägg till en mute funktion
-
   }
 
 
   /* Method */
 
-
-  // private soundOnOff(): boolean;
-  // private setHighScore(): any {
-  //   this.highScoreLS = this.gameManager.getHighScoreLocalStorage();
-  // }
-
-  // public gameState(): void {
-  //   // this.gameState = this.isGameRunning;
-  // }
 
   public draw(): void {
 

@@ -16,8 +16,6 @@ class Dynamite {
     public dxpos: number;
     public hit: boolean;
     public particles: Particle[];
-    //private player: Player;
-
 
     constructor() {
         this.dwidth = 40;
@@ -26,11 +24,10 @@ class Dynamite {
         this.dxpos = 0;
         this.hit = false;
         this.particles = [];
-        //this.player = new Player();
-
     }
 
     /* Method */
+
     private counterYPos(): any {
         for (this.dypos < height + 37; this.dypos++;) {
             return this.dypos;
@@ -44,7 +41,6 @@ class Dynamite {
         return this.dxpos;
 
     }
-
 
     public getBoundingRectangle(): BoundingRect {
         return {
@@ -63,7 +59,6 @@ class Dynamite {
         }
     }
 
-
     public draw() {
         rectMode(CENTER);
         fill('red');
@@ -75,7 +70,7 @@ class Dynamite {
             particle.fire();
         }
 
-        if(this.hit === true) {
+        if (this.hit === true) {
             this.explode();
             explosion.play();
         }

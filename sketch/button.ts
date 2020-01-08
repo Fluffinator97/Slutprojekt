@@ -22,7 +22,7 @@ class Button {
         this.fontColor = fontColor;
     }
 
-    public clicked(isGameRunning:boolean): boolean {
+    public clicked(isGameRunning: boolean): boolean {
         const left = this.x;
         const right = this.x + this.width;
         const top = this.y;
@@ -37,18 +37,14 @@ class Button {
                 return isGameRunning;
             }
         }
-        
+
         this.isMouseDown = mouseIsPressed
         return isMousePressed;
     }
 
-
-
-
     /* Method */
-    
+
     public draw(): void {
-        // const {dialog, x, y, width, height} = this;
         push();
         rectMode('corner')
         fill(this.color)
@@ -58,7 +54,7 @@ class Button {
         strokeWeight(1);
         textAlign(CENTER, CENTER);
         textFont("punkboy");
-        text(this.dialog, this.x, this.y,this.width, this.height)
+        text(this.dialog, this.x, this.y, this.width, this.height)
         pop();
     }
 

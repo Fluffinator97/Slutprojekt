@@ -108,7 +108,6 @@ var Collision = (function () {
     Collision.prototype.ballCollision = function (ball, paddle) {
         var _a = paddle.getBoundingCicle(), x = _a.x, y = _a.y, rad = _a.rad;
         var distance = dist(x, y, ball.getBoundingCicle().x, ball.getBoundingCicle().y);
-        console.log(distance);
         var combinedRadius = paddle.getBoundingCicle().rad + ball.getBoundingCicle().rad;
         if (ball.bydirection == 1) {
             if (distance <= combinedRadius) {
@@ -125,6 +124,14 @@ var Collision = (function () {
                 dynamites[i].hit = true;
                 dynamites[i].explode();
                 console.log("Hit");
+            }
+        }
+    };
+    Collision.prototype.paddleHit = function (dynamites, paddle) {
+        for (var i = 0; i < dynamites.length; i++) {
+            if (dynamites[i].dxpos + 22 > paddle.xpos - 18 && dynamites[i].dxpos - 22 < paddle.xpos + 18
+                && dynamites[i].dypos + 45 > paddle.ypos - 18 && dynamites[i].dypos - 45 < paddle.ypos + 18) {
+                console.log("Dead!");
             }
         }
     };
@@ -217,7 +224,6 @@ var GameManager = (function () {
     };
     GameManager.prototype.setTime = function () {
         if (this.startGame == true) {
-            console.log(deltaTime);
         }
     };
     GameManager.prototype.getPlayerName = function () {
@@ -543,6 +549,7 @@ var randomStar = (function () {
 }());
 var gameMenu;
 var gameRunning;
+var mute;
 var song;
 var bounceI;
 var bounceIII;
@@ -608,6 +615,9 @@ var World = (function () {
     World.prototype.checkDynamites = function () {
         this.collision.dynamiteHit(this.dynamites, this.ball);
     };
+    World.prototype.checkDead = function () {
+        this.collision.paddleHit(this.dynamites, this.paddle);
+    };
     World.prototype.removeDynamite = function () {
         for (var index = 0; index < this.dynamites.length; index++) {
             if (this.dynamites[index].dypos > height + 37 || this.dynamites[index].hit == true) {
@@ -639,6 +649,7 @@ var World = (function () {
         this.removeDynamite();
         this.checkDynamites();
         this.checkBall();
+        this.checkDead();
     };
     return World;
 }());
