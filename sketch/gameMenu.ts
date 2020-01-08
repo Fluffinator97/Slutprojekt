@@ -44,13 +44,10 @@ class GameMenu {
     }
     gameMenu.startGameButton.clicked(this.isGameRunning);
 
-    // Lägg till en mute funktion
-
+    // Lägg till en mute funktion        
   }
 
-
   /* Method */
-
 
   // private soundOnOff(): boolean;
   // private setHighScore(): any {

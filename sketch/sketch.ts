@@ -8,6 +8,7 @@ let bounceI: p5.SoundFile;
 let bounceIII: p5.SoundFile;
 let explosion: p5.SoundFile;
 let music: p5.SoundFile;
+let button: any;
 
 
 /**
@@ -35,20 +36,33 @@ function setup() {
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
-    song = (window as any).loadSound("/assets/sound/musicIII.mp3", loaded);
+    song = (window as any).loadSound("/assets/sound/musicIII.mp3", loaded, togglePlaySongMute);
     // song.play();
+    button = createButton("Mute Sound")
+    button.mousePressed(togglePlaySongMute);
     song.setVolume(0.2);
     explosion.setVolume(0.3);
     bounceI.setVolume(0.7);
 }
 
 
-function loaded() {
-    song.loop();
+ function loaded() {
+     song.loop();
+ }
 
+function togglePlaySongMute() {
+    if (song.isPlaying()) {
+        song.pause();
+        button.html("Sound On")
+    } else {
+        song.play();
+        song.setVolume(0.2);
+        button.html("Mute Sound")
+    }
+}
 
     // bounceI.loop()
-}
+
 
 /**
  * Built in draw function in P5

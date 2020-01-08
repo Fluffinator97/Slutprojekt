@@ -568,6 +568,7 @@ var bounceI;
 var bounceIII;
 var explosion;
 var music;
+var button;
 function preload() {
     soundFormats('mp3');
     bounceI = window.loadSound('assets/sound/bounceI');
@@ -579,13 +580,26 @@ function setup() {
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
-    song = window.loadSound("/assets/sound/musicIII.mp3", loaded);
+    song = window.loadSound("/assets/sound/musicIII.mp3", loaded, togglePlaySongMute);
+    button = createButton("Mute Sound");
+    button.mousePressed(togglePlaySongMute);
     song.setVolume(0.2);
     explosion.setVolume(0.3);
     bounceI.setVolume(0.7);
 }
 function loaded() {
     song.loop();
+}
+function togglePlaySongMute() {
+    if (song.isPlaying()) {
+        song.pause();
+        button.html("Sound On");
+    }
+    else {
+        song.play();
+        song.setVolume(0.2);
+        button.html("Mute Sound");
+    }
 }
 function draw() {
     background(55);
