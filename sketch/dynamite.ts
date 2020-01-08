@@ -2,7 +2,8 @@ interface BoundingRect {
     x: number,
     y: number,
     width: number,
-    height: number
+    height: number,
+    hit: boolean
 }
 
 class Dynamite extends Entity {

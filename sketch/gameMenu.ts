@@ -2,13 +2,6 @@ class GameMenu {
 
   /* Variable */
 
-  // private highscore: number;
-  // private setupGameDialog: string;
-  // private soundOnOff: boolean;
-  // private endGameDialog: string;
-  // private gameManager: GameManager;
-  // public input: boolean; 
-  // public highscore: number;
   public isGameRunning: boolean;
   public startGameButton: Button;
   public muteButton: Button;
@@ -48,15 +41,6 @@ class GameMenu {
   }
 
   /* Method */
-
-  // private soundOnOff(): boolean;
-  // private setHighScore(): any {
-  //   this.highScoreLS = this.gameManager.getHighScoreLocalStorage();
-  // }
-
-  // public gameState(): void {
-  //   // this.gameState = this.isGameRunning;
-  // }
 
   public draw(): void {
 

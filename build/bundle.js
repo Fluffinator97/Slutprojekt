@@ -76,9 +76,11 @@ var Ball = (function (_super) {
         }
         if (this.xpos >= width - this.rad || this.xpos < this.rad) {
             this.xdirection *= -1;
+            bounceI.play();
         }
         if (this.ypos >= height - this.rad || this.ypos < this.rad) {
             this.ydirection *= -1;
+            bounceI.play();
         }
     };
     return Ball;
@@ -152,6 +154,14 @@ var Collision = (function () {
             }
         }
     };
+    Collision.prototype.paddleHit = function (dynamites, paddle) {
+        for (var i = 0; i < dynamites.length; i++) {
+            if (dynamites[i].xpos + 22 > paddle.xpos - 18 && dynamites[i].xpos - 22 < paddle.xpos + 18
+                && dynamites[i].ypos + 45 > paddle.ypos - 18 && dynamites[i].ypos - 45 < paddle.ypos + 18) {
+                console.log("Dead!");
+            }
+        }
+    };
     return Collision;
 }());
 var Dynamite = (function (_super) {
@@ -179,6 +189,22 @@ var Dynamite = (function (_super) {
             y: this.ypos,
             width: this.width,
             height: this.height,
+        };
+    };
+    Dynamite.prototype.explode = function () {
+        this.particles.push(new Particle(this.randomXPos(), this.counterYPos()));
+        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
+            var particle = _a[_i];
+            particle.explotion();
+        }
+    };
+    Dynamite.prototype.getBoundingRectangle = function () {
+        return {
+            x: this.dxpos,
+            y: this.dypos,
+            width: this.dwidth,
+            height: this.dheight,
+            hit: this.hit
         };
     };
     Dynamite.prototype.explode = function () {
@@ -234,7 +260,6 @@ var GameManager = (function () {
     };
     GameManager.prototype.setTime = function () {
         if (this.startGame == true) {
-            console.log(deltaTime);
         }
     };
     GameManager.prototype.getPlayerName = function () {
@@ -642,6 +667,9 @@ var World = (function () {
     World.prototype.checkDynamites = function () {
         this.collision.dynamiteHit(this.dynamites, this.ball);
     };
+    World.prototype.checkDead = function () {
+        this.collision.paddleHit(this.dynamites, this.paddle);
+    };
     World.prototype.removeDynamite = function () {
         for (var index = 0; index < this.dynamites.length; index++) {
             if (this.dynamites[index].ypos > height + 37 || this.dynamites[index].hit == true) {
@@ -673,6 +701,7 @@ var World = (function () {
         this.removeDynamite();
         this.checkDynamites();
         this.checkBall();
+        this.checkDead();
     };
     return World;
 }());

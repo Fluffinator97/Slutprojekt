@@ -45,6 +45,12 @@ function setup() {
     bounceI.setVolume(0.7);
 }
 
+function loaded() {
+    song.loop();
+
+    // bounceI.loop()
+}
+
 
  function loaded() {
      song.loop();
