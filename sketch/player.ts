@@ -1,6 +1,7 @@
 class Player {
 
     /* Variable */
+
     public name: string;
     private score: number;
     private life: number;
@@ -14,7 +15,6 @@ class Player {
         this.highScoreFLS = 0;
     }
 
-
     public removeLife(): void {
         this.life - 1;
     }
@@ -22,7 +22,6 @@ class Player {
     public setLife(): number {
         return this.life;
     }
-
 
     private updateScore(): number {
         if (deltaTime) {
@@ -41,7 +40,7 @@ class Player {
     }
 
     private saveScore() {
-        if(this.score > this.getHighScoreLS()){
+        if (this.score > this.getHighScoreLS()) {
             localStorage.setItem(this.name, JSON.stringify(this.score))
         }
     }
@@ -57,11 +56,8 @@ class Player {
         this.setHighScoreLS();
         return this.highScoreFLS;
     }
- 
-    /* Method */
-    // private updateScore(): number;
-    // private updateLife(): number;
 
+    /* Method */
 
     public draw() {
         this.setHighScoreLS();

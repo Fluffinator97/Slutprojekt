@@ -1,7 +1,7 @@
 class World {
 
     /* Variable */
-    // private entities: Entity[];
+
     private ball: Ball;
     private dynamites: Dynamite[];
     private interval: number;
@@ -10,10 +10,9 @@ class World {
     private collision: Collision;
     public loaded: boolean;
 
-
     constructor() {
         this.ball = new Ball();
-         this.paddle = new Paddle();
+        this.paddle = new Paddle();
         this.collision = new Collision();
         this.dynamites = [];
         this.interval = 3000;
@@ -46,11 +45,10 @@ class World {
     private checkDynamites() {
         this.collision.dynamiteHit(this.dynamites, this.ball);
     }
-
     private checkDead() {
         this.collision.paddleHit(this.dynamites, this.paddle);
     }
-    
+
     private removeDynamite(): void {
         for (let index = 0; index < this.dynamites.length; index++) {
             if (this.dynamites[index].dypos > height + 37 || this.dynamites[index].hit == true) {
@@ -59,7 +57,7 @@ class World {
         }
     }
 
-    private checkBall(){
+    private checkBall() {
         this.collision.ballCollision(this.ball, this.paddle);
     }
 
@@ -74,19 +72,9 @@ class World {
         }
     }
 
-
-    //     if (this.dynamites[] > height){
-    //         this.time = 0;
-    //     }
-    //     }
-    // }
-
     /* Method */
-    // private randomizeBackground(): number;
-    // private spawnNew(): object;
-    // private collision(): object;
 
-    public draw(theRandomStars:any): void {
+    public draw(theRandomStars: any): void {
         this.gradient();
         theRandomStars.draw();
         this.ball.draw();
@@ -98,22 +86,7 @@ class World {
         this.checkDynamites();
         this.checkBall();
         this.checkDead();
-        // console.log("BallX ", this.ball.updateBallX());
-        // console.log("BallY ", this.ball.updateBallY());
+
     }
-
-    // hits(paddle) {
-
-    //     // check if the circle is intersecting with the brick, still need to test if the ball is inside the brick
-
-    //     if(this.x + this.r >  brick.x &&
-    //         this.x - this.r < (brick.x + brick.w) &&
-    //         this.y + this.r >  brick.y &&
-    //         this.y - this.r < (brick.y + brick.h)) 
-    //      {  
-    //        return true; 
-    //      }
-
-    // }
 
 }

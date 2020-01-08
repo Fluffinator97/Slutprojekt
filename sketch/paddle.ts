@@ -7,8 +7,9 @@ interface BoundingCiclePaddle {
 class Paddle {
 
     /* Variable */
+
     public ypos: number;
-    public xpos: number;  
+    public xpos: number;
     private rwidth: number;
     private rheight: number;
     private erad: number;
@@ -16,16 +17,9 @@ class Paddle {
     private leftWall: number;
     private rightWall: number;
 
-
-    //private gameControll: GameControl;
-    // public theBall: Object;
-    
     /* Method */
 
     constructor() {
-        //this.gameControll = new GameControl();
-        // this.ball = new Ball();
-        // this.theBall = this.ball.getBall();
         this.ypos = mouseY;
         this.xpos = mouseX;
         this.rwidth = width * .3;
@@ -42,7 +36,6 @@ class Paddle {
             rad: this.erad
         }
     }
-
 
     public draw(): void {
         this.ypos = mouseY;

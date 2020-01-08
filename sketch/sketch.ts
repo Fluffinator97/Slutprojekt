@@ -19,7 +19,6 @@ function preload() {
     soundFormats('mp3');
     bounceI = (window as any).loadSound('assets/sound/bounceI');
     bounceIII = (window as any).loadSound('assets/sound/bounceIII.mp3');
-    // music = (window as any).loadSound('assets/sound/musicIII.mp3');
     explosion = (window as any).loadSound('assets/sound/explosion.mp3')
 }
 
