@@ -1,7 +1,6 @@
 class World {
 
     /* Variable */
-
     private ball: Ball;
     private dynamites: Dynamite[];
     private interval: number;
@@ -19,6 +18,8 @@ class World {
         this.time = 0;
         this.loaded = false;
     }
+    
+    /* Method */
     public getBall() {
         return this.ball;
     }
@@ -68,7 +69,6 @@ class World {
             let c = lerpColor(color(25), color(65), inter);
             stroke(c);
             line(0, i, width, i);
-
         }
     }
 
@@ -79,7 +79,6 @@ class World {
         line(windowWidth - windowWidth, windowHeight / 1.4, windowWidth, windowHeight / 1.4);
         pop();
     }
-    /* Method */
 
     public draw(theRandomStars: any): void {
         this.gradient();
@@ -95,5 +94,4 @@ class World {
         this.checkBall();
         this.checkDead();
     }
-
 }
