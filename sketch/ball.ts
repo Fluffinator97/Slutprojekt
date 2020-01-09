@@ -1,7 +1,7 @@
 interface BoundingCicle {
     x: number,
     y: number,
-    rad: number
+    rad: number,
     ydirection: number,
     xdirection: number
 }
@@ -81,10 +81,10 @@ class Ball {
         }
         if (this.ballXpos >= width - this.ballRadius || this.ballXpos < this.ballRadius) {
             this.ballXDirection *= -1;
-            bounceI.play();
+            bounce.play();
         } if (this.ballYpos < this.ballRadius) {
             this.ballYDirection *= -1;
-            bounceI.play();
+            bounce.play();
         }
         if (this.ballYpos >= height - this.ballRadius)
         {
