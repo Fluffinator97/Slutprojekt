@@ -1,62 +1,62 @@
 "use strict";
 var Ball = (function () {
     function Ball() {
-        this.brad = 36;
-        this.bxspeed = 7;
-        this.byspeed = 4.2;
-        this.bxdirection = 1;
-        this.bydirection = 1;
-        this.bxpos = width / 2;
-        this.bypos = height / 4;
+        this.ballRadius = 36;
+        this.ballXSpeed = 7;
+        this.ballYSpeed = 4.2;
+        this.ballXDirection = 1;
+        this.ballYDirection = 1;
+        this.ballXpos = width / 2;
+        this.ballYpos = height / 4;
         this.distance = 0;
     }
     Ball.prototype.getBoundingCicle = function () {
         return {
-            x: this.bxpos,
-            y: this.bypos,
-            rad: this.brad,
-            ydirection: this.bydirection,
-            xdirection: this.bxdirection
+            x: this.ballXpos,
+            y: this.ballYpos,
+            rad: this.ballRadius,
+            ydirection: this.ballYDirection,
+            xdirection: this.ballXDirection
         };
     };
-    Ball.prototype.creteDistance = function () {
+    Ball.prototype.createDistance = function () {
         this.distance = dist(mouseX, mouseY, this.updateBallY(), this.updateBallX());
     };
     Ball.prototype.flipDirectionY = function () {
-        this.bydirection *= -1;
+        this.ballYDirection *= -1;
     };
     Ball.prototype.flipDirectionX = function () {
-        this.bxdirection *= -1;
+        this.ballXDirection *= -1;
     };
     Ball.prototype.updateBallX = function () {
-        return this.bxpos;
+        return this.ballXpos;
     };
     Ball.prototype.updateBallY = function () {
-        return this.bypos;
+        return this.ballYpos;
     };
     Ball.prototype.draw = function () {
-        this.creteDistance();
+        this.createDistance();
         ellipseMode(RADIUS);
         fill('gold');
-        ellipse(this.bxpos, this.bypos, this.brad, this.brad);
-        this.bxpos = this.bxpos + this.bxspeed * this.bxdirection;
-        this.bypos = this.bypos + this.byspeed * this.bydirection;
-        if (this.bydirection == 1) {
+        ellipse(this.ballXpos, this.ballYpos, this.ballRadius, this.ballRadius);
+        this.ballXpos = this.ballXpos + this.ballXSpeed * this.ballXDirection;
+        this.ballYpos = this.ballYpos + this.ballYSpeed * this.ballYDirection;
+        if (this.ballYDirection == 1) {
             if (this.distance < 1) {
-                this.bydirection *= -1;
+                this.ballYDirection *= -1;
             }
             else {
             }
         }
-        if (this.bxpos >= width - this.brad || this.bxpos < this.brad) {
-            this.bxdirection *= -1;
+        if (this.ballXpos >= width - this.ballRadius || this.ballXpos < this.ballRadius) {
+            this.ballXDirection *= -1;
             bounceI.play();
         }
-        if (this.bypos < this.brad) {
-            this.bydirection *= -1;
+        if (this.ballYpos < this.ballRadius) {
+            this.ballYDirection *= -1;
             bounceI.play();
         }
-        if (this.bypos >= height - this.brad) {
+        if (this.ballYpos >= height - this.ballRadius) {
             gameMenu.gameOver = true;
         }
     };
@@ -146,7 +146,7 @@ var Collision = (function () {
         var _a = paddle.getBoundingCicle(), x = _a.x, y = _a.y, rad = _a.rad;
         var distance = dist(x, y, ball.getBoundingCicle().x, ball.getBoundingCicle().y);
         var combinedRadius = paddle.getBoundingCicle().rad + ball.getBoundingCicle().rad;
-        if (ball.bydirection == 1) {
+        if (ball.ballYDirection == 1) {
             if (distance <= combinedRadius) {
                 ball.flipDirectionY();
                 console.log("hit paddle...");
@@ -156,8 +156,8 @@ var Collision = (function () {
     };
     Collision.prototype.dynamiteHit = function (dynamites, ball) {
         for (var i = 0; i < dynamites.length; i++) {
-            if (dynamites[i].dxpos + 22 > ball.getBoundingCicle().x - 18 && dynamites[i].dxpos - 22 < ball.getBoundingCicle().x + 18
-                && dynamites[i].dypos + 45 > ball.getBoundingCicle().y - 18 && dynamites[i].dypos - 45 < ball.getBoundingCicle().y + 18) {
+            if (dynamites[i].dynamiteXPos + 22 > ball.getBoundingCicle().x - 18 && dynamites[i].dynamiteXPos - 22 < ball.getBoundingCicle().x + 18
+                && dynamites[i].dynamiteYPos + 45 > ball.getBoundingCicle().y - 18 && dynamites[i].dynamiteYPos - 45 < ball.getBoundingCicle().y + 18) {
                 dynamites[i].hit = true;
                 dynamites[i].explode();
                 console.log("Hit");
@@ -166,8 +166,8 @@ var Collision = (function () {
     };
     Collision.prototype.paddleHit = function (dynamites, paddle) {
         for (var i = 0; i < dynamites.length; i++) {
-            if (dynamites[i].dxpos + 22 > paddle.xpos - 18 && dynamites[i].dxpos - 22 < paddle.xpos + 18
-                && dynamites[i].dypos + 45 > paddle.ypos - 18 && dynamites[i].dypos - 45 < paddle.ypos + 18) {
+            if (dynamites[i].dynamiteXPos + 22 > paddle.paddleXPos - 18 && dynamites[i].dynamiteXPos - 22 < paddle.paddleXPos + 18
+                && dynamites[i].dynamiteYPos + 45 > paddle.paddleYPos - 18 && dynamites[i].dynamiteYPos - 45 < paddle.paddleYPos + 18) {
                 gameMenu.gameOver = true;
             }
         }
@@ -176,31 +176,31 @@ var Collision = (function () {
 }());
 var Dynamite = (function () {
     function Dynamite() {
-        this.dwidth = 40;
-        this.dheight = 74;
-        this.dypos = 1;
-        this.dxpos = 0;
+        this.dynamiteWidth = 40;
+        this.dynamiteHeight = 74;
+        this.dynamiteYPos = 1;
+        this.dynamiteXPos = 0;
         this.hit = false;
         this.particles = [];
     }
     Dynamite.prototype.counterYPos = function () {
-        for (this.dypos < height + 37; this.dypos++;) {
-            this.dypos = this.dypos + 0.01;
-            return this.dypos;
+        for (this.dynamiteYPos < height + 37; this.dynamiteYPos++;) {
+            this.dynamiteYPos = this.dynamiteYPos + 0.01;
+            return this.dynamiteYPos;
         }
     };
     Dynamite.prototype.randomXPos = function () {
-        if (this.dxpos == 0) {
-            this.dxpos = random(15, width - 15);
+        if (this.dynamiteXPos == 0) {
+            this.dynamiteXPos = random(15, width - 15);
         }
-        return this.dxpos;
+        return this.dynamiteXPos;
     };
     Dynamite.prototype.getBoundingRectangle = function () {
         return {
-            x: this.dxpos,
-            y: this.dypos,
-            width: this.dwidth,
-            height: this.dheight,
+            x: this.dynamiteXPos,
+            y: this.dynamiteYPos,
+            width: this.dynamiteWidth,
+            height: this.dynamiteHeight,
             hit: this.hit
         };
     };
@@ -214,7 +214,7 @@ var Dynamite = (function () {
     Dynamite.prototype.draw = function () {
         rectMode(CENTER);
         fill('red');
-        rect(this.randomXPos(), this.counterYPos(), this.dwidth, this.dheight, 5, 5, 5, 5);
+        rect(this.randomXPos(), this.counterYPos(), this.dynamiteWidth, this.dynamiteHeight, 5, 5, 5, 5);
         fill('white');
         this.particles.push(new Particle(this.randomXPos(), this.counterYPos() - 40));
         for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
@@ -396,33 +396,33 @@ var GameMenu = (function () {
 }());
 var Paddle = (function () {
     function Paddle() {
-        this.ypos = mouseY;
-        this.xpos = mouseX;
-        this.rwidth = width * .3;
-        this.rheight = 15;
-        this.erad = width * .075;
+        this.paddleYPos = mouseY;
+        this.paddleXPos = mouseX;
+        this.rectangleWidth = width * .3;
+        this.rectangleHeight = 15;
+        this.bubbleRadius = width * .075;
         this.leftWall = 60;
         this.rightWall = width - 60;
         this.alfredsPaddle = loadImage('../pictures/Alfred_paddel.svg');
     }
     Paddle.prototype.getBoundingCicle = function () {
         return {
-            x: this.xpos,
-            y: this.ypos,
-            rad: this.erad
+            x: this.paddleXPos,
+            y: this.paddleYPos,
+            rad: this.bubbleRadius
         };
     };
     Paddle.prototype.draw = function () {
-        this.ypos = constrain(mouseY, windowHeight / 1.4, windowHeight);
-        this.xpos = mouseX;
+        this.paddleYPos = constrain(mouseY, windowHeight / 1.4, windowHeight);
+        this.paddleXPos = mouseX;
         ellipseMode(RADIUS);
         rectMode(CENTER);
         noFill();
-        ellipse(this.xc, this.ypos, this.erad, this.erad);
-        rect(this.xc, this.ypos, this.rwidth, this.rheight, 10);
-        this.xc = constrain(this.xpos, this.leftWall, this.rightWall);
+        ellipse(this.xConstraint, this.paddleYPos, this.bubbleRadius, this.bubbleRadius);
+        rect(this.xConstraint, this.paddleYPos, this.rectangleWidth, this.rectangleHeight, 10);
+        this.xConstraint = constrain(this.paddleXPos, this.leftWall, this.rightWall);
         imageMode(CENTER);
-        image(this.alfredsPaddle, this.xc, this.ypos + 25, width * .3, height * .20);
+        image(this.alfredsPaddle, this.xConstraint, this.paddleYPos + 25, width * .3, height * .20);
     };
     return Paddle;
 }());
@@ -721,7 +721,7 @@ var World = (function () {
     };
     World.prototype.removeDynamite = function () {
         for (var index = 0; index < this.dynamites.length; index++) {
-            if (this.dynamites[index].dypos > height + 37 || this.dynamites[index].hit == true) {
+            if (this.dynamites[index].dynamiteYPos > height + 37 || this.dynamites[index].hit == true) {
                 this.dynamites.splice(index, 1);
             }
         }

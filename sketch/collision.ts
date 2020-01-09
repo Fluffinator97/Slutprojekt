@@ -13,7 +13,7 @@ class Collision {
         //     ball.flipDirectionY();
         //     console.log("hit");
         // }
-        if (ball.bydirection == 1) {
+        if (ball.ballYDirection == 1) {
             if (distance <= combinedRadius) {
                 ball.flipDirectionY();
                 console.log("hit paddle...");
@@ -26,8 +26,8 @@ class Collision {
 
     public dynamiteHit(dynamites: Dynamite[], ball: Ball): void {
         for (let i = 0; i < dynamites.length; i++) {
-            if (dynamites[i].dxpos + 22 > ball.getBoundingCicle().x - 18 && dynamites[i].dxpos - 22 < ball.getBoundingCicle().x + 18
-                && dynamites[i].dypos + 45 > ball.getBoundingCicle().y - 18 && dynamites[i].dypos - 45 < ball.getBoundingCicle().y + 18
+            if (dynamites[i].dynamiteXPos + 22 > ball.getBoundingCicle().x - 18 && dynamites[i].dynamiteXPos - 22 < ball.getBoundingCicle().x + 18
+                && dynamites[i].dynamiteYPos + 45 > ball.getBoundingCicle().y - 18 && dynamites[i].dynamiteYPos - 45 < ball.getBoundingCicle().y + 18
             ) {
                 dynamites[i].hit = true;
                 dynamites[i].explode();
@@ -42,8 +42,8 @@ class Collision {
 
     public paddleHit(dynamites: Dynamite[], paddle: Paddle): void {
         for (let i = 0; i < dynamites.length; i++) {
-            if (dynamites[i].dxpos + 22 > paddle.xpos - 18 && dynamites[i].dxpos - 22 < paddle.xpos + 18
-                && dynamites[i].dypos + 45 > paddle.ypos - 18 && dynamites[i].dypos - 45 < paddle.ypos + 18
+            if (dynamites[i].dynamiteXPos + 22 > paddle.paddleXPos - 18 && dynamites[i].dynamiteXPos - 22 < paddle.paddleXPos + 18
+                && dynamites[i].dynamiteYPos + 45 > paddle.paddleYPos - 18 && dynamites[i].dynamiteYPos - 45 < paddle.paddleYPos + 18
             ) {
                 gameMenu.gameOver = true;
             }
