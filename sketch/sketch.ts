@@ -1,7 +1,5 @@
 let gameMenu: GameMenu;
 let gameRunning: boolean;
-let mute: boolean;
-mute = false;
 
 /* Sounds*/
 let song: p5.SoundFile;
@@ -31,20 +29,17 @@ function preload() {
  * in the draw function below
  */
 function setup() {
-    // if(mute === true) {
-    //     masterVolume(0)
-    // } else {
-    //     masterVolume(1)
-    // }
+
     createCanvas(windowWidth / 3, windowHeight);
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
     song = (window as any).loadSound("/assets/sound/musicIII.mp3", loaded, togglePlaySongMute);
     // song.play();
-    song.setVolume(0.2);
-    explosion.setVolume(0.3);
-    bounceI.setVolume(0.7);
+    
+        song.setVolume(0.2);
+        explosion.setVolume(0.3);
+        bounceI.setVolume(0.7);
 }
 
 
@@ -76,6 +71,12 @@ function draw() {
 
     if (gameMenu.isGameRunning == true) {
         noCursor();
+    }
+
+    if (gameMenu.mute != false){
+        song.setVolume(0);
+        explosion.setVolume(0);
+        bounceI.setVolume(0);
     }
 }
 

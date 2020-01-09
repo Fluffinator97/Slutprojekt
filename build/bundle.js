@@ -90,6 +90,40 @@ var Button = (function () {
         this.isMouseDown = mouseIsPressed;
         return isMousePressed;
     };
+    Button.prototype.clickedMute = function (mute) {
+        var left = this.x;
+        var right = this.x + this.width;
+        var top = this.y;
+        var bottom = this.y + this.height;
+        mute;
+        var isMousePressed = false;
+        if (this.isMouseDown && !mouseIsPressed) {
+            if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+                isMousePressed = true;
+                mute = true;
+                return mute;
+            }
+        }
+        this.isMouseDown = mouseIsPressed;
+        return isMousePressed;
+    };
+    Button.prototype.clickedSound = function (mute) {
+        var left = this.x;
+        var right = this.x + this.width;
+        var top = this.y;
+        var bottom = this.y + this.height;
+        mute;
+        var isMousePressed = false;
+        if (this.isMouseDown && !mouseIsPressed) {
+            if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+                isMousePressed = true;
+                mute = false;
+                return mute;
+            }
+        }
+        this.isMouseDown = mouseIsPressed;
+        return isMousePressed;
+    };
     Button.prototype.draw = function () {
         push();
         rectMode('corner');
@@ -261,8 +295,8 @@ var GameMenu = (function () {
         this.theRandomStars = new randomStar();
         this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A", "#673aee");
         this.muteButton = new Button("Mute", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A", "#673aee");
-        this.soundMuteButton = new Button("Sound/Mute", windowWidth / 9 / 8, windowHeight - 40, 135, 30, "#EEAA3A", "#673aee");
         this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 1.35, 200, 100, "#673aee", "#EEAA3A");
+        this.gameIsMuted = new Button("The game is now muted! Restart to undo.", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#130B1B", "white");
         this.isGameRunning = false;
         this.world = new World();
         this.mute = false;
@@ -271,6 +305,13 @@ var GameMenu = (function () {
     }
     GameMenu.prototype.update = function () {
         this.gameManager.highScoreLocalStorage();
+        if (!this.mute) {
+            this.mute = this.muteButton.clickedMute(this.mute);
+        }
+        else {
+            this.mute = true;
+        }
+        console.log(this.mute);
         if (!this.isGameRunning) {
             this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
         }
@@ -310,11 +351,15 @@ var GameMenu = (function () {
             text("Nobel Popper", windowWidth / 3 / 2, 50);
             pop();
             this.startGameButton.draw();
-            this.muteButton.draw();
+            if (this.mute == false) {
+                this.muteButton.draw();
+            }
+            else {
+                this.gameIsMuted.draw();
+            }
             this.highScoreButton.draw();
         }
         else if (this.isGameRunning && !this.gameOver) {
-            this.soundMuteButton.draw();
             this.world.update();
             this.world.draw(this.theRandomStars);
             this.gameManager.draw();
@@ -592,8 +637,6 @@ var randomStar = (function () {
 }());
 var gameMenu;
 var gameRunning;
-var mute;
-mute = false;
 var song;
 var bounceI;
 var bounceIII;
@@ -633,6 +676,11 @@ function draw() {
     gameMenu.draw();
     if (gameMenu.isGameRunning == true) {
         noCursor();
+    }
+    if (gameMenu.mute != false) {
+        song.setVolume(0);
+        explosion.setVolume(0);
+        bounceI.setVolume(0);
     }
 }
 function windowResized() {

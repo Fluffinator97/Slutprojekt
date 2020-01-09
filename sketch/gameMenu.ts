@@ -5,12 +5,12 @@ class GameMenu {
   public isGameRunning: boolean;
   public startGameButton: Button;
   public muteButton: Button;
-  public soundMuteButton: Button;
   public highScoreButton: Button;
   public theRandomStars: randomStar;
   public gameManager: GameManager;
   public world: World;
   public mute: boolean;
+  public gameIsMuted: Button;
   public gameOver: boolean;
 
   private gameOverImage: p5.Image; /// ---
@@ -21,8 +21,8 @@ class GameMenu {
     this.theRandomStars = new randomStar();
     this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A", "#673aee");
     this.muteButton = new Button("Mute", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A", "#673aee");
-    this.soundMuteButton = new Button("Sound/Mute", windowWidth / 9 / 8, windowHeight - 40, 135, 30, "#EEAA3A", "#673aee");
     this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 1.35, 200, 100, "#673aee", "#EEAA3A");
+    this.gameIsMuted = new Button("The game is now muted! Restart to undo.", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#130B1B", "white",);
     this.isGameRunning = false;
     this.world = new World();
     this.mute = false;
@@ -34,6 +34,14 @@ class GameMenu {
 
   public update(): void {
     this.gameManager.highScoreLocalStorage();
+
+    if (!this.mute){
+      this.mute = this.muteButton.clickedMute(this.mute);
+    }
+    else {
+      this.mute = true;
+    }
+    console.log(this.mute)
 
     if (!this.isGameRunning) {
       this.isGameRunning = this.startGameButton.clicked(this.isGameRunning);
@@ -86,11 +94,15 @@ class GameMenu {
       pop();
 
       this.startGameButton.draw();
-      this.muteButton.draw();
+      if (this.mute == false) {
+        this.muteButton.draw();
+      }
+      else{
+        this.gameIsMuted.draw();
+      }
       this.highScoreButton.draw();
     } else if(this.isGameRunning && !this.gameOver) {
       // detta borde ligga in en update metod istället
-      this.soundMuteButton.draw();
       this.world.update();
       this.world.draw(this.theRandomStars);
       this.gameManager.draw();
