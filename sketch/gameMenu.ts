@@ -27,9 +27,7 @@ class GameMenu {
     this.world = new World();
     this.mute = false;
     this.gameOver = false;
-
     this.gameOverImage = loadImage('../assets/img/gameoverII.png');
-
   }
 
   public update(): void {
@@ -48,8 +46,6 @@ class GameMenu {
       this.isGameRunning = true;
     }
     gameMenu.startGameButton.clicked(this.isGameRunning);
-
-    // Lägg till en mute funktion
   }
 
 
@@ -100,7 +96,6 @@ class GameMenu {
       }
       this.highScoreButton.draw();
     } else if(this.isGameRunning && !this.gameOver) {
-      // detta borde ligga in en update metod istället
       this.world.update();
       this.world.draw(this.theRandomStars);
       this.gameManager.draw();
@@ -108,8 +103,7 @@ class GameMenu {
         background(25)
         let score;
         let gameOverText;
-        score = this.gameManager.getScore()
-        
+        score = this.gameManager.getScore()      
         if(score < 1000) {
           gameOverText = "U SUCK!";
         } else if(score > 1000) {
@@ -124,10 +118,8 @@ class GameMenu {
         textSize(33)
         text("Score " + score + "..." + gameOverText, width / 2 * 1.1, height / 2 * 1.2, width, height);
         pop();
-        // GAME OVER
+        
         push()
-        // background(0);
-      
         imageMode(CENTER);
         image(this.gameOverImage, width / 2, height / 1.3 , width * 1 , height * .5);
         pop();
