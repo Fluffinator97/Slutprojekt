@@ -43,6 +43,48 @@ class Button {
         return isMousePressed;
     }
 
+    public clickedMute(mute: boolean): boolean {
+        const left = this.x;
+        const right = this.x + this.width;
+        const top = this.y;
+        const bottom = this.y + this.height;
+        mute;
+        
+
+        let isMousePressed = false
+        if (this.isMouseDown && !mouseIsPressed) {
+            if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+                isMousePressed = true;
+                mute = true;
+                return mute;
+            }
+        }
+
+        this.isMouseDown = mouseIsPressed
+        return isMousePressed;
+    }
+
+    public clickedSound(mute: boolean): boolean {
+        const left = this.x;
+        const right = this.x + this.width;
+        const top = this.y;
+        const bottom = this.y + this.height;
+        mute;
+        
+
+        let isMousePressed = false
+        if (this.isMouseDown && !mouseIsPressed) {
+            if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+                isMousePressed = true;
+                mute = false;
+                return mute;
+            }
+        }
+
+        this.isMouseDown = mouseIsPressed
+        return isMousePressed;
+    }
+
 
 
      /* Method */
