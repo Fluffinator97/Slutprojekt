@@ -7,7 +7,6 @@ interface BoundingCiclePaddle {
 class Paddle {
 
     /* Variable */
-
     public paddleYPos: number;
     public paddleXPos: number;
     private rectangleWidth: number;
@@ -21,7 +20,6 @@ class Paddle {
 
 
     /* Method */
-
     constructor() {
         this.paddleYPos = mouseY;
         this.paddleXPos = mouseX;
@@ -30,9 +28,7 @@ class Paddle {
         this.bubbleRadius = width * .075;
         this.leftWall = 60;
         this.rightWall = width - 60;
-
         this.alfredsPaddle = loadImage('../pictures/Alfred_paddel.svg');
-
     }
 
     public getBoundingCicle(): BoundingCiclePaddle {
@@ -44,23 +40,16 @@ class Paddle {
     }
 
     public draw(): void {
-
         this.paddleYPos = constrain(mouseY, windowHeight / 1.4, windowHeight); // constrain
         this.paddleXPos = mouseX;
-      
         ellipseMode(RADIUS);
         rectMode(CENTER);
         noFill()
-        // xm is just the mouseX, while
-        // xc is the mouseX, but constrained
-        // between the leftWall and rightWall!
         ellipse(this.xConstraint, this.paddleYPos, this.bubbleRadius, this.bubbleRadius);
         rect(this.xConstraint, this.paddleYPos, this.rectangleWidth, this.rectangleHeight, 10);
         this.xConstraint = constrain(this.paddleXPos, this.leftWall, this.rightWall);
 
         imageMode(CENTER);
         image(this.alfredsPaddle, this.xConstraint, this.paddleYPos + 25, width * .3, height * .20);
-
     }
-
 }
