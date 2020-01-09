@@ -1,5 +1,6 @@
 class randomStar {
 
+    /* Variable */
     private x0: number;
     private x1: number;
     private x2: number;
@@ -59,7 +60,7 @@ class randomStar {
 
     }
 
-
+    /* Method */
     public draw(): void {
 
         push();
@@ -164,9 +165,6 @@ class randomStar {
         strokeWeight(random(3,6))
         point(this.x12,this.y12);
         noStroke();
-        pop();
-            
-
+        pop();          
     }
-
 }
