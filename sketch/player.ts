@@ -1,7 +1,6 @@
 class Player {
 
     /* Variable */
-
     public name: string;
     private score: number;
     public highScoreFLS: number;
@@ -12,6 +11,7 @@ class Player {
         this.highScoreFLS = 0;
     }
 
+    /* Method */
     public removeLife(): void {
         this.life - 1;
     }
@@ -41,23 +41,19 @@ class Player {
             localStorage.setItem(this.name, JSON.stringify(this.score))
         }
         return this.score;
-
     }
 
     public setHighScoreLS(): number {
         this.highScore;
         this.highScore = localStorage.getItem(this.name);
         this.highScoreFLS = JSON.parse(this.highScore);
-
     }
 
     public getHighScoreLS(): number {
         this.setHighScoreLS();
         return this.highScoreFLS;
     }
-
-    /* Method */
-
+    
     public draw(): void {
         this.setHighScoreLS();
         this.updateScore();
