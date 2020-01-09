@@ -229,11 +229,6 @@ var Dynamite = (function () {
     };
     return Dynamite;
 }());
-var Entity = (function () {
-    function Entity() {
-    }
-    return Entity;
-}());
 var GameControl = (function () {
     function GameControl() {
         this.mouseInputX = mouseX,
@@ -260,10 +255,6 @@ var GameManager = (function () {
         fill('white');
         text("startGame " + this.startGame, 200, 360, 300, 300);
         pop();
-    };
-    GameManager.prototype.setTime = function () {
-        if (this.startGame == true) {
-        }
     };
     GameManager.prototype.getPlayerName = function () {
         push();
@@ -470,15 +461,11 @@ var Particle = (function () {
 }());
 var Player = (function () {
     function Player() {
+        this.name = "Alfred";
         this.score = 0;
         this.highScoreFLS = 0;
+        this.highScore = 0;
     }
-    Player.prototype.removeLife = function () {
-        this.life - 1;
-    };
-    Player.prototype.setLife = function () {
-        return this.life;
-    };
     Player.prototype.updateScore = function () {
         if (deltaTime) {
             this.score++;
@@ -500,7 +487,6 @@ var Player = (function () {
         return this.score;
     };
     Player.prototype.setHighScoreLS = function () {
-        this.highScore;
         this.highScore = localStorage.getItem(this.name);
         this.highScoreFLS = JSON.parse(this.highScore);
     };

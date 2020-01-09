@@ -1,3 +1,5 @@
+// Paddle class creates the paddle and uses the x and y from gamecontrol
+
 interface BoundingCiclePaddle {
     x: number,
     y: number,

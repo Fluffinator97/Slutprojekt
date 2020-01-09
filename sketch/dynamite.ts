@@ -1,3 +1,5 @@
+// Dynamite class creats a dynamite and get a particle system placed on top off it. Falling in random x and for loop to create incresing y value
+
 interface BoundingRect {
     x: number,
     y: number,

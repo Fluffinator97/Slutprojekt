@@ -1,3 +1,5 @@
+// Gamemenu class is the start class in canvas. Creates from button and checks in game is ready
+
 class GameMenu {
 
   /* Variable */
@@ -22,7 +24,7 @@ class GameMenu {
     this.startGameButton = new Button("Start Game", windowWidth / 3 / 2 - 100, windowHeight / 4, 200, 100, "#EEAA3A", "#673aee");
     this.muteButton = new Button("Mute", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#EEAA3A", "#673aee");
     this.highScoreButton = new Button("High Score " + this.gameManager.highScoreLocalStorage(), windowWidth / 3 / 2 - 100, windowHeight / 1.35, 200, 100, "#673aee", "#EEAA3A");
-    this.gameIsMuted = new Button("The game is now muted! Restart to undo.", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#130B1B", "white",);
+    this.gameIsMuted = new Button("The game is now muted! Restart to undo.", windowWidth / 3 / 2 - 100, windowHeight / 2, 200, 100, "#130B1B", "white");
     this.isGameRunning = false;
     this.world = new World();
     this.mute = false;
@@ -33,7 +35,7 @@ class GameMenu {
   public update(): void {
     this.gameManager.highScoreLocalStorage();
 
-    if (!this.mute){
+    if (!this.mute) {
       this.mute = this.muteButton.clickedMute(this.mute);
     }
     else {
@@ -91,48 +93,48 @@ class GameMenu {
       if (this.mute == false) {
         this.muteButton.draw();
       }
-      else{
+      else {
         this.gameIsMuted.draw();
       }
       this.highScoreButton.draw();
-    } else if(this.isGameRunning && !this.gameOver) {
+    } else if (this.isGameRunning && !this.gameOver) {
       this.world.update();
       this.world.draw(this.theRandomStars);
       this.gameManager.draw();
-    } else if(this.isGameRunning && this.gameOver) {
-        background(25)
-        let score;
-        let gameOverText;
-        score = this.gameManager.getScore()      
-        if(score < 1000) {
-          gameOverText = "U SUCK!";
-        } else if(score > 1000) {
-          gameOverText = "U are OK!";
-        } else if(score > 10000) {
-          gameOverText = "U are AMAZING!";
-        } else {
-          gameOverText = "Get a LIFE!";
-        }
-        push();
-        fill('white')
-        textSize(33)
-        text("Score " + score + "..." + gameOverText, width / 2 * 1.1, height / 2 * 1.2, width, height);
-        pop();
-        
-        push()
-        imageMode(CENTER);
-        image(this.gameOverImage, width / 2, height / 1.3 , width * 1 , height * .5);
-        pop();
+    } else if (this.isGameRunning && this.gameOver) {
+      background(25)
+      let score;
+      let gameOverText;
+      score = this.gameManager.getScore()
+      if (score < 1000) {
+        gameOverText = "U SUCK!";
+      } else if (score > 1000) {
+        gameOverText = "U are OK!";
+      } else if (score > 10000) {
+        gameOverText = "U are AMAZING!";
+      } else {
+        gameOverText = "Get a LIFE!";
+      }
+      push();
+      fill('white')
+      textSize(33)
+      text("Score " + score + "..." + gameOverText, width / 2 * 1.1, height / 2 * 1.2, width, height);
+      pop();
 
-        push();
-        fill('white')
-        textSize(23)
-        text('Restarting..', width / 2 * 1.6, height / 2 * 1.2, width * 1, height * .5);
-        pop();
+      push()
+      imageMode(CENTER);
+      image(this.gameOverImage, width / 2, height / 1.3, width * 1, height * .5);
+      pop();
 
-        setTimeout(function () {
-          location.reload();
-        }, 4000);
+      push();
+      fill('white')
+      textSize(23)
+      text('Restarting..', width / 2 * 1.6, height / 2 * 1.2, width * 1, height * .5);
+      pop();
+
+      setTimeout(function () {
+        location.reload();
+      }, 4000);
     }
   }
 }
