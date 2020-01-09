@@ -4,22 +4,14 @@ class Collision {
 
     public ballCollision(ball: Ball, paddle: Paddle): void {
         const { x, y, rad } = paddle.getBoundingCicle()
-
         const distance = dist(x, y, ball.getBoundingCicle().x, ball.getBoundingCicle().y);
-        // console.log(distance)
         const combinedRadius = paddle.getBoundingCicle().rad + ball.getBoundingCicle().rad;
-        // if ( paddle.getBoundingCicle().x + 30 >= ball.getBoundingCicle().x - 18  || paddle.getBoundingCicle().x - 30 >= ball.getBoundingCicle().x + 18 ||
-        //     paddle.getBoundingCicle().y + 30 >= ball.getBoundingCicle().y - 18  || paddle.getBoundingCicle().y - 30 >= ball.getBoundingCicle().y + 18) {
-        //     ball.flipDirectionY();
-        //     console.log("hit");
-        // }
+       
         if (ball.ballYDirection == 1) {
             if (distance <= combinedRadius) {
                 ball.flipDirectionY();
                 console.log("hit paddle...");
-                bounceI.play();
-
-                // this.collisionBall = true;
+                bounce.play();
             }
         }
     }
@@ -32,12 +24,8 @@ class Collision {
                 dynamites[i].hit = true;
                 dynamites[i].explode();
                 console.log("Hit");
-
-
             }
-
         }
-
     }
 
     public paddleHit(dynamites: Dynamite[], paddle: Paddle): void {
@@ -47,9 +35,6 @@ class Collision {
             ) {
                 gameMenu.gameOver = true;
             }
-
         }
-
     }
-
 }
