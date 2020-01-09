@@ -4,14 +4,11 @@ class Player {
 
     public name: string;
     private score: number;
-    private life: number;
     public highScoreFLS: number;
-    private highScore: any;
+    private highScore: number;
 
     constructor() {
-        this.name = "Örjan";
         this.score = 0;
-        this.life = 3;
         this.highScoreFLS = 0;
     }
 
@@ -39,7 +36,7 @@ class Player {
         return this.score;
     }
 
-    public saveScore() {
+    public saveScore(): number {
         if (this.score > this.getHighScoreLS()) {
             localStorage.setItem(this.name, JSON.stringify(this.score))
         }
@@ -47,7 +44,7 @@ class Player {
 
     }
 
-    public setHighScoreLS() {
+    public setHighScoreLS(): number {
         this.highScore;
         this.highScore = localStorage.getItem(this.name);
         this.highScoreFLS = JSON.parse(this.highScore);
@@ -61,7 +58,7 @@ class Player {
 
     /* Method */
 
-    public draw() {
+    public draw(): void {
         this.setHighScoreLS();
         this.updateScore();
         this.showScore();
