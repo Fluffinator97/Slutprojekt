@@ -1,3 +1,5 @@
+// Randomstar class makes random stars with x and y
+
 class randomStar {
 
     /* Variable */

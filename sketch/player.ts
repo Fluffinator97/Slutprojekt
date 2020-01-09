@@ -1,24 +1,21 @@
+// Player class counts score and display it. Also saves highscore
+
 class Player {
 
     /* Variable */
     public name: string;
     private score: number;
     public highScoreFLS: number;
-    private highScore: number;
+    private highScore: any;
 
     constructor() {
+        this.name = "Alfred"
         this.score = 0;
         this.highScoreFLS = 0;
+        this.highScore = 0;
     }
 
     /* Method */
-    public removeLife(): void {
-        this.life - 1;
-    }
-
-    public setLife(): number {
-        return this.life;
-    }
 
     private updateScore(): number {
         if (deltaTime) {
@@ -43,8 +40,7 @@ class Player {
         return this.score;
     }
 
-    public setHighScoreLS(): number {
-        this.highScore;
+    public setHighScoreLS(): void {
         this.highScore = localStorage.getItem(this.name);
         this.highScoreFLS = JSON.parse(this.highScore);
     }

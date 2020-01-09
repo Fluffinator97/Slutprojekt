@@ -1,3 +1,6 @@
+// Ball class for the bouncing ball, checking so that the ball is in the canvas and flip direction.
+// Also sends the values of x and y so that collision works with paddle and dynamite.
+
 interface BoundingCicle {
     x: number,
     y: number,
@@ -91,8 +94,4 @@ class Ball {
             gameMenu.gameOver = true;
         }
     }
-
-
-
-
 }

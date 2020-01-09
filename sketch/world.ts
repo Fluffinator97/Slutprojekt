@@ -1,3 +1,5 @@
+// World class greate the in game world with gradient, spawn the dynamite with a for loop and remove with a for loop
+
 class World {
 
     /* Variable */

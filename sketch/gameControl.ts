@@ -1,3 +1,5 @@
+// Gamecontrol gets the values of the mouse and gives to the paddle
+
 class GameControl {
 
     /* Variable */

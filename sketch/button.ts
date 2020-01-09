@@ -1,3 +1,5 @@
+// Button class that creates the buttons in menu, checking if the mouse is clicked and starts/mute
+
 class Button {
 
     /* Variable */

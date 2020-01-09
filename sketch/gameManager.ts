@@ -1,3 +1,5 @@
+// Gamemanager class starts game and shows the score in local storage
+
 class GameManager {
 
     /* Variable */
@@ -23,11 +25,6 @@ class GameManager {
         fill('white')
         text("startGame " + this.startGame, 200, 360, 300, 300);
         pop();
-    }
-
-    private setTime(): void {
-        if (this.startGame == true) {
-        }
     }
 
     public getPlayerName(): void {

@@ -1,3 +1,5 @@
+// Collision class that checks if the ball and paddle collide or the dynamite and ball collide
+
 class Collision {
 
     /* Method */
@@ -6,7 +8,7 @@ class Collision {
         const { x, y, rad } = paddle.getBoundingCicle()
         const distance = dist(x, y, ball.getBoundingCicle().x, ball.getBoundingCicle().y);
         const combinedRadius = paddle.getBoundingCicle().rad + ball.getBoundingCicle().rad;
-       
+
         if (ball.ballYDirection == 1) {
             if (distance <= combinedRadius) {
                 ball.flipDirectionY();
@@ -37,4 +39,5 @@ class Collision {
             }
         }
     }
+
 }

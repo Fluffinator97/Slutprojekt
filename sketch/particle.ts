@@ -1,3 +1,5 @@
+// Particle class creates particles on and fade them out. Used on dynamite and in the explotion
+
 class Particle {
     
     /* Variable */
