@@ -50,11 +50,11 @@ var Ball = (function () {
         }
         if (this.ballXpos >= width - this.ballRadius || this.ballXpos < this.ballRadius) {
             this.ballXDirection *= -1;
-            bounce.play();
+            bounceI.play();
         }
         if (this.ballYpos < this.ballRadius) {
             this.ballYDirection *= -1;
-            bounce.play();
+            bounceI.play();
         }
         if (this.ballYpos >= height - this.ballRadius) {
             gameMenu.gameOver = true;
@@ -390,14 +390,6 @@ var GameMenu = (function () {
             imageMode(CENTER);
             image(this.gameOverImage, width / 2, height / 1.3, width * 1, height * .5);
             pop();
-            push();
-            fill('white');
-            textSize(23);
-            text('Restarting..', width / 2 * 1.6, height / 2 * 1.2, width * 1, height * .5);
-            pop();
-            setTimeout(function () {
-                location.reload();
-            }, 4000);
         }
     };
     return GameMenu;
@@ -471,7 +463,9 @@ var Particle = (function () {
 }());
 var Player = (function () {
     function Player() {
+        this.name = "Örjan";
         this.score = 0;
+        this.life = 3;
         this.highScoreFLS = 0;
     }
     Player.prototype.removeLife = function () {
@@ -644,12 +638,14 @@ var randomStar = (function () {
 var gameMenu;
 var gameRunning;
 var song;
-var bounce;
+var bounceI;
+var bounceIII;
 var explosion;
 var music;
 function preload() {
     soundFormats('mp3');
-    bounce = window.loadSound('assets/sound/bounceI');
+    bounceI = window.loadSound('assets/sound/bounceI');
+    bounceIII = window.loadSound('assets/sound/bounceIII.mp3');
     explosion = window.loadSound('assets/sound/explosion.mp3');
 }
 function setup() {
@@ -657,13 +653,22 @@ function setup() {
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
-    song = window.loadSound("/assets/sound/musicIII.mp3", loaded);
+    song = window.loadSound("/assets/sound/musicIII.mp3", loaded, togglePlaySongMute);
     song.setVolume(0.2);
     explosion.setVolume(0.3);
-    bounce.setVolume(0.7);
+    bounceI.setVolume(0.7);
 }
 function loaded() {
     song.loop();
+}
+function togglePlaySongMute() {
+    if (song.isPlaying()) {
+        song.pause();
+    }
+    else {
+        song.play();
+        song.setVolume(0.2);
+    }
 }
 function draw() {
     background(55);
@@ -675,7 +680,7 @@ function draw() {
     if (gameMenu.mute != false) {
         song.setVolume(0);
         explosion.setVolume(0);
-        bounce.setVolume(0);
+        bounceI.setVolume(0);
     }
 }
 function windowResized() {
