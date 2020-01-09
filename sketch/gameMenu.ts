@@ -133,6 +133,16 @@ class GameMenu {
         imageMode(CENTER);
         image(this.gameOverImage, width / 2, height / 1.3 , width * 1 , height * .5);
         pop();
+
+        push();
+        fill('white')
+        textSize(23)
+        text('Restarting..', width / 2 * 1.6, height / 2 * 1.2, width * 1, height * .5);
+        pop();
+  
+        setTimeout(function () {
+          location.reload();
+        }, 4000);
     }
   }
 }
