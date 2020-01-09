@@ -51,7 +51,7 @@ class World {
 
     private removeDynamite(): void {
         for (let index = 0; index < this.dynamites.length; index++) {
-            if (this.dynamites[index].dypos > height + 37 || this.dynamites[index].hit == true) {
+            if (this.dynamites[index].dynamiteYPos > height + 37 || this.dynamites[index].hit == true) {
                 this.dynamites.splice(index, 1);
             }
         }

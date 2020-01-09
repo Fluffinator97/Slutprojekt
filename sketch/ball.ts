@@ -10,83 +10,83 @@ interface BoundingCicle {
 class Ball {
 
     /* Variable */
-    private brad: number;
-    public bypos: number;
-    public bxpos: number;
-    private byspeed: number;
-    private bxspeed: number;
-    public bxdirection: number;
-    public bydirection: number;
+    private ballRadius: number;
+    public ballYpos: number;
+    public ballXpos: number;
+    private ballYSpeed: number;
+    private ballXSpeed: number;
+    public ballXDirection: number;
+    public ballYDirection: number;
     private distance: number;
 
     constructor() {
-        this.brad = 36;
-        this.bxspeed = 7;
-        this.byspeed = 4.2;
-        this.bxdirection = 1;
-        this.bydirection = 1;
-        this.bxpos = width / 2;
-        this.bypos = height / 4;
+        this.ballRadius = 36;
+        this.ballXSpeed = 7;
+        this.ballYSpeed = 4.2;
+        this.ballXDirection = 1;
+        this.ballYDirection = 1;
+        this.ballXpos = width / 2;
+        this.ballYpos = height / 4;
         this.distance = 0;
     }
 
     public getBoundingCicle(): BoundingCicle {
         return {
-            x: this.bxpos,
-            y: this.bypos,
-            rad: this.brad,
-            ydirection: this.bydirection,
-            xdirection: this.bxdirection
+            x: this.ballXpos,
+            y: this.ballYpos,
+            rad: this.ballRadius,
+            ydirection: this.ballYDirection,
+            xdirection: this.ballXDirection
         }
     }
 
-    public creteDistance() {
+    public createDistance() {
         this.distance = dist(mouseX, mouseY, this.updateBallY(), this.updateBallX());
 
     }
 
     public flipDirectionY() {
-        this.bydirection *= -1;
+        this.ballYDirection *= -1;
     }
 
     public flipDirectionX() {
-        this.bxdirection *= -1;
+        this.ballXDirection *= -1;
     }
 
     public updateBallX(): number {
-        return this.bxpos;
+        return this.ballXpos;
     }
 
     public updateBallY(): number {
-        return this.bypos;
+        return this.ballYpos;
     }
 
     public draw(): void {
-        this.creteDistance();
+        this.createDistance();
         ellipseMode(RADIUS);
         fill('gold');
-        ellipse(this.bxpos, this.bypos, this.brad, this.brad);
+        ellipse(this.ballXpos, this.ballYpos, this.ballRadius, this.ballRadius);
 
-        this.bxpos = this.bxpos + this.bxspeed * this.bxdirection;
-        this.bypos = this.bypos + this.byspeed * this.bydirection;
+        this.ballXpos = this.ballXpos + this.ballXSpeed * this.ballXDirection;
+        this.ballYpos = this.ballYpos + this.ballYSpeed * this.ballYDirection;
 
 
-        if (this.bydirection == 1) {
+        if (this.ballYDirection == 1) {
             if (this.distance < 1) {
-                this.bydirection *= -1;
+                this.ballYDirection *= -1;
 
             } else {
 
             }
         }
-        if (this.bxpos >= width - this.brad || this.bxpos < this.brad) {
-            this.bxdirection *= -1;
+        if (this.ballXpos >= width - this.ballRadius || this.ballXpos < this.ballRadius) {
+            this.ballXDirection *= -1;
             bounceI.play();
-        } if (this.bypos < this.brad) {
-            this.bydirection *= -1;
+        } if (this.ballYpos < this.ballRadius) {
+            this.ballYDirection *= -1;
             bounceI.play();
         }
-        if (this.bypos >= height - this.brad)
+        if (this.ballYpos >= height - this.ballRadius)
         {
             gameMenu.gameOver = true;
         }

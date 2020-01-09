@@ -8,12 +8,12 @@ class Paddle {
 
     /* Variable */
 
-    public ypos: number;
-    public xpos: number;
-    private rwidth: number;
-    private rheight: number;
-    private erad: number;
-    private xc: any;
+    public paddleYPos: number;
+    public paddleXPos: number;
+    private rectangleWidth: number;
+    private rectangleHeight: number;
+    private bubbleRadius: number;
+    private xConstraint: any;
     private leftWall: number;
     private rightWall: number;
 
@@ -23,11 +23,11 @@ class Paddle {
     /* Method */
 
     constructor() {
-        this.ypos = mouseY;
-        this.xpos = mouseX;
-        this.rwidth = width * .3;
-        this.rheight = 15;
-        this.erad = width * .075;
+        this.paddleYPos = mouseY;
+        this.paddleXPos = mouseX;
+        this.rectangleWidth = width * .3;
+        this.rectangleHeight = 15;
+        this.bubbleRadius = width * .075;
         this.leftWall = 60;
         this.rightWall = width - 60;
 
@@ -37,16 +37,16 @@ class Paddle {
 
     public getBoundingCicle(): BoundingCiclePaddle {
         return {
-            x: this.xpos,
-            y: this.ypos,
-            rad: this.erad
+            x: this.paddleXPos,
+            y: this.paddleYPos,
+            rad: this.bubbleRadius
         }
     }
 
     public draw(): void {
 
-        this.ypos = constrain(mouseY, windowHeight / 1.4, windowHeight); // constrain
-        this.xpos = mouseX;
+        this.paddleYPos = constrain(mouseY, windowHeight / 1.4, windowHeight); // constrain
+        this.paddleXPos = mouseX;
       
         ellipseMode(RADIUS);
         rectMode(CENTER);
@@ -54,12 +54,12 @@ class Paddle {
         // xm is just the mouseX, while
         // xc is the mouseX, but constrained
         // between the leftWall and rightWall!
-        ellipse(this.xc, this.ypos, this.erad, this.erad);
-        rect(this.xc, this.ypos, this.rwidth, this.rheight, 10);
-        this.xc = constrain(this.xpos, this.leftWall, this.rightWall);
+        ellipse(this.xConstraint, this.paddleYPos, this.bubbleRadius, this.bubbleRadius);
+        rect(this.xConstraint, this.paddleYPos, this.rectangleWidth, this.rectangleHeight, 10);
+        this.xConstraint = constrain(this.paddleXPos, this.leftWall, this.rightWall);
 
         imageMode(CENTER);
-        image(this.alfredsPaddle, this.xc, this.ypos + 25, width * .3, height * .20);
+        image(this.alfredsPaddle, this.xConstraint, this.paddleYPos + 25, width * .3, height * .20);
 
     }
 
