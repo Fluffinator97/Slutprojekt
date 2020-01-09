@@ -1,4 +1,6 @@
 class Particle {
+    
+    /* Variable */
     public particleX: number;
     public particleY: number;
     private particleVX: number;
@@ -8,7 +10,7 @@ class Particle {
     private particleVXE: number;
     private particleVYE: number;
 
-
+    /* Method */
     constructor(x: number, y: number) {
         this.particleX = x;
         this.particleY = y;
@@ -18,9 +20,7 @@ class Particle {
         this.particleVYE = 0;
         this.alpha = 255;
         this.alphaE = 255;
-
     }
-
 
     private update(): void {
         this.particleVX = random(-3, 3);
@@ -45,6 +45,5 @@ class Particle {
         fill(255, 233, 152  , this.alphaE)
         ellipse(this.particleX += this.particleVXE, this.particleY += this.particleVYE, 8);
         noStroke();
-
     }
 }
