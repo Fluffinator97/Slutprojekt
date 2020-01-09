@@ -6,7 +6,7 @@ class Player {
     private score: number;
     private life: number;
     public highScoreFLS: number;
-    private highScore: any;
+    private highScore: number;
 
     constructor() {
         this.name = "Örjan";
