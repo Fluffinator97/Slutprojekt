@@ -3,8 +3,7 @@ let gameRunning: boolean;
 
 /* Sounds*/
 let song: p5.SoundFile;
-let bounceI: p5.SoundFile;
-let bounceIII: p5.SoundFile;
+let bounce: p5.SoundFile;
 let explosion: p5.SoundFile;
 let music: p5.SoundFile;
 
@@ -16,8 +15,7 @@ let music: p5.SoundFile;
  */
 function preload() {
     soundFormats('mp3');
-    bounceI = (window as any).loadSound('assets/sound/bounceI');
-    bounceIII = (window as any).loadSound('assets/sound/bounceIII.mp3');
+    bounce = (window as any).loadSound('assets/sound/bounceI');
     explosion = (window as any).loadSound('assets/sound/explosion.mp3')
 }
 
@@ -34,29 +32,16 @@ function setup() {
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
-    song = (window as any).loadSound("/assets/sound/musicIII.mp3", loaded, togglePlaySongMute);
-    // song.play();
+    song = (window as any).loadSound("/assets/sound/musicIII.mp3", loaded);
     
         song.setVolume(0.2);
         explosion.setVolume(0.3);
-        bounceI.setVolume(0.7);
+        bounce.setVolume(0.7);
 }
 
 
 function loaded() {
     song.loop();
-    // bounceI.loop()
-}
-
-function togglePlaySongMute() {
-    if (song.isPlaying()) {
-        song.pause();
-        //button.html("Sound On")
-    } else {
-        song.play();
-        song.setVolume(0.2);
-        //button.html("Mute Sound")
-    }
 }
 
 /**
@@ -76,7 +61,7 @@ function draw() {
     if (gameMenu.mute != false){
         song.setVolume(0);
         explosion.setVolume(0);
-        bounceI.setVolume(0);
+        bounce.setVolume(0);
     }
 }
 
