@@ -1,4 +1,46 @@
 "use strict";
+var gameMenu;
+var gameRunning;
+var song;
+var bounce;
+var explosion;
+var music;
+var alfred;
+function preload() {
+    soundFormats('mp3');
+    bounce = window.loadSound('./assets/sound/bounceI');
+    explosion = window.loadSound('./assets/sound/explosion.mp3');
+    alfred = loadImage('./pictures/Alfred_paddel.svg');
+}
+function setup() {
+    createCanvas(windowWidth / 3, windowHeight);
+    frameRate(60);
+    fullscreen();
+    gameMenu = new GameMenu();
+    song = window.loadSound("./assets/sound/musicIII.mp3", loaded);
+    song.setVolume(0.2);
+    explosion.setVolume(0.3);
+    bounce.setVolume(0.7);
+}
+function loaded() {
+    song.loop();
+}
+function draw() {
+    background(55);
+    gameMenu.update();
+    gameMenu.draw();
+    if (gameMenu.isGameRunning == true) {
+        noCursor();
+    }
+    if (gameMenu.mute != false) {
+        song.setVolume(0);
+        explosion.setVolume(0);
+        bounce.setVolume(0);
+    }
+}
+function windowResized() {
+    resizeCanvas(windowWidth / 3, windowHeight);
+}
 var Ball = (function () {
     function Ball() {
         this.ballRadius = 36;
@@ -401,7 +443,7 @@ var Paddle = (function () {
         this.bubbleRadius = width * .075;
         this.leftWall = 60;
         this.rightWall = width - 60;
-        this.alfredsPaddle = loadImage('../pictures/Alfred_paddel.svg');
+        this.alfredsPaddle = alfred;
     }
     Paddle.prototype.getBoundingCicle = function () {
         return {
@@ -626,46 +668,6 @@ var randomStar = (function () {
     };
     return randomStar;
 }());
-var gameMenu;
-var gameRunning;
-var song;
-var bounce;
-var explosion;
-var music;
-function preload() {
-    soundFormats('mp3');
-    bounce = window.loadSound('assets/sound/bounceI');
-    explosion = window.loadSound('assets/sound/explosion.mp3');
-}
-function setup() {
-    createCanvas(windowWidth / 3, windowHeight);
-    frameRate(60);
-    fullscreen();
-    gameMenu = new GameMenu();
-    song = window.loadSound("/assets/sound/musicIII.mp3", loaded);
-    song.setVolume(0.2);
-    explosion.setVolume(0.3);
-    bounce.setVolume(0.7);
-}
-function loaded() {
-    song.loop();
-}
-function draw() {
-    background(55);
-    gameMenu.update();
-    gameMenu.draw();
-    if (gameMenu.isGameRunning == true) {
-        noCursor();
-    }
-    if (gameMenu.mute != false) {
-        song.setVolume(0);
-        explosion.setVolume(0);
-        bounce.setVolume(0);
-    }
-}
-function windowResized() {
-    resizeCanvas(windowWidth / 3, windowHeight);
-}
 var World = (function () {
     function World() {
         this.ball = new Ball();

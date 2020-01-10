@@ -30,7 +30,9 @@ class Paddle {
         this.bubbleRadius = width * .075;
         this.leftWall = 60;
         this.rightWall = width - 60;
-        this.alfredsPaddle = loadImage('./pictures/Alfred_paddel.svg');
+
+        this.alfredsPaddle = alfred;
+
     }
 
     public getBoundingCicle(): BoundingCiclePaddle {
