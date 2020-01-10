@@ -31,7 +31,7 @@ class Paddle {
         this.leftWall = 60;
         this.rightWall = width - 60;
 
-        this.alfredsPaddle = loadImage('../pictures/Alfred_paddel.svg');
+        this.alfredsPaddle = alfred;
 
     }
 

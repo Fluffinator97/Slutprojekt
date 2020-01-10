@@ -6,7 +6,7 @@ let song: p5.SoundFile;
 let bounce: p5.SoundFile;
 let explosion: p5.SoundFile;
 let music: p5.SoundFile;
-
+let alfred: p5.Image;
 
 /**
  * Built in preload function in P5
@@ -15,8 +15,9 @@ let music: p5.SoundFile;
  */
 function preload() {
     soundFormats('mp3');
-    bounce = (window as any).loadSound('assets/sound/bounceI');
-    explosion = (window as any).loadSound('assets/sound/explosion.mp3')
+    bounce = (window as any).loadSound('./assets/sound/bounceI');
+    explosion = (window as any).loadSound('./assets/sound/explosion.mp3')
+    alfred = loadImage('./pictures/Alfred_paddel.svg');
 }
 
 
@@ -32,7 +33,7 @@ function setup() {
     frameRate(60);
     fullscreen();
     gameMenu = new GameMenu();
-    song = (window as any).loadSound("/assets/sound/musicIII.mp3", loaded);
+    song = (window as any).loadSound("./assets/sound/musicIII.mp3", loaded);
     
         song.setVolume(0.2);
         explosion.setVolume(0.3);
